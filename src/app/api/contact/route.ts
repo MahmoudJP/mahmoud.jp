@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const runtime = "nodejs";
 
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const WINDOW_MS = 60 * 60 * 1000;
@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email not configured" }, { status: 500 });
     }
 
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const { error } = await resend.emails.send({
       from: "mahmoud.jp <noreply@mahmoud.jp>",
       to: "m@mahmoud.jp",
