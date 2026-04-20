@@ -8,7 +8,6 @@ import { Experience } from "@/components/sections/Experience";
 import { Skills } from "@/components/sections/Skills";
 import { Education } from "@/components/sections/Education";
 import { Languages } from "@/components/sections/Languages";
-import { Certifications } from "@/components/sections/Certifications";
 import { Freelance } from "@/components/sections/Freelance";
 import { Explore } from "@/components/sections/Explore";
 import { Contact } from "@/components/sections/Contact";
@@ -24,7 +23,6 @@ export default function Home() {
         <SectionReveal><Skills /></SectionReveal>
         <SectionReveal><Education /></SectionReveal>
         <SectionReveal><Languages /></SectionReveal>
-        <SectionReveal><Certifications /></SectionReveal>
         <SectionReveal><Freelance /></SectionReveal>
         <SectionReveal><Explore /></SectionReveal>
         <SectionReveal><Contact /></SectionReveal>

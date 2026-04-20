@@ -7,7 +7,7 @@ import { useT } from "@/lib/i18n";
 
 const langStyles = [
   { code: "EG", color: "text-green-400", bg: "bg-green-500/10", border: "border-green-500/20", gradient: "from-green-500 to-emerald-500" },
-  { code: "JP", color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", gradient: "from-red-500 to-rose-500" },
+  { code: "JP", color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", gradient: "from-red-600 to-red-500" },
   { code: "EN", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", gradient: "from-blue-500 to-cyan-500" },
 ];
 
@@ -26,6 +26,14 @@ const t = {
       { name: "アラビア語", level: "ネイティブ" },
       { name: "日本語", level: "流暢" },
       { name: "英語", level: "流暢" },
+    ],
+  },
+  ar: {
+    title: "اللغات",
+    items: [
+      { name: "العربية", level: "اللغة الأم" },
+      { name: "اليابانية", level: "طلاقة" },
+      { name: "الإنجليزية", level: "طلاقة" },
     ],
   },
 };

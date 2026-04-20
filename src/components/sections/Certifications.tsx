@@ -25,6 +25,13 @@ const t = {
       { year: "2025年", name: "Fortinet認定サイバーセキュリティ基礎" },
     ],
   },
+  ar: {
+    title: "الشهادات",
+    items: [
+      { year: "2026", name: "AWS Certified Cloud Practitioner" },
+      { year: "2025", name: "أساسيات الأمن السيبراني من Fortinet" },
+    ],
+  },
 };
 
 export function Certifications() {

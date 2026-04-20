@@ -17,6 +17,7 @@ import {
   Cloud,
   Lock,
 } from "lucide-react";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
@@ -37,10 +38,10 @@ const iconMap = {
 
 const featureStyles = [
   { iconColor: "text-cyan-300", iconBg: "bg-cyan-500/10", ring: "group-hover:ring-cyan-400/30", glow: "group-hover:shadow-cyan-500/20", hoverBorder: "hover:border-cyan-500/40" },
-  { iconColor: "text-emerald-300", iconBg: "bg-emerald-500/10", ring: "group-hover:ring-emerald-400/30", glow: "group-hover:shadow-emerald-500/20", hoverBorder: "hover:border-emerald-500/40" },
-  { iconColor: "text-purple-300", iconBg: "bg-purple-500/10", ring: "group-hover:ring-purple-400/30", glow: "group-hover:shadow-purple-500/20", hoverBorder: "hover:border-purple-500/40" },
+  { iconColor: "text-blue-300", iconBg: "bg-blue-500/10", ring: "group-hover:ring-blue-400/30", glow: "group-hover:shadow-blue-500/20", hoverBorder: "hover:border-blue-500/40" },
+  { iconColor: "text-blue-300", iconBg: "bg-blue-500/10", ring: "group-hover:ring-blue-400/30", glow: "group-hover:shadow-blue-500/20", hoverBorder: "hover:border-blue-500/40" },
   { iconColor: "text-amber-300", iconBg: "bg-amber-500/10", ring: "group-hover:ring-amber-400/30", glow: "group-hover:shadow-amber-500/20", hoverBorder: "hover:border-amber-500/40" },
-  { iconColor: "text-rose-300", iconBg: "bg-rose-500/10", ring: "group-hover:ring-rose-400/30", glow: "group-hover:shadow-rose-500/20", hoverBorder: "hover:border-rose-500/40" },
+  { iconColor: "text-slate-300", iconBg: "bg-slate-500/10", ring: "group-hover:ring-slate-400/30", glow: "group-hover:shadow-slate-500/20", hoverBorder: "hover:border-slate-500/40" },
   { iconColor: "text-blue-300", iconBg: "bg-blue-500/10", ring: "group-hover:ring-blue-400/30", glow: "group-hover:shadow-blue-500/20", hoverBorder: "hover:border-blue-500/40" },
   { iconColor: "text-orange-300", iconBg: "bg-orange-500/10", ring: "group-hover:ring-orange-400/30", glow: "group-hover:shadow-orange-500/20", hoverBorder: "hover:border-orange-500/40" },
   { iconColor: "text-indigo-300", iconBg: "bg-indigo-500/10", ring: "group-hover:ring-indigo-400/30", glow: "group-hover:shadow-indigo-500/20", hoverBorder: "hover:border-indigo-500/40" },
@@ -55,6 +56,11 @@ const t = {
     status: "In Development",
     title: "DTP Master",
     tagline: "An all-in-one Windows desktop toolkit for Desktop Publishing professionals working with multilingual documents.",
+    galleryKicker: "Screenshots",
+    shots: [
+      { caption: "Dashboard", description: "The main hub — every module is one click away, and recent jobs stay pinned so you can resume without digging." },
+      { caption: "Inside a module", description: "Each tool opens in a focused workspace with the controls you actually use, not a cluttered menu bar." },
+    ],
     whyP1: "Working as a DTP operator on Arabic, Japanese, and English documents, I kept jumping between a dozen utilities — one for PDF diff, another for text extraction, a third for mirror checks, more for quotes, file packaging, and delivery tracking. Each tool solved a piece of the problem and none of them talked to each other.",
     whyP2: "DTP Master bundles the whole workflow into a single application built for the multilingual DTP space — with particular attention to Arabic right-to-left correctness, which most generic tools get wrong.",
     insideKicker: "What's inside",
@@ -86,6 +92,11 @@ const t = {
     status: "開発中",
     title: "DTP Master",
     tagline: "多言語ドキュメントを扱うDTPプロフェッショナル向けの、オールインワンWindowsデスクトップツール。",
+    galleryKicker: "スクリーンショット",
+    shots: [
+      { caption: "ダッシュボード", description: "メインハブ — すべてのモジュールにワンクリックでアクセスでき、最近の案件がピン留めされるので作業を中断せず再開できます。" },
+      { caption: "モジュール画面", description: "各ツールは、実際に使うコントロールだけを集中配置したワークスペースで開きます。雑多なメニューバーはありません。" },
+    ],
     whyP1: "アラビア語・日本語・英語のドキュメントを扱うDTPオペレーターとして働く中で、PDF差分比較、テキスト抽出、ミラーチェック、見積もり、納品パッケージングなど、十数個の別々のツールを行き来する日々でした。それぞれのツールは問題の一部しか解決できず、互いに連携もしません。",
     whyP2: "DTP Masterは、こうしたワークフロー全体を1つのアプリケーションに統合しました。多言語DTPの現場を念頭に設計されており、特にアラビア語の右から左へのレイアウト処理について、一般的なツールが見落としがちな部分まで細やかに対応しています。",
     insideKicker: "搭載機能",
@@ -109,6 +120,42 @@ const t = {
       { label: "Python + Nuitka", detail: "ネイティブマシンコードにコンパイル。高速かつ保護された実行環境。" },
       { label: "Firebase", detail: "認証、データ同期、サイレント自動アップデートのパイプライン。" },
       { label: "Inno Setup + コード署名", detail: "証明書自動インストール付きの署名済みWindowsインストーラー。" },
+    ],
+  },
+  ar: {
+    back: "المشاريع",
+    year: "2025 — حتى الآن",
+    status: "قيد التطوير",
+    title: "DTP Master",
+    tagline: "أداة مكتبية شاملة لـWindows لمحترفي النشر المكتبي الذين يعملون مع مستندات متعددة اللغات.",
+    galleryKicker: "لقطات من التطبيق",
+    shots: [
+      { caption: "الواجهة الرئيسية", description: "المركز الأساسي — كل الوحدات على بُعد نقرة واحدة، والمهام الأخيرة مثبّتة عشان تكمّل شغلك من غير ما تدوّر." },
+      { caption: "داخل الوحدة", description: "كل أداة بتفتح في مساحة عمل مركّزة فيها الأدوات اللي بتستخدمها فعلاً، من غير قوائم متكدّسة." },
+    ],
+    whyP1: "خلال عملي كمشغّل DTP على مستندات عربية ويابانية وإنجليزية، كنت أتنقل بين عشرات الأدوات — واحدة لمقارنة PDF، أخرى لاستخراج النص، ثالثة لفحص المرآة، والمزيد لعروض الأسعار وتغليف الملفات وتتبع التسليم. كل أداة تحل جزءاً من المشكلة ولا واحدة منها تتواصل مع الأخرى.",
+    whyP2: "DTP Master يجمع سير العمل كله في تطبيق واحد مبني لبيئة DTP متعددة اللغات — مع اهتمام خاص بصحة الاتجاه من اليمين لليسار للعربية، وهو ما تخطئ فيه معظم الأدوات العامة.",
+    insideKicker: "ما يحتويه",
+    modulesLabel: (n: number) => `${n} وحدات`,
+    evolveNote: "التطبيق يتطور بسرعة — الميزات والواجهة تتغير مع كل إصدار.",
+    stackKicker: "مبني باستخدام",
+    ctaTitle: "مهتم بالوصول المبكر؟",
+    ctaSub: "تواصل معي لمتابعة التقدم أو تجربة نسخة مبكرة.",
+    ctaButton: "تواصل معي",
+    features: [
+      { key: "compare", name: "مقارنة المستندات", description: "مقارنة جنباً إلى جنب PDF↔PDF وPDF↔Word وInDesign↔Word. يلتقط فروق النص والتنسيق والتخطيط قبل التسليم." },
+      { key: "shield", name: "مراجعة ذكية", description: "فحوصات آلية للمستندات متعددة اللغات — الإملاء وعلامات الترقيم واتساق الأرقام وأخطاء DTP الشائعة." },
+      { key: "flip", name: "فحص مرآة العربية", description: "تحقق متخصص لتخطيطات اليمين إلى اليسار. يرصد العناصر غير المعكوسة وأخطاء الشكل ومشاكل النص ثنائي الاتجاه." },
+      { key: "type", name: "إصلاح الخطوط وأدوات النص", description: "حل مشاكل الخطوط الناقصة، استخراج النص من PDF، مقارنة المقاطع، وإدارة مكتبة قصاصات قابلة لإعادة الاستخدام." },
+      { key: "stack", name: "استوديو PDF", description: "تحرير الصفحات والقص وإعادة الترتيب والضغط — مع تحكم دقيق في حجم الإخراج والجودة." },
+      { key: "package", name: "مُعبّئ التسليم", description: "تجميع الملفات النهائية وإنشاء عروض الأسعار وتتبع المهام بقوالب مدمجة." },
+      { key: "calc", name: "حاسبة عروض الأسعار", description: "تسعير المشاريع بناءً على عدد الصفحات وزوج اللغة ومستوى التعقيد ومدة التسليم." },
+      { key: "kanban", name: "متتبع المشاريع", description: "إدارة مشاريع خفيفة داخل التطبيق ودفتر جهات اتصال — بدون أدوات خارجية أو رسوم اشتراك." },
+    ] as const,
+    stack: [
+      { label: "Python + Nuitka", detail: "تحويل إلى كود آلة أصلي للسرعة والحماية." },
+      { label: "Firebase", detail: "مصادقة ومزامنة بيانات وخط أنابيب تحديث تلقائي صامت." },
+      { label: "Inno Setup + توقيع الكود", detail: "مثبّت Windows موقّع مع تركيب شهادة تلقائي." },
     ],
   },
 };
@@ -164,7 +211,7 @@ export default function DtpMasterPage() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-5xl md:text-7xl font-bold mb-6 leading-[1.02]"
           >
-            <span className="bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-300 via-blue-300 to-blue-300 bg-clip-text text-transparent">
               {text.title}
             </span>
           </motion.h1>
@@ -186,10 +233,58 @@ export default function DtpMasterPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
-            className="mb-20 space-y-5 text-gray-400 leading-relaxed text-base md:text-lg"
+            className="mb-16 space-y-5 text-gray-400 leading-relaxed text-base md:text-lg"
           >
             <p>{text.whyP1}</p>
             <p>{text.whyP2}</p>
+          </motion.section>
+
+          <motion.section
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            className="mb-20"
+          >
+            <motion.h2
+              variants={fadeInUp}
+              custom={0}
+              className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-6"
+            >
+              {text.galleryKicker}
+            </motion.h2>
+            <div className="space-y-12">
+              {["/dtp-master/screen-1.png", "/dtp-master/screen-2.png"].map((src, i) => {
+                const shot = text.shots[i];
+                return (
+                  <motion.figure
+                    key={src}
+                    variants={fadeInUp}
+                    custom={i + 1}
+                    className="space-y-4"
+                  >
+                    <div className="relative rounded-xl overflow-hidden border border-gray-800 bg-[#0f0f14]">
+                      <Image
+                        src={src}
+                        alt={`DTP Master — ${shot.caption}`}
+                        width={1600}
+                        height={1000}
+                        className="w-full h-auto"
+                        sizes="(max-width: 768px) 100vw, 768px"
+                      />
+                    </div>
+                    <figcaption>
+                      <div className="text-white text-sm font-medium mb-1.5">
+                        {shot.caption}
+                      </div>
+                      <p className="text-gray-500 text-sm leading-relaxed">
+                        {shot.description}
+                      </p>
+                    </figcaption>
+                  </motion.figure>
+                );
+              })}
+            </div>
           </motion.section>
 
           <motion.section
@@ -257,7 +352,7 @@ export default function DtpMasterPage() {
                     custom={i + 1}
                     className="rounded-xl border border-gray-800 bg-[#0f0f14] p-5"
                   >
-                    <Icon className="w-5 h-5 text-purple-300/90 mb-3" />
+                    <Icon className="w-5 h-5 text-blue-300/90 mb-3" />
                     <h3 className="text-white font-medium mb-2">{s.label}</h3>
                     <p className="text-gray-500 text-sm leading-relaxed">{s.detail}</p>
                   </motion.div>
@@ -271,7 +366,7 @@ export default function DtpMasterPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6 }}
-            className="relative rounded-2xl overflow-hidden border border-cyan-500/20 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-purple-500/10 p-8 md:p-10"
+            className="relative rounded-2xl overflow-hidden border border-cyan-500/20 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-blue-500/10 p-8 md:p-10"
           >
             <div className="absolute -top-20 -right-20 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl" />
             <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">

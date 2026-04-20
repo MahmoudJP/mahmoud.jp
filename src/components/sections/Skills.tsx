@@ -16,13 +16,13 @@ import { useT } from "@/lib/i18n";
 
 const skillMeta = [
   { icon: Server, color: "text-orange-400", bg: "bg-orange-500/10" },
-  { icon: Wrench, color: "text-green-400", bg: "bg-green-500/10" },
+  { icon: Wrench, color: "text-emerald-400", bg: "bg-emerald-500/10" },
   { icon: MonitorCog, color: "text-amber-400", bg: "bg-amber-500/10" },
-  { icon: Cpu, color: "text-purple-400", bg: "bg-purple-500/10" },
+  { icon: Cpu, color: "text-slate-300", bg: "bg-slate-500/10" },
   { icon: FileText, color: "text-blue-400", bg: "bg-blue-500/10" },
-  { icon: LanguagesIcon, color: "text-pink-400", bg: "bg-pink-500/10" },
+  { icon: LanguagesIcon, color: "text-sky-400", bg: "bg-sky-500/10" },
   { icon: Headphones, color: "text-cyan-400", bg: "bg-cyan-500/10" },
-  { icon: Gamepad2, color: "text-rose-400", bg: "bg-rose-500/10" },
+  { icon: Gamepad2, color: "text-teal-400", bg: "bg-teal-500/10" },
 ];
 
 const t = {
@@ -52,6 +52,19 @@ const t = {
       "ゲーミング & テクノロジー",
     ],
   },
+  ar: {
+    title: "المهارات",
+    skills: [
+      "إدارة الخوادم",
+      "الدعم الفني والإصلاح",
+      "إعداد ونشر Windows",
+      "تجميع الكمبيوتر والهاردوير",
+      "DTP (InDesign / Illustrator)",
+      "مراجعة جودة الترجمة العربية",
+      "الترجمة الفورية",
+      "خبرة الألعاب والتكنولوجيا",
+    ],
+  },
 };
 
 export function Skills() {
@@ -71,8 +84,8 @@ export function Skills() {
             custom={0}
             className="text-3xl md:text-4xl font-bold mb-12 text-center"
           >
-            <Wrench className="inline w-7 h-7 md:w-8 md:h-8 mr-3 text-purple-400" />
-            <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+            <Wrench className="inline w-7 h-7 md:w-8 md:h-8 mr-3 text-blue-400" />
+            <span className="bg-gradient-to-r from-blue-400 to-blue-400 bg-clip-text text-transparent">
               {text.title}
             </span>
           </motion.h2>

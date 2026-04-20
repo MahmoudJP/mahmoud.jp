@@ -21,7 +21,7 @@ export function Particles() {
       {particlePositions.map((p, i) => (
         <motion.div
           key={i}
-          className="absolute w-1 h-1 rounded-full bg-purple-400/20"
+          className="absolute w-1 h-1 rounded-full bg-blue-400/20"
           style={{ left: `${p.x}%`, top: `${p.y}%` }}
           animate={{
             y: [0, -30, 0],

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronDown, Download, Cloud, Monitor, Sparkles, ArrowUpRight } from "lucide-react";
 import { Particles } from "@/components/Particles";
 import { useT } from "@/lib/i18n";
@@ -29,11 +30,22 @@ const t = {
     learnMore: "詳しく見る",
     cv: "履歴書",
   },
+  ar: {
+    tagline: "محترف ثلاثي اللغات في طوكيو · أخصائي DTP · مترجم فوري",
+    founder: "المؤسس · تطبيق DTP Master",
+    credentials: [
+      { label: "معتمد من AWS · أدرس هندسة السحابة" },
+      { label: "مستخدم محترف للذكاء الاصطناعي" },
+    ],
+    contact: "تواصل معي",
+    learnMore: "اعرف المزيد",
+    cv: "السيرة الذاتية",
+  },
 };
 
 const credentialMeta = [
   { icon: Cloud, color: "text-orange-300", bg: "bg-orange-500/10", border: "border-orange-500/30" },
-  { icon: Sparkles, color: "text-pink-300", bg: "bg-pink-500/10", border: "border-pink-500/30" },
+  { icon: Sparkles, color: "text-sky-300", bg: "bg-sky-500/10", border: "border-sky-500/30" },
 ];
 
 export function Hero() {
@@ -42,7 +54,7 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_#1a1a2e_0%,_#0a0a0a_70%)]" />
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl animate-pulse delay-1000" />
       <Particles />
 
@@ -53,12 +65,15 @@ export function Hero() {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full bg-gradient-to-br from-purple-500 to-blue-500 p-[3px] shadow-xl shadow-purple-500/20">
+          <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-[3px] shadow-xl shadow-blue-500/20">
             <div className="w-full h-full rounded-full overflow-hidden relative">
-              <img
+              <Image
                 src="/mahmoud-cropped.jpg"
                 alt="Mahmoud Adel"
-                className="w-full h-full object-cover scale-105 contrast-[1.05] brightness-[1.1]"
+                fill
+                priority
+                sizes="(max-width: 640px) 128px, (max-width: 768px) 144px, 160px"
+                className="object-cover scale-105 contrast-[1.05] brightness-[1.1]"
               />
               <div className="absolute inset-0 rounded-full bg-gradient-to-t from-[#0a0a0a]/30 to-transparent" />
             </div>
@@ -80,7 +95,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="text-base sm:text-xl md:text-2xl text-purple-300 mb-5 font-light"
+          className="text-base sm:text-xl md:text-2xl text-blue-300 mb-5 font-light"
         >
           {text.tagline}
         </motion.p>
@@ -93,9 +108,9 @@ export function Hero() {
         >
           <Link
             href="/projects/dtp-master"
-            className="group relative inline-flex items-center gap-2.5 px-5 sm:px-6 py-3 sm:py-3.5 rounded-full border border-cyan-400/40 bg-gradient-to-r from-cyan-500/15 via-blue-500/10 to-purple-500/15 text-cyan-100 text-sm sm:text-base font-medium shadow-[0_0_28px_-6px_rgba(34,211,238,0.45)] hover:shadow-[0_0_40px_-4px_rgba(34,211,238,0.7)] hover:border-cyan-300/70 hover:-translate-y-0.5 transition-all duration-300"
+            className="group relative inline-flex items-center gap-2.5 px-5 sm:px-6 py-3 sm:py-3.5 rounded-full border border-cyan-400/40 bg-gradient-to-r from-cyan-500/15 via-blue-500/10 to-blue-500/15 text-cyan-100 text-sm sm:text-base font-medium shadow-[0_0_28px_-6px_rgba(34,211,238,0.45)] hover:shadow-[0_0_40px_-4px_rgba(34,211,238,0.7)] hover:border-cyan-300/70 hover:-translate-y-0.5 transition-all duration-300"
           >
-            <span className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/0 via-cyan-400/10 to-purple-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <span className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/0 via-cyan-400/10 to-blue-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <span className="relative flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-70 animate-ping" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-cyan-400" />
@@ -135,7 +150,7 @@ export function Hero() {
         >
           <a
             href="#contact"
-            className="px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium text-sm sm:text-base hover:from-purple-500 hover:to-blue-500 transition-all duration-300 shadow-lg shadow-purple-500/20 whitespace-nowrap"
+            className="px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-medium text-sm sm:text-base hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-lg shadow-blue-500/20 whitespace-nowrap"
           >
             {text.contact}
           </a>
@@ -148,7 +163,7 @@ export function Hero() {
           <a
             href="/mahmoud-cv.pdf"
             download
-            className="px-6 sm:px-8 py-2.5 sm:py-3 rounded-full border border-purple-500/30 text-purple-300 text-sm sm:text-base hover:bg-purple-500/10 transition-all duration-300 flex items-center gap-2 whitespace-nowrap"
+            className="px-6 sm:px-8 py-2.5 sm:py-3 rounded-full border border-blue-500/30 text-blue-300 text-sm sm:text-base hover:bg-blue-500/10 transition-all duration-300 flex items-center gap-2 whitespace-nowrap"
           >
             <Download className="w-4 h-4" />
             {text.cv}

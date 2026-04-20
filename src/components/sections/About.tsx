@@ -40,6 +40,23 @@ const t = {
     roleLabel: "現職",
     roleValue: "株式会社SHAMS",
   },
+  ar: {
+    title: "نبذة عني",
+    p1a: "كمحترف ثلاثي اللغات يتقن ",
+    arabic: "العربية",
+    comma1: " و",
+    japanese: "اليابانية",
+    comma2: " و",
+    english: "الإنجليزية",
+    p1b: "، اكتسبت خبرة قوية في الترجمة الفورية بين مصر واليابان. أتطوع بانتظام وأساعد في جسر الفجوة بين الثقافات.",
+    p2: "أعمل حالياً في عمليات DTP ومراجعة جودة اللغة العربية، وأحرص على الدقة والتفاصيل في كل مشروع. خلفيتي تمكنني من التكيف مع مختلف احتياجات الأعمال.",
+    locationLabel: "الموقع",
+    locationValue: "طوكيو، اليابان",
+    nationalityLabel: "الجنسية",
+    nationalityValue: "مصري",
+    roleLabel: "الوظيفة الحالية",
+    roleValue: "شركة SHAMS",
+  },
 };
 
 export function About() {
@@ -59,7 +76,7 @@ export function About() {
             custom={0}
             className="text-3xl md:text-4xl font-bold mb-8 text-center"
           >
-            <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-400 to-blue-400 bg-clip-text text-transparent">
               {text.title}
             </span>
           </motion.h2>
@@ -71,7 +88,7 @@ export function About() {
           >
             <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
               {text.p1a}
-              <span className="text-purple-300 font-medium">{text.arabic}</span>
+              <span className="text-blue-300 font-medium">{text.arabic}</span>
               {text.comma1}
               <span className="text-blue-300 font-medium">{text.japanese}</span>
               {text.comma2}
@@ -89,7 +106,7 @@ export function About() {
             className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6"
           >
             <div className="bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6 text-center">
-              <MapPin className="w-6 h-6 text-purple-400 mx-auto mb-3" />
+              <MapPin className="w-6 h-6 text-blue-400 mx-auto mb-3" />
               <p className="text-gray-400 text-sm">{text.locationLabel}</p>
               <p className="text-white font-medium">{text.locationValue}</p>
             </div>

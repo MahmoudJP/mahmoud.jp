@@ -45,6 +45,25 @@ const t = {
       },
     ],
   },
+  ar: {
+    kicker: "استكشف",
+    cards: [
+      {
+        href: "/projects",
+        title: "المشاريع",
+        desc: "أدوات أقوم ببنائها لـDTP والترجمة ومهام العمل متعدد اللغات — بما فيها DTP Master.",
+        cta: "شاهد ما أبنيه",
+        icon: "folder" as const,
+      },
+      {
+        href: "/uses",
+        title: "الأدوات",
+        desc: "البرامج والأجهزة والإعداد اليومي اللي أعتمد عليه في العمل الإنتاجي.",
+        cta: "اطّلع على إعدادي",
+        icon: "wrench" as const,
+      },
+    ],
+  },
 };
 
 const iconMap = { folder: FolderGit2, wrench: Wrench };
@@ -58,11 +77,11 @@ const accents = [
     ctaColor: "text-cyan-300 group-hover:text-cyan-200",
   },
   {
-    border: "hover:border-purple-500/40",
-    iconBg: "bg-purple-500/10",
-    iconColor: "text-purple-400",
-    grad: "from-purple-500/20 via-fuchsia-500/10 to-transparent",
-    ctaColor: "text-purple-300 group-hover:text-purple-200",
+    border: "hover:border-sky-500/40",
+    iconBg: "bg-sky-500/10",
+    iconColor: "text-sky-400",
+    grad: "from-sky-500/20 via-cyan-500/10 to-transparent",
+    ctaColor: "text-sky-300 group-hover:text-sky-200",
   },
 ];
 
@@ -81,7 +100,7 @@ export function Explore() {
           <motion.p
             variants={fadeInUp}
             custom={0}
-            className="text-sm uppercase tracking-[0.25em] text-purple-300/80 mb-8 text-center"
+            className="text-sm uppercase tracking-[0.25em] text-blue-300/80 mb-8 text-center"
           >
             {text.kicker}
           </motion.p>

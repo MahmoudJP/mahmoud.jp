@@ -62,6 +62,27 @@ const t = {
       "DTPチーム向けのスニペット&テンプレートライブラリ。",
     ],
   },
+  ar: {
+    kicker: "المشاريع",
+    heading: "أشياء أبنيها.",
+    sub: "أدوات للترجمة وDTP والعمل متعدد اللغات — مصممة لحل مشاكل أواجهها يومياً في عملي.",
+    statusInDev: "قيد التطوير",
+    boardKicker: "على لوحة الأفكار",
+    projects: [
+      {
+        slug: "dtp-master",
+        name: "DTP Master",
+        tagline: "أداة مكتبية شاملة لمحترفي DTP",
+        year: "2025 — حتى الآن",
+        description: "تطبيق سطح مكتب لـWindows يجمع كل مهام مشغّل الـDTP اليومية — مقارنة PDF، مراجعة ذكية، فحص مرآة للعربية، إصلاح الخطوط، تغليف التسليم. أداة واحدة موقّعة ذاتية التحديث تحل محل عشرات الأدوات المبعثرة.",
+      },
+    ],
+    ideas: [
+      "لوحة تحكم جودة ويب لفرق الترجمة العربية/اليابانية.",
+      "حاسبة عروض أسعار خفيفة لوكالات الترجمة.",
+      "مكتبة قصاصات وقوالب لفرق DTP.",
+    ],
+  },
 };
 
 export default function ProjectsPage() {
@@ -79,7 +100,7 @@ export default function ProjectsPage() {
 
       <section className="relative overflow-hidden pt-32 pb-16">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_#1a1a2e_0%,_#0a0a0a_70%)]" />
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute top-20 right-1/4 w-[400px] h-[400px] bg-cyan-600/10 rounded-full blur-3xl animate-pulse delay-1000" />
         <Particles />
 
@@ -88,7 +109,7 @@ export default function ProjectsPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-sm uppercase tracking-[0.25em] text-purple-300/80 mb-4"
+            className="text-sm uppercase tracking-[0.25em] text-blue-300/80 mb-4"
           >
             {text.kicker}
           </motion.p>

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Noto_Sans_JP } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Sans_JP, Noto_Sans_Arabic } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/lib/i18n";
 
@@ -17,6 +16,12 @@ const geistMono = Geist_Mono({
 const notoJp = Noto_Sans_JP({
   variable: "--font-noto-jp",
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
+
+const notoArabic = Noto_Sans_Arabic({
+  variable: "--font-noto-ar",
+  subsets: ["arabic"],
   weight: ["400", "500", "700"],
 });
 
@@ -57,10 +62,38 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${notoJp.variable} h-full antialiased`}
+      dir="ltr"
+      className={`${geistSans.variable} ${geistMono.variable} ${notoJp.variable} ${notoArabic.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Mahmoud Adel Ibrahim",
+              alternateName: ["محمود عادل إبراهيم", "マフムード・アーデル"],
+              url: "https://mahmoud.jp",
+              image: "https://mahmoud.jp/mahmoud.jpg",
+              jobTitle: "DTP Specialist & Interpreter",
+              worksFor: { "@type": "Organization", name: "SHAMS Co., Ltd." },
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Tokyo",
+                addressCountry: "JP",
+              },
+              nationality: { "@type": "Country", name: "Egypt" },
+              knowsLanguage: ["Arabic", "Japanese", "English"],
+              email: "m@mahmoud.jp",
+              sameAs: [
+                "https://www.linkedin.com/in/mahmoud-adel-jp",
+                "https://github.com/MahmoudJP",
+              ],
+            }),
+          }}
+        />
         <LocaleProvider>{children}</LocaleProvider>
       </body>
     </html>
