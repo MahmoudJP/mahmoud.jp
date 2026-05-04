@@ -65,8 +65,8 @@ export function Hero() {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-[3px] shadow-xl shadow-blue-500/20">
-            <div className="w-full h-full rounded-full overflow-hidden relative">
+          <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-[3px] shadow-xl shadow-blue-500/20 isolate">
+            <div className="w-full h-full rounded-full overflow-hidden relative [transform:translateZ(0)]">
               <Image
                 src="/mahmoud-cropped.jpg"
                 alt="Mahmoud Adel"
