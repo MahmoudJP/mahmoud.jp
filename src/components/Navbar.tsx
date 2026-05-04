@@ -42,7 +42,7 @@ export function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ${
         scrolled
-          ? "bg-[#0a0a0a]/80 backdrop-blur-lg border-b border-gray-800/50"
+          ? "bg-[#0a0a0a]/80 backdrop-blur-lg shadow-[0_1px_0_0_rgba(255,255,255,0.06)]"
           : "bg-transparent"
       }`}
     >
