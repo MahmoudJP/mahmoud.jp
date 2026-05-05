@@ -111,6 +111,7 @@ The local dashboard is read-only:
 - no JSON editor
 - page paths are shown as readable page names, for example `/` appears as `الرئيسية`
 - extra calculated cards show pages per visitor and the number of pages with visits
+- Arabic/English language toggle is available from the dashboard header
 
 The safe shareable template is:
 

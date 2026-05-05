@@ -69,6 +69,28 @@
       min-width: 0;
     }
 
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .lang-toggle {
+      min-width: 106px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(21, 27, 38, 0.88);
+      color: var(--text);
+      padding: 9px 14px;
+      transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
+    }
+
+    .lang-toggle:hover {
+      transform: translateY(-1px);
+      border-color: rgba(96, 165, 250, 0.72);
+      background: rgba(29, 38, 54, 0.92);
+    }
+
     .mark {
       display: grid;
       width: 46px;
@@ -356,6 +378,14 @@
         display: grid;
       }
 
+      .toolbar {
+        justify-content: stretch;
+      }
+
+      .lang-toggle {
+        width: 100%;
+      }
+
       .stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -388,42 +418,45 @@
       <div class="brand">
         <div class="mark" aria-hidden="true">M</div>
         <div>
-          <h1>لوحة زيارات mahmoud.jp</h1>
-          <p class="subtitle" id="statusText">جاري تحديث الأرقام الحقيقية من الموقع...</p>
+          <h1 data-i18n="title">لوحة زيارات mahmoud.jp</h1>
+          <p class="subtitle" id="statusText" data-i18n="loading">جاري تحديث الأرقام الحقيقية من الموقع...</p>
         </div>
+      </div>
+      <div class="toolbar">
+        <button class="lang-toggle" id="langToggle" type="button">English</button>
       </div>
     </header>
 
     <section class="grid stats" aria-label="ملخص الزيارات">
       <article class="card stat">
-        <p class="stat-label">الزوار</p>
+        <p class="stat-label" data-i18n="visitors">الزوار</p>
         <p class="stat-value" id="visitors">0</p>
         <p class="stat-note" id="visitorsNote">آخر تحديث محلي</p>
       </article>
       <article class="card stat">
-        <p class="stat-label">مشاهدات الصفحات</p>
+        <p class="stat-label" data-i18n="pageViews">مشاهدات الصفحات</p>
         <p class="stat-value" id="pageViews">0</p>
-        <p class="stat-note" id="viewsNote">كل الصفحات</p>
+        <p class="stat-note" data-i18n="allPages">كل الصفحات</p>
       </article>
       <article class="card stat">
-        <p class="stat-label">أقوى مصدر</p>
+        <p class="stat-label" data-i18n="topReferrer">أقوى مصدر</p>
         <p class="stat-value" id="topReferrer">-</p>
-        <p class="stat-note" id="referrerNote">حسب عدد الزوار</p>
+        <p class="stat-note" data-i18n="byVisitors">حسب عدد الزوار</p>
       </article>
       <article class="card stat">
-        <p class="stat-label">أكبر بلد</p>
+        <p class="stat-label" data-i18n="topCountry">أكبر بلد</p>
         <p class="stat-value" id="topCountry">-</p>
-        <p class="stat-note" id="countryNote">حسب عدد الزوار</p>
+        <p class="stat-note" data-i18n="byVisitors">حسب عدد الزوار</p>
       </article>
       <article class="card stat">
-        <p class="stat-label">صفحات لكل زائر</p>
+        <p class="stat-label" data-i18n="viewsPerVisitor">صفحات لكل زائر</p>
         <p class="stat-value" id="viewsPerVisitor">0</p>
-        <p class="stat-note">مؤشر اهتمام الزائر</p>
+        <p class="stat-note" data-i18n="interestSignal">مؤشر اهتمام الزائر</p>
       </article>
       <article class="card stat">
-        <p class="stat-label">صفحات عليها زيارات</p>
+        <p class="stat-label" data-i18n="activePages">صفحات عليها زيارات</p>
         <p class="stat-value" id="activePages">0</p>
-        <p class="stat-note">عدد الصفحات التي ظهرت في الإحصائيات</p>
+        <p class="stat-note" data-i18n="activePagesNote">عدد الصفحات التي ظهرت في الإحصائيات</p>
       </article>
     </section>
 
@@ -431,8 +464,8 @@
       <div class="grid">
         <article class="card panel">
           <div class="panel-head">
-            <h2 class="panel-title">أعلى الصفحات</h2>
-            <span class="panel-meta">الأسماء بدل الروابط</span>
+            <h2 class="panel-title" data-i18n="topPages">أعلى الصفحات</h2>
+            <span class="panel-meta" data-i18n="readableNames">الأسماء بدل الروابط</span>
           </div>
           <div class="bars" id="pages"></div>
         </article>
@@ -440,14 +473,14 @@
         <div class="grid split">
           <article class="card panel">
             <div class="panel-head">
-              <h2 class="panel-title">مصادر الدخول</h2>
+              <h2 class="panel-title" data-i18n="referrers">مصادر الدخول</h2>
               <span class="panel-meta">Referrers</span>
             </div>
             <div class="bars" id="referrers"></div>
           </article>
           <article class="card panel">
             <div class="panel-head">
-              <h2 class="panel-title">البلاد</h2>
+              <h2 class="panel-title" data-i18n="countries">البلاد</h2>
               <span class="panel-meta">Countries</span>
             </div>
             <div class="bars" id="countries"></div>
@@ -458,7 +491,7 @@
       <aside class="grid">
         <article class="card panel">
           <div class="panel-head">
-            <h2 class="panel-title">ملخص سريع</h2>
+            <h2 class="panel-title" data-i18n="quickSummary">ملخص سريع</h2>
             <span class="panel-meta">Insights</span>
           </div>
           <div class="insights" id="insights"></div>
@@ -466,7 +499,7 @@
 
         <article class="card panel">
           <div class="panel-head">
-            <h2 class="panel-title">الأجهزة</h2>
+            <h2 class="panel-title" data-i18n="devices">الأجهزة</h2>
             <span class="panel-meta">Devices</span>
           </div>
           <div class="donut-wrap">
@@ -477,7 +510,7 @@
       </aside>
     </section>
 
-    <p class="footer-note">الأرقام من نظام الإحصائيات الخاص بالموقع، وتتحدث تلقائياً عند فتح الملف.</p>
+    <p class="footer-note" data-i18n="footer">الأرقام من نظام الإحصائيات الخاص بالموقع، وتتحدث تلقائياً عند فتح الملف.</p>
   </main>
 
 <script>
@@ -498,25 +531,152 @@
       apiKey: "",
       autoRefresh: false
     };
+    const langKey = "mahmoud-dashboard-lang";
+    let currentLang = localStorage.getItem(langKey) || "ar";
+    let lastData = null;
 
     const pageNames = {
-      "/": "الرئيسية",
-      "/projects": "المشاريع",
-      "/writing": "الكتابة",
-      "/uses": "الأدوات التي أستخدمها",
-      "/projects/dtp-master": "مشروع DTP Master"
+      ar: {
+        "/": "الرئيسية",
+        "/projects": "المشاريع",
+        "/writing": "الكتابة",
+        "/uses": "الأدوات التي أستخدمها",
+        "/projects/dtp-master": "مشروع DTP Master"
+      },
+      en: {
+        "/": "Home",
+        "/projects": "Projects",
+        "/writing": "Writing",
+        "/uses": "Uses",
+        "/projects/dtp-master": "DTP Master Project"
+      }
     };
 
     const countryNames = {
-      JP: "اليابان",
-      EG: "مصر",
-      US: "الولايات المتحدة",
-      SA: "السعودية",
-      AE: "الإمارات",
-      GB: "المملكة المتحدة",
-      DE: "ألمانيا",
-      FR: "فرنسا",
-      Unknown: "غير معروف"
+      ar: {
+        JP: "اليابان",
+        EG: "مصر",
+        US: "الولايات المتحدة",
+        SA: "السعودية",
+        AE: "الإمارات",
+        GB: "المملكة المتحدة",
+        DE: "ألمانيا",
+        FR: "فرنسا",
+        Unknown: "غير معروف"
+      },
+      en: {
+        JP: "Japan",
+        EG: "Egypt",
+        US: "United States",
+        SA: "Saudi Arabia",
+        AE: "United Arab Emirates",
+        GB: "United Kingdom",
+        DE: "Germany",
+        FR: "France",
+        Unknown: "Unknown"
+      }
+    };
+
+    const deviceNames = {
+      ar: { Desktop: "كمبيوتر", Mobile: "موبايل", Tablet: "تابلت", Other: "أخرى" },
+      en: { Desktop: "Desktop", Mobile: "Mobile", Tablet: "Tablet", Other: "Other" }
+    };
+
+    const i18n = {
+      ar: {
+        title: "لوحة زيارات mahmoud.jp",
+        loading: "جاري تحديث الأرقام الحقيقية من الموقع...",
+        updated: "تم التحديث الآن من mahmoud.jp.",
+        failed: "فشل التحديث من الموقع. آخر بيانات محفوظة ظاهرة حالياً.",
+        privateOnly: "استخدم النسخة المحلية الخاصة لعرض الأرقام تلقائياً.",
+        visitors: "الزوار",
+        pageViews: "مشاهدات الصفحات",
+        allPages: "كل الصفحات",
+        topReferrer: "أقوى مصدر",
+        topCountry: "أكبر بلد",
+        byVisitors: "حسب عدد الزوار",
+        viewsPerVisitor: "صفحات لكل زائر",
+        interestSignal: "مؤشر اهتمام الزائر",
+        activePages: "صفحات عليها زيارات",
+        activePagesNote: "عدد الصفحات التي ظهرت في الإحصائيات",
+        topPages: "أعلى الصفحات",
+        readableNames: "الأسماء بدل الروابط",
+        referrers: "مصادر الدخول",
+        countries: "البلاد",
+        quickSummary: "ملخص سريع",
+        devices: "الأجهزة",
+        footer: "الأرقام من نظام الإحصائيات الخاص بالموقع، وتتحدث تلقائياً عند فتح الملف.",
+        noData: "لا توجد بيانات كافية حتى الآن.",
+        noDeviceData: "لا توجد بيانات أجهزة حتى الآن.",
+        localUpdate: "آخر تحديث محلي",
+        lastUpdated: "آخر تحديث:",
+        unknownPage: "صفحة غير معروفة",
+        home: "الرئيسية",
+        direct: "دخول مباشر",
+        internal: "من داخل الموقع",
+        noTopPage: "لسه مفيش صفحة متصدرة",
+        noTopPageText: "الأرقام هتظهر هنا بعد أول زيارات حقيقية.",
+        topPageTitle: "أكثر صفحة اهتماماً:",
+        pageViewsForPage: "مشاهدة للصفحة دي.",
+        externalSources: "مصادر خارجية:",
+        directCompare: "وفي المقابل",
+        directVisits: "دخول مباشر.",
+        directLow: "لسه الدخول المباشر قليل أو غير ظاهر.",
+        mobileShare: "نسبة الموبايل:",
+        mobileText: "مفيد تعرف هل الزوار محتاجين تجربة موبايل أقوى.",
+        avgBrowse: "متوسط التصفح:",
+        avgBrowseSuffix: "صفحة لكل زائر",
+        avgHigh: "الزائر بيتنقل بين أكتر من صفحة.",
+        avgLow: "لو الرقم زاد، ده معناه إن الناس بتستكشف الموقع أكتر.",
+        toggle: "English"
+      },
+      en: {
+        title: "mahmoud.jp Visit Dashboard",
+        loading: "Updating live numbers from the site...",
+        updated: "Updated from mahmoud.jp just now.",
+        failed: "Could not refresh from the site. Showing the latest saved data.",
+        privateOnly: "Use the private local file to show live numbers automatically.",
+        visitors: "Visitors",
+        pageViews: "Page views",
+        allPages: "All pages",
+        topReferrer: "Top source",
+        topCountry: "Top country",
+        byVisitors: "By visitor count",
+        viewsPerVisitor: "Pages per visitor",
+        interestSignal: "Visitor interest signal",
+        activePages: "Visited pages",
+        activePagesNote: "Pages that appeared in the stats",
+        topPages: "Top pages",
+        readableNames: "Readable names",
+        referrers: "Traffic sources",
+        countries: "Countries",
+        quickSummary: "Quick summary",
+        devices: "Devices",
+        footer: "Numbers come from the site's private analytics system and refresh automatically when this file opens.",
+        noData: "Not enough data yet.",
+        noDeviceData: "No device data yet.",
+        localUpdate: "Last local update",
+        lastUpdated: "Last updated:",
+        unknownPage: "Unknown page",
+        home: "Home",
+        direct: "Direct",
+        internal: "Internal",
+        noTopPage: "No top page yet",
+        noTopPageText: "Numbers will appear here after the first real visits.",
+        topPageTitle: "Most interesting page:",
+        pageViewsForPage: "views for this page.",
+        externalSources: "External sources:",
+        directCompare: "Compared with",
+        directVisits: "direct visits.",
+        directLow: "Direct traffic is still low or not visible.",
+        mobileShare: "Mobile share:",
+        mobileText: "Useful for judging whether the mobile experience needs more attention.",
+        avgBrowse: "Average browsing:",
+        avgBrowseSuffix: "pages per visitor",
+        avgHigh: "Visitors are moving across more than one page.",
+        avgLow: "If this increases, people are exploring the site more.",
+        toggle: "العربية"
+      }
     };
 
     const els = {
@@ -533,11 +693,16 @@
       devices: document.querySelector("#devices"),
       donut: document.querySelector("#deviceDonut"),
       insights: document.querySelector("#insights"),
-      statusText: document.querySelector("#statusText")
+      statusText: document.querySelector("#statusText"),
+      langToggle: document.querySelector("#langToggle")
     };
 
+    function text(key) {
+      return i18n[currentLang][key] || i18n.ar[key] || key;
+    }
+
     function number(value) {
-      return new Intl.NumberFormat("ar-EG").format(value || 0);
+      return new Intl.NumberFormat(currentLang === "ar" ? "ar-EG" : "en-US").format(value || 0);
     }
 
     function topOf(items) {
@@ -553,24 +718,28 @@
     }
 
     function pageLabel(path) {
-      if (pageNames[path]) return pageNames[path];
-      if (!path || path === "Unknown") return "صفحة غير معروفة";
+      if (pageNames[currentLang][path]) return pageNames[currentLang][path];
+      if (!path || path === "Unknown") return text("unknownPage");
       return path
         .replace(/^\/+/, "")
         .split("/")
         .filter(Boolean)
         .map((part) => part.replaceAll("-", " "))
-        .join(" / ") || "الرئيسية";
+        .join(" / ") || text("home");
     }
 
     function referrerLabel(referrer) {
-      if (!referrer || referrer === "Direct") return "دخول مباشر";
-      if (referrer === "Internal") return "من داخل الموقع";
+      if (!referrer || referrer === "Direct") return text("direct");
+      if (referrer === "Internal") return text("internal");
       return referrer.replace(/^www\./, "");
     }
 
     function countryLabel(country) {
-      return countryNames[country] || country;
+      return countryNames[currentLang][country] || country;
+    }
+
+    function deviceLabel(device) {
+      return deviceNames[currentLang][device] || device;
     }
 
     function renderBars(target, items, formatLabel = (label) => label) {
@@ -578,7 +747,7 @@
       const max = Math.max(...rows.map((item) => item.value), 1);
 
       if (!rows.length) {
-        target.innerHTML = `<div class="hint">لا توجد بيانات كافية حتى الآن.</div>`;
+        target.innerHTML = `<div class="hint">${escapeHtml(text("noData"))}</div>`;
         return;
       }
 
@@ -600,7 +769,7 @@
       const total = Math.max(rows.reduce((sum, item) => sum + item.value, 0), 1);
 
       if (!rows.length) {
-        els.devices.innerHTML = `<div class="hint">لا توجد بيانات أجهزة حتى الآن.</div>`;
+        els.devices.innerHTML = `<div class="hint">${escapeHtml(text("noDeviceData"))}</div>`;
         els.donut.style.setProperty("--a", "25%");
         els.donut.style.setProperty("--b", "50%");
         els.donut.style.setProperty("--c", "75%");
@@ -617,7 +786,7 @@
       els.donut.style.setProperty("--c", stops[2] || "75%");
       els.devices.innerHTML = rows.map((item, index) => `
         <div class="legend-item">
-          <span class="key"><span class="dot" style="--dot:${colors[index] || colors[0]}"></span>${escapeHtml(item.label)}</span>
+          <span class="key"><span class="dot" style="--dot:${colors[index] || colors[0]}"></span>${escapeHtml(deviceLabel(item.label))}</span>
           <strong>${number(item.value)}</strong>
         </div>
       `).join("");
@@ -630,20 +799,20 @@
       const mobileShare = data.pageViews ? Math.round((mobile / data.pageViews) * 100) : 0;
       const items = [
         {
-          title: summary.topPage.value ? `أكثر صفحة اهتماماً: ${pageLabel(summary.topPage.label)}` : "لسه مفيش صفحة متصدرة",
-          text: summary.topPage.value ? `${number(summary.topPage.value)} مشاهدة للصفحة دي.` : "الأرقام هتظهر هنا بعد أول زيارات حقيقية."
+          title: summary.topPage.value ? `${text("topPageTitle")} ${pageLabel(summary.topPage.label)}` : text("noTopPage"),
+          text: summary.topPage.value ? `${number(summary.topPage.value)} ${text("pageViewsForPage")}` : text("noTopPageText")
         },
         {
-          title: `مصادر خارجية: ${number(referral)}`,
-          text: direct ? `وفي المقابل ${number(direct)} دخول مباشر.` : "لسه الدخول المباشر قليل أو غير ظاهر."
+          title: `${text("externalSources")} ${number(referral)}`,
+          text: direct ? `${text("directCompare")} ${number(direct)} ${text("directVisits")}` : text("directLow")
         },
         {
-          title: `نسبة الموبايل: ${number(mobileShare)}%`,
-          text: "مفيد تعرف هل الزوار محتاجين تجربة موبايل أقوى."
+          title: `${text("mobileShare")} ${number(mobileShare)}%`,
+          text: text("mobileText")
         },
         {
-          title: `متوسط التصفح: ${summary.viewsPerVisitor.toFixed(1)} صفحة لكل زائر`,
-          text: summary.viewsPerVisitor >= 2 ? "الزائر بيتنقل بين أكتر من صفحة." : "لو الرقم زاد، ده معناه إن الناس بتستكشف الموقع أكتر."
+          title: `${text("avgBrowse")} ${summary.viewsPerVisitor.toFixed(1)} ${text("avgBrowseSuffix")}`,
+          text: summary.viewsPerVisitor >= 2 ? text("avgHigh") : text("avgLow")
         }
       ];
 
@@ -668,7 +837,7 @@
       els.topCountry.textContent = countryLabel(topCountry.label);
       els.viewsPerVisitor.textContent = viewsPerVisitor.toFixed(1);
       els.activePages.textContent = number(clean.pages.length);
-      els.visitorsNote.textContent = `آخر تحديث: ${clean.updatedAt || "محلي"}`;
+      els.visitorsNote.textContent = `${text("lastUpdated")} ${clean.updatedAt || text("localUpdate")}`;
 
       renderBars(els.pages, clean.pages, pageLabel);
       renderBars(els.referrers, clean.referrers, referrerLabel);
@@ -714,15 +883,33 @@
         .replaceAll('"', "&quot;");
     }
 
+    function applyLanguage() {
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+      document.title = currentLang === "ar" ? "Mahmoud.jp Analytics Dashboard" : "mahmoud.jp Analytics Dashboard";
+      els.langToggle.textContent = text("toggle");
+      document.querySelectorAll("[data-i18n]").forEach((node) => {
+        node.textContent = text(node.dataset.i18n);
+      });
+      setStatus(text("loading"));
+      render(lastData || load());
+    }
+
+    els.langToggle.addEventListener("click", () => {
+      currentLang = currentLang === "ar" ? "en" : "ar";
+      localStorage.setItem(langKey, currentLang);
+      applyLanguage();
+    });
+
     async function refreshFromSite() {
       const apiUrl = bundledSettings.apiUrl;
       const apiKey = bundledSettings.apiKey;
       if (!apiUrl || !apiKey) {
-        setStatus("استخدم النسخة المحلية الخاصة لعرض الأرقام تلقائياً.");
+        setStatus(text("privateOnly"));
         return false;
       }
 
-      setStatus("جاري تحديث الأرقام الحقيقية من الموقع...");
+      setStatus(text("loading"));
 
       try {
         const response = await fetch(apiUrl, {
@@ -735,20 +922,20 @@
         }
 
         const data = await response.json();
+        lastData = sanitizeData(data);
         save(data);
-        setStatus("تم التحديث الآن من mahmoud.jp.");
+        setStatus(text("updated"));
         return true;
       } catch (error) {
-        setStatus("فشل التحديث من الموقع. آخر بيانات محفوظة ظاهرة حالياً.");
+        setStatus(text("failed"));
         return false;
       }
     }
 
+    applyLanguage();
     if (bundledSettings.autoRefresh && bundledSettings.apiKey) {
       render(emptyData);
       refreshFromSite();
-    } else {
-      render(load());
     }
   </script>
 </body>
