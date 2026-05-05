@@ -30,7 +30,16 @@ The private summary endpoint was tested:
 - Without a key: returns `401 Unauthorized`
 - With `ANALYTICS_DASHBOARD_KEY`: returns a valid JSON summary
 
-Until Redis is connected, the summary returns zero counts.
+Redis is now connected through Upstash for Redis.
+
+After the Redis connection and redeploy, a test page-view event was recorded successfully. The private summary endpoint returned non-zero counts for:
+
+- visitors
+- page views
+- pages
+- referrers
+- countries
+- devices
 
 ## How it works
 
@@ -66,27 +75,24 @@ These were added to Vercel for Production and Development:
 
 The local copy is in `.env.local`, which is ignored by Git. Use the value of `ANALYTICS_DASHBOARD_KEY` from `.env.local` in the local dashboard password field.
 
-## Pending Vercel Marketplace step
+## Redis integration
 
-Redis could not be fully provisioned automatically because Vercel requires accepting the Upstash Marketplace terms for the account first.
+Upstash for Redis was provisioned through Vercel Marketplace:
 
-Vercel opened/provided this terms URL:
+- Resource name: `mahmoud-analytics`
+- Plan: Free
+- Primary region: `hnd1`
+- Connected environments: Production, Preview, Development
 
-```text
-https://vercel.com/anamahmoudbbc-6174s-projects/~/integrations/accept-terms/upstash?source=cli
-```
+Vercel added these Redis variables:
 
-After accepting the terms, run:
+- `KV_REST_API_URL`
+- `KV_REST_API_TOKEN`
+- `KV_REST_API_READ_ONLY_TOKEN`
+- `KV_URL`
+- `REDIS_URL`
 
-```bash
-vercel install upstash/upstash-kv --plan free --name mahmoud-analytics --environment production --environment preview --environment development -m primaryRegion=hnd1 -m eviction=true -m prodPack=false -m autoUpgrade=false
-```
-
-Then redeploy the site:
-
-```bash
-vercel --prod
-```
+The site was redeployed to Production after Redis was connected.
 
 ## Dashboard Usage
 
