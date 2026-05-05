@@ -45,3 +45,4 @@ next-env.d.ts
 AGENTS.md
 PROMPT.md
 SESSION-NOTES.md
+.env*.local

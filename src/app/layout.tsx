@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Noto_Sans_JP, Noto_Sans_Arabic } from "next/font/goo
 import "./globals.css";
 import { LocaleProvider } from "@/lib/i18n";
 import { Analytics } from "@vercel/analytics/next";
+import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -102,6 +103,7 @@ export default function RootLayout({
           }}
         />
         <LocaleProvider>{children}</LocaleProvider>
+        <AnalyticsTracker />
         <Analytics />
       </body>
     </html>
