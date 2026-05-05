@@ -104,6 +104,14 @@ analytics-dashboard.local.html
 
 This private local file contains the dashboard key from `.env.local`, auto-refreshes on open, and is ignored by Git.
 
+The local dashboard is read-only:
+
+- no CSV import
+- no manual save/reset buttons
+- no JSON editor
+- page paths are shown as readable page names, for example `/` appears as `الرئيسية`
+- extra calculated cards show pages per visitor and the number of pages with visits
+
 The safe shareable template is:
 
 ```text

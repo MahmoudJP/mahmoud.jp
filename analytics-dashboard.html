@@ -101,22 +101,7 @@
       margin-top: 6px;
     }
 
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: flex-end;
-    }
-
-    .connect {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr auto;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
     .btn,
-    .file-btn,
     .input {
       display: inline-flex;
       align-items: center;
@@ -140,14 +125,10 @@
     }
 
     .btn:hover,
-    .file-btn:hover {
+    .btn:hover {
       transform: translateY(-1px);
       border-color: rgba(96, 165, 250, 0.72);
       background: rgba(29, 38, 54, 0.92);
-    }
-
-    .file-btn input {
-      display: none;
     }
 
     .grid {
@@ -156,7 +137,7 @@
     }
 
     .stats {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       margin-bottom: 14px;
     }
 
@@ -323,27 +304,31 @@
       background: var(--dot);
     }
 
-    .editor {
-      margin-top: 14px;
+    .insights {
+      display: grid;
+      gap: 12px;
     }
 
-    textarea {
-      width: 100%;
-      min-height: 190px;
-      resize: vertical;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: rgba(8, 11, 16, 0.82);
+    .insight {
+      display: grid;
+      gap: 4px;
+      border-bottom: 1px solid rgba(38, 48, 66, 0.72);
+      padding-bottom: 12px;
+    }
+
+    .insight:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .insight strong {
       color: var(--text);
-      padding: 14px;
-      direction: ltr;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 12px;
-      outline: none;
+      font-size: 15px;
     }
 
-    textarea:focus {
-      border-color: rgba(96, 165, 250, 0.78);
+    .insight span {
+      color: var(--muted);
+      font-size: 13px;
     }
 
     .hint {
@@ -361,7 +346,6 @@
 
     @media (max-width: 900px) {
       .topbar,
-      .connect,
       .content,
       .split,
       .donut-wrap {
@@ -372,22 +356,9 @@
         display: grid;
       }
 
-      .actions {
-        justify-content: stretch;
-      }
-
-      .btn,
-      .file-btn {
-        flex: 1;
-      }
-
       .stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-    }
-
-    html.local-auto .connect {
-      display: none;
     }
 
     @media (max-width: 560px) {
@@ -418,24 +389,10 @@
         <div class="mark" aria-hidden="true">M</div>
         <div>
           <h1>لوحة زيارات mahmoud.jp</h1>
-          <p class="subtitle">ملف محلي خاص بيك لمتابعة الزوار والمصادر والبلاد والصفحات.</p>
+          <p class="subtitle" id="statusText">جاري تحديث الأرقام الحقيقية من الموقع...</p>
         </div>
       </div>
-      <div class="actions">
-        <label class="file-btn" title="ارفع ملف CSV مصدر من Vercel Analytics">
-          <span>رفع CSV</span>
-          <input id="csvInput" type="file" accept=".csv,text/csv" />
-        </label>
-        <button class="btn" id="saveBtn" type="button" title="يحفظ البيانات في المتصفح المحلي">حفظ</button>
-        <button class="btn" id="resetBtn" type="button" title="يرجع بيانات تجريبية">تجربة</button>
-      </div>
     </header>
-
-    <section class="connect" aria-label="ربط الداشبورد بالموقع">
-      <input class="input" id="apiUrl" type="url" dir="ltr" placeholder="https://mahmoud.jp/api/analytics/summary" />
-      <input class="input" id="apiKey" type="password" dir="ltr" placeholder="Dashboard key" />
-      <button class="btn" id="refreshBtn" type="button">تحديث تلقائي</button>
-    </section>
 
     <section class="grid stats" aria-label="ملخص الزيارات">
       <article class="card stat">
@@ -458,6 +415,16 @@
         <p class="stat-value" id="topCountry">-</p>
         <p class="stat-note" id="countryNote">حسب عدد الزوار</p>
       </article>
+      <article class="card stat">
+        <p class="stat-label">صفحات لكل زائر</p>
+        <p class="stat-value" id="viewsPerVisitor">0</p>
+        <p class="stat-note">مؤشر اهتمام الزائر</p>
+      </article>
+      <article class="card stat">
+        <p class="stat-label">صفحات عليها زيارات</p>
+        <p class="stat-value" id="activePages">0</p>
+        <p class="stat-note">عدد الصفحات التي ظهرت في الإحصائيات</p>
+      </article>
     </section>
 
     <section class="grid content">
@@ -465,7 +432,7 @@
         <article class="card panel">
           <div class="panel-head">
             <h2 class="panel-title">أعلى الصفحات</h2>
-            <span class="panel-meta">Pages</span>
+            <span class="panel-meta">الأسماء بدل الروابط</span>
           </div>
           <div class="bars" id="pages"></div>
         </article>
@@ -491,6 +458,14 @@
       <aside class="grid">
         <article class="card panel">
           <div class="panel-head">
+            <h2 class="panel-title">ملخص سريع</h2>
+            <span class="panel-meta">Insights</span>
+          </div>
+          <div class="insights" id="insights"></div>
+        </article>
+
+        <article class="card panel">
+          <div class="panel-head">
             <h2 class="panel-title">الأجهزة</h2>
             <span class="panel-meta">Devices</span>
           </div>
@@ -499,83 +474,65 @@
             <div class="legend" id="devices"></div>
           </div>
         </article>
-
-        <article class="card panel editor">
-          <div class="panel-head">
-            <h2 class="panel-title">تعديل البيانات</h2>
-            <span class="panel-meta">JSON</span>
-          </div>
-          <textarea id="dataEditor" spellcheck="false"></textarea>
-          <p class="hint" id="statusText">تقدر تضغط تحديث تلقائي بعد ضبط المفتاح. رفع CSV والتعديل اليدوي موجودين كاختيارات احتياطية.</p>
-        </article>
       </aside>
     </section>
 
-    <p class="footer-note">الملف ده محلي وخاص بيك. القراءة التلقائية تحتاج Redis متوصل بالموقع وANALYTICS_DASHBOARD_KEY في Vercel.</p>
+    <p class="footer-note">الأرقام من نظام الإحصائيات الخاص بالموقع، وتتحدث تلقائياً عند فتح الملف.</p>
   </main>
 
-  <script>
-    const sampleData = {
+<script>
+    const emptyData = {
       updatedAt: new Date().toISOString().slice(0, 10),
-      visitors: 128,
-      pageViews: 312,
-      pages: [
-        { label: "/", value: 164 },
-        { label: "/projects", value: 58 },
-        { label: "/writing", value: 37 },
-        { label: "/uses", value: 26 },
-        { label: "/projects/dtp-master", value: 27 }
-      ],
-      referrers: [
-        { label: "Google", value: 61 },
-        { label: "LinkedIn", value: 34 },
-        { label: "Direct", value: 22 },
-        { label: "GitHub", value: 11 }
-      ],
-      countries: [
-        { label: "Japan", value: 72 },
-        { label: "Egypt", value: 28 },
-        { label: "United States", value: 15 },
-        { label: "Saudi Arabia", value: 13 }
-      ],
-      devices: [
-        { label: "Desktop", value: 64 },
-        { label: "Mobile", value: 48 },
-        { label: "Tablet", value: 12 },
-        { label: "Other", value: 4 }
-      ]
+      visitors: 0,
+      pageViews: 0,
+      pages: [],
+      referrers: [],
+      countries: [],
+      devices: []
     };
 
     const colors = ["#60a5fa", "#34d399", "#f59e0b", "#fb7185"];
     const storageKey = "mahmoud-local-analytics";
-    const settingsKey = "mahmoud-analytics-settings";
     const bundledSettings = {
       apiUrl: "https://mahmoud.jp/api/analytics/summary",
       apiKey: "",
       autoRefresh: false
     };
 
-    if (bundledSettings.autoRefresh) {
-      document.documentElement.classList.add("local-auto");
-    }
+    const pageNames = {
+      "/": "الرئيسية",
+      "/projects": "المشاريع",
+      "/writing": "الكتابة",
+      "/uses": "الأدوات التي أستخدمها",
+      "/projects/dtp-master": "مشروع DTP Master"
+    };
+
+    const countryNames = {
+      JP: "اليابان",
+      EG: "مصر",
+      US: "الولايات المتحدة",
+      SA: "السعودية",
+      AE: "الإمارات",
+      GB: "المملكة المتحدة",
+      DE: "ألمانيا",
+      FR: "فرنسا",
+      Unknown: "غير معروف"
+    };
+
     const els = {
       visitors: document.querySelector("#visitors"),
       pageViews: document.querySelector("#pageViews"),
       topReferrer: document.querySelector("#topReferrer"),
       topCountry: document.querySelector("#topCountry"),
+      viewsPerVisitor: document.querySelector("#viewsPerVisitor"),
+      activePages: document.querySelector("#activePages"),
       visitorsNote: document.querySelector("#visitorsNote"),
       pages: document.querySelector("#pages"),
       referrers: document.querySelector("#referrers"),
       countries: document.querySelector("#countries"),
       devices: document.querySelector("#devices"),
       donut: document.querySelector("#deviceDonut"),
-      editor: document.querySelector("#dataEditor"),
-      csvInput: document.querySelector("#csvInput"),
-      saveBtn: document.querySelector("#saveBtn"),
-      resetBtn: document.querySelector("#resetBtn"),
-      apiUrl: document.querySelector("#apiUrl"),
-      apiKey: document.querySelector("#apiKey"),
-      refreshBtn: document.querySelector("#refreshBtn"),
+      insights: document.querySelector("#insights"),
       statusText: document.querySelector("#statusText")
     };
 
@@ -595,14 +552,42 @@
         .slice(0, 8);
     }
 
-    function renderBars(target, items) {
+    function pageLabel(path) {
+      if (pageNames[path]) return pageNames[path];
+      if (!path || path === "Unknown") return "صفحة غير معروفة";
+      return path
+        .replace(/^\/+/, "")
+        .split("/")
+        .filter(Boolean)
+        .map((part) => part.replaceAll("-", " "))
+        .join(" / ") || "الرئيسية";
+    }
+
+    function referrerLabel(referrer) {
+      if (!referrer || referrer === "Direct") return "دخول مباشر";
+      if (referrer === "Internal") return "من داخل الموقع";
+      return referrer.replace(/^www\./, "");
+    }
+
+    function countryLabel(country) {
+      return countryNames[country] || country;
+    }
+
+    function renderBars(target, items, formatLabel = (label) => label) {
       const rows = normalizeItems(items);
       const max = Math.max(...rows.map((item) => item.value), 1);
+
+      if (!rows.length) {
+        target.innerHTML = `<div class="hint">لا توجد بيانات كافية حتى الآن.</div>`;
+        return;
+      }
+
       target.innerHTML = rows.map((item) => {
         const width = Math.max(4, Math.round((item.value / max) * 100));
+        const label = formatLabel(item.label);
         return `
           <div class="bar-row">
-            <div class="bar-label" title="${escapeHtml(item.label)}">${escapeHtml(item.label)}</div>
+            <div class="bar-label" title="${escapeHtml(item.label)}">${escapeHtml(label)}</div>
             <div class="bar-track"><div class="bar-fill" style="--w:${width}%"></div></div>
             <div class="bar-value">${number(item.value)}</div>
           </div>
@@ -613,6 +598,15 @@
     function renderDevices(items) {
       const rows = normalizeItems(items).slice(0, 4);
       const total = Math.max(rows.reduce((sum, item) => sum + item.value, 0), 1);
+
+      if (!rows.length) {
+        els.devices.innerHTML = `<div class="hint">لا توجد بيانات أجهزة حتى الآن.</div>`;
+        els.donut.style.setProperty("--a", "25%");
+        els.donut.style.setProperty("--b", "50%");
+        els.donut.style.setProperty("--c", "75%");
+        return;
+      }
+
       let cursor = 0;
       const stops = rows.map((item) => {
         cursor += (item.value / total) * 100;
@@ -629,20 +623,58 @@
       `).join("");
     }
 
+    function renderInsights(data, summary) {
+      const direct = data.referrers.find((item) => item.label === "Direct")?.value || 0;
+      const referral = Math.max(data.pageViews - direct, 0);
+      const mobile = data.devices.find((item) => item.label === "Mobile")?.value || 0;
+      const mobileShare = data.pageViews ? Math.round((mobile / data.pageViews) * 100) : 0;
+      const items = [
+        {
+          title: summary.topPage.value ? `أكثر صفحة اهتماماً: ${pageLabel(summary.topPage.label)}` : "لسه مفيش صفحة متصدرة",
+          text: summary.topPage.value ? `${number(summary.topPage.value)} مشاهدة للصفحة دي.` : "الأرقام هتظهر هنا بعد أول زيارات حقيقية."
+        },
+        {
+          title: `مصادر خارجية: ${number(referral)}`,
+          text: direct ? `وفي المقابل ${number(direct)} دخول مباشر.` : "لسه الدخول المباشر قليل أو غير ظاهر."
+        },
+        {
+          title: `نسبة الموبايل: ${number(mobileShare)}%`,
+          text: "مفيد تعرف هل الزوار محتاجين تجربة موبايل أقوى."
+        },
+        {
+          title: `متوسط التصفح: ${summary.viewsPerVisitor.toFixed(1)} صفحة لكل زائر`,
+          text: summary.viewsPerVisitor >= 2 ? "الزائر بيتنقل بين أكتر من صفحة." : "لو الرقم زاد، ده معناه إن الناس بتستكشف الموقع أكتر."
+        }
+      ];
+
+      els.insights.innerHTML = items.map((item) => `
+        <div class="insight">
+          <strong>${escapeHtml(item.title)}</strong>
+          <span>${escapeHtml(item.text)}</span>
+        </div>
+      `).join("");
+    }
+
     function render(data) {
       const clean = sanitizeData(data);
       const topReferrer = topOf(clean.referrers);
       const topCountry = topOf(clean.countries);
+      const topPage = topOf(clean.pages);
+      const viewsPerVisitor = clean.visitors ? clean.pageViews / clean.visitors : 0;
+
       els.visitors.textContent = number(clean.visitors);
       els.pageViews.textContent = number(clean.pageViews);
-      els.topReferrer.textContent = topReferrer.label;
-      els.topCountry.textContent = topCountry.label;
+      els.topReferrer.textContent = referrerLabel(topReferrer.label);
+      els.topCountry.textContent = countryLabel(topCountry.label);
+      els.viewsPerVisitor.textContent = viewsPerVisitor.toFixed(1);
+      els.activePages.textContent = number(clean.pages.length);
       els.visitorsNote.textContent = `آخر تحديث: ${clean.updatedAt || "محلي"}`;
-      renderBars(els.pages, clean.pages);
-      renderBars(els.referrers, clean.referrers);
-      renderBars(els.countries, clean.countries);
+
+      renderBars(els.pages, clean.pages, pageLabel);
+      renderBars(els.referrers, clean.referrers, referrerLabel);
+      renderBars(els.countries, clean.countries, countryLabel);
       renderDevices(clean.devices);
-      els.editor.value = JSON.stringify(clean, null, 2);
+      renderInsights(clean, { topPage, topReferrer, topCountry, viewsPerVisitor });
     }
 
     function sanitizeData(data) {
@@ -666,108 +698,12 @@
       els.statusText.textContent = message;
     }
 
-    function loadSettings() {
-      try {
-        return { ...bundledSettings, ...(JSON.parse(localStorage.getItem(settingsKey)) || {}) };
-      } catch {
-        return bundledSettings;
-      }
-    }
-
-    function saveSettings() {
-      localStorage.setItem(settingsKey, JSON.stringify({
-        apiUrl: els.apiUrl.value.trim(),
-        apiKey: els.apiKey.value
-      }));
-    }
-
     function load() {
       try {
-        return JSON.parse(localStorage.getItem(storageKey)) || sampleData;
+        return JSON.parse(localStorage.getItem(storageKey)) || emptyData;
       } catch {
-        return sampleData;
+        return emptyData;
       }
-    }
-
-    function parseCSV(text) {
-      const rows = [];
-      let row = [];
-      let field = "";
-      let quoted = false;
-      for (let i = 0; i < text.length; i += 1) {
-        const char = text[i];
-        const next = text[i + 1];
-        if (char === '"' && quoted && next === '"') {
-          field += '"';
-          i += 1;
-        } else if (char === '"') {
-          quoted = !quoted;
-        } else if (char === "," && !quoted) {
-          row.push(field.trim());
-          field = "";
-        } else if ((char === "\n" || char === "\r") && !quoted) {
-          if (field || row.length) {
-            row.push(field.trim());
-            rows.push(row);
-          }
-          row = [];
-          field = "";
-          if (char === "\r" && next === "\n") i += 1;
-        } else {
-          field += char;
-        }
-      }
-      if (field || row.length) {
-        row.push(field.trim());
-        rows.push(row);
-      }
-      return rows;
-    }
-
-    function csvToData(text) {
-      const rows = parseCSV(text).filter((row) => row.some(Boolean));
-      if (rows.length < 2) return load();
-      const headers = rows[0].map((header) => header.toLowerCase());
-      const body = rows.slice(1);
-      const findIndex = (names) => headers.findIndex((header) => names.some((name) => header.includes(name)));
-      const valueIndex = findIndex(["visitors", "visitor", "page views", "views", "events", "count"]);
-      const pageIndex = findIndex(["page", "path", "url"]);
-      const countryIndex = findIndex(["country", "location", "region"]);
-      const referrerIndex = findIndex(["referrer", "source", "referer"]);
-      const deviceIndex = findIndex(["device", "os", "browser"]);
-
-      const sumBy = (index) => {
-        const map = new Map();
-        if (index < 0) return [];
-        body.forEach((row) => {
-          const label = row[index] || "Unknown";
-          const rawValue = valueIndex >= 0 ? row[valueIndex] : "1";
-          const value = Number(String(rawValue).replace(/[^0-9.-]/g, "")) || 1;
-          map.set(label, (map.get(label) || 0) + value);
-        });
-        return [...map.entries()].map(([label, value]) => ({ label, value }));
-      };
-
-      const pages = sumBy(pageIndex);
-      const countries = sumBy(countryIndex);
-      const referrers = sumBy(referrerIndex);
-      const devices = sumBy(deviceIndex);
-      const pageViews = pages.reduce((sum, item) => sum + item.value, 0);
-      const visitors = Math.max(
-        countries.reduce((sum, item) => sum + item.value, 0),
-        referrers.reduce((sum, item) => sum + item.value, 0),
-        pageViews
-      );
-
-      return sanitizeData({
-        updatedAt: new Date().toISOString().slice(0, 10),
-        visitors,
-        pageViews,
-        pages: pages.length ? pages : load().pages,
-        referrers: referrers.length ? referrers : load().referrers,
-        countries: countries.length ? countries : load().countries,
-        devices: devices.length ? devices : load().devices
-      });
     }
 
     function escapeHtml(value) {
@@ -778,40 +714,15 @@
         .replaceAll('"', "&quot;");
     }
 
-    els.saveBtn.addEventListener("click", () => {
-      try {
-        save(JSON.parse(els.editor.value));
-        setStatus("تم حفظ البيانات محلياً.");
-      } catch {
-        alert("صيغة JSON فيها مشكلة. راجع الفواصل والأقواس.");
-      }
-    });
-
-    els.resetBtn.addEventListener("click", () => {
-      save(sampleData);
-      setStatus("تم تحميل بيانات تجريبية.");
-    });
-
-    els.csvInput.addEventListener("change", async (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
-      const text = await file.text();
-      save(csvToData(text));
-      setStatus("تم تحديث الداشبورد من ملف CSV.");
-      event.target.value = "";
-    });
-
     async function refreshFromSite() {
-      const apiUrl = els.apiUrl.value.trim();
-      const apiKey = els.apiKey.value;
+      const apiUrl = bundledSettings.apiUrl;
+      const apiKey = bundledSettings.apiKey;
       if (!apiUrl || !apiKey) {
-        setStatus("اكتب رابط API والمفتاح الأول.");
+        setStatus("استخدم النسخة المحلية الخاصة لعرض الأرقام تلقائياً.");
         return false;
       }
 
-      saveSettings();
-      els.refreshBtn.disabled = true;
-      setStatus("جاري جلب البيانات من الموقع...");
+      setStatus("جاري تحديث الأرقام الحقيقية من الموقع...");
 
       try {
         const response = await fetch(apiUrl, {
@@ -825,26 +736,19 @@
 
         const data = await response.json();
         save(data);
-        setStatus("تم تحديث البيانات تلقائياً من الموقع.");
+        setStatus("تم التحديث الآن من mahmoud.jp.");
         return true;
       } catch (error) {
-        setStatus("فشل التحديث. راجع الرابط والمفتاح وإعدادات Vercel Redis.");
+        setStatus("فشل التحديث من الموقع. آخر بيانات محفوظة ظاهرة حالياً.");
         return false;
-      } finally {
-        els.refreshBtn.disabled = false;
       }
     }
 
-    els.refreshBtn.addEventListener("click", async () => {
-      await refreshFromSite();
-    });
-
-    const settings = loadSettings();
-    els.apiUrl.value = settings.apiUrl || bundledSettings.apiUrl;
-    els.apiKey.value = settings.apiKey || "";
-    render(load());
-    if (settings.autoRefresh && settings.apiKey) {
+    if (bundledSettings.autoRefresh && bundledSettings.apiKey) {
+      render(emptyData);
       refreshFromSite();
+    } else {
+      render(load());
     }
   </script>
 </body>
