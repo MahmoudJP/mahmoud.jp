@@ -99,8 +99,18 @@ The site was redeployed to Production after Redis was connected.
 Open:
 
 ```text
+analytics-dashboard.local.html
+```
+
+This private local file contains the dashboard key from `.env.local`, auto-refreshes on open, and is ignored by Git.
+
+The safe shareable template is:
+
+```text
 analytics-dashboard.html
 ```
+
+It does not contain the private key and requires entering the key manually.
 
 Use:
 
