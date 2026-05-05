@@ -7,6 +7,10 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
       },
+      {
+        userAgent: ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "Google-Extended"],
+        allow: "/",
+      },
     ],
     sitemap: "https://mahmoud.jp/sitemap.xml",
     host: "https://mahmoud.jp",
