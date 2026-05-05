@@ -386,6 +386,10 @@
       }
     }
 
+    html.local-auto .connect {
+      display: none;
+    }
+
     @media (max-width: 560px) {
       .shell {
         width: min(100% - 20px, 1180px);
@@ -545,6 +549,15 @@
     const colors = ["#60a5fa", "#34d399", "#f59e0b", "#fb7185"];
     const storageKey = "mahmoud-local-analytics";
     const settingsKey = "mahmoud-analytics-settings";
+    const bundledSettings = {
+      apiUrl: "https://mahmoud.jp/api/analytics/summary",
+      apiKey: "",
+      autoRefresh: false
+    };
+
+    if (bundledSettings.autoRefresh) {
+      document.documentElement.classList.add("local-auto");
+    }
     const els = {
       visitors: document.querySelector("#visitors"),
       pageViews: document.querySelector("#pageViews"),
@@ -655,9 +668,9 @@
 
     function loadSettings() {
       try {
-        return JSON.parse(localStorage.getItem(settingsKey)) || {};
+        return { ...bundledSettings, ...(JSON.parse(localStorage.getItem(settingsKey)) || {}) };
       } catch {
-        return {};
+        return bundledSettings;
       }
     }
 
@@ -788,12 +801,12 @@
       event.target.value = "";
     });
 
-    els.refreshBtn.addEventListener("click", async () => {
+    async function refreshFromSite() {
       const apiUrl = els.apiUrl.value.trim();
       const apiKey = els.apiKey.value;
       if (!apiUrl || !apiKey) {
         setStatus("اكتب رابط API والمفتاح الأول.");
-        return;
+        return false;
       }
 
       saveSettings();
@@ -813,17 +826,26 @@
         const data = await response.json();
         save(data);
         setStatus("تم تحديث البيانات تلقائياً من الموقع.");
+        return true;
       } catch (error) {
         setStatus("فشل التحديث. راجع الرابط والمفتاح وإعدادات Vercel Redis.");
+        return false;
       } finally {
         els.refreshBtn.disabled = false;
       }
+    }
+
+    els.refreshBtn.addEventListener("click", async () => {
+      await refreshFromSite();
     });
 
     const settings = loadSettings();
-    els.apiUrl.value = settings.apiUrl || "https://mahmoud.jp/api/analytics/summary";
+    els.apiUrl.value = settings.apiUrl || bundledSettings.apiUrl;
     els.apiKey.value = settings.apiKey || "";
     render(load());
+    if (settings.autoRefresh && settings.apiKey) {
+      refreshFromSite();
+    }
   </script>
 </body>
 </html>
