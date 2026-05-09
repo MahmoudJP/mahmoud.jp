@@ -64,7 +64,7 @@ export function IntroSplash() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.9 }}
-              className="text-base text-neutral-300 md:text-lg"
+              className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-neutral-50 to-neutral-400 md:text-5xl lg:text-6xl"
             >
               {t.name}
             </motion.p>
