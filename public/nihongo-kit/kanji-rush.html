@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kanji Rush | Nihongo Kit</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="rush-body">
+    <div class="noise"></div>
+    <header class="site-header">
+      <a class="brand" href="index.html"><span>日</span><strong>Nihongo Kit</strong></a>
+      <nav class="nav"><a href="/" class="back-portfolio">↩ Portfolio</a>
+        <a href="jobs.html">الشغل</a>
+        <a href="translators.html">المترجمين</a>
+        <a class="active" href="games.html">الألعاب</a>
+        <a href="roadmap.html">خريطة المذاكرة</a>
+        <a href="apps.html">التطبيقات</a>
+        <a href="links.html">روابط مهمة</a>
+      </nav>
+    </header>
+
+    <main class="rush-page">
+      <section class="rush-hero">
+        <div>
+          <p class="kicker">KANJI RUSH</p>
+          <h1>اقرأ الكلمة قبل ما تخترق البوابة.</h1>
+          <p>
+            الكلمات بتنزل من أعلى. اسحب القراءة الصحيحة من الاختيارات وارميها على كلمة الكانجي:
+            <strong>漢字 = かんじ</strong>. كل ضربة صحيحة تزود الكومبو وتفتح كلمات أصعب.
+            الكلمات الحالية من مستوى N5 و N4.
+          </p>
+        </div>
+        <div class="rush-stats">
+          <div><span>Score</span><strong id="rushScore">0</strong></div>
+          <div><span>Combo</span><strong id="rushCombo">0</strong></div>
+          <div><span>Level</span><strong id="rushLevel">1</strong></div>
+          <div><span>Shield</span><strong id="rushLives">5</strong></div>
+        </div>
+      </section>
+
+      <section class="rush-layout">
+        <aside class="rush-side panel">
+          <h2>طريقة اللعب</h2>
+          <ul class="clean-list">
+            <li>اسحب القراءة من الأسفل.</li>
+            <li>ارميها على كلمة الكانجي الصح.</li>
+            <li>مثال: 日本 ترمي عليها にほん.</li>
+            <li>لو رميت غلط الكومبو يرجع صفر.</li>
+          </ul>
+          <div class="rush-controls">
+            <button class="button primary" id="startRush" type="button">ابدأ</button>
+            <button class="button ghost dark" id="pauseRush" type="button">إيقاف مؤقت</button>
+            <button class="button ghost dark" id="resetRush" type="button">إعادة</button>
+          </div>
+          <div class="rush-settings">
+            <h3>الإعدادات</h3>
+            <label class="range-setting">
+              السرعة
+              <input id="speedSetting" type="range" min="70" max="150" value="95" />
+              <span id="speedValue">95%</span>
+            </label>
+            <div class="level-setting" aria-label="اختيار مستويات الكلمات">
+              <label><input class="jlpt-level" type="checkbox" value="N5" checked /> N5</label>
+              <label><input class="jlpt-level" type="checkbox" value="N4" checked /> N4</label>
+            </div>
+          </div>
+          <div class="rush-last">
+            <span>آخر كلمة</span>
+            <strong id="lastCleared">جاهز؟</strong>
+          </div>
+        </aside>
+
+        <section class="rush-game panel">
+          <div class="rush-arena" id="rushArena" aria-label="منطقة لعبة Kanji Rush">
+            <div class="lane-grid"></div>
+            <div class="gate-line"><span>読め!</span></div>
+            <div class="rush-overlay" id="rushOverlay">
+              <strong>Kanji Rush</strong>
+              <span>اضغط ابدأ واسحب القراءة على الكانجي</span>
+            </div>
+          </div>
+          <div class="reading-dock" id="readingDock" aria-label="اختيارات قراءة الكانجي">
+            <div class="dock-hint">اسحب القراءة وارميها على الكلمة</div>
+            <div class="reading-options" id="readingOptions"></div>
+          </div>
+          <p class="rush-message" id="rushMessage">ابدأ بهدوء. السرعة هتعلى مع كل مستوى.</p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>اللعبة تركز على قراءة كلمات الكانجي. المعنى يثبت بعد القراءة، مش قبلها.</span>
+      <a href="games.html">رجوع للألعاب</a>
+    </footer>
+
+    <script src="kanji-rush.js"></script>
+  </body>
+</html>

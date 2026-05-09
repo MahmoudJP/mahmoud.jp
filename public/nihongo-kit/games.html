@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ألعاب الياباني | Nihongo Kit</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header class="site-header">
+      <a class="brand" href="index.html"><span>日</span><strong>Nihongo Kit</strong></a>
+      <nav class="nav"><a href="/" class="back-portfolio">↩ Portfolio</a>
+        <a href="jobs.html">الشغل</a>
+        <a href="translators.html">المترجمين</a>
+        <a class="active" href="games.html">الألعاب</a>
+        <a href="roadmap.html">خريطة المذاكرة</a>
+        <a href="apps.html">التطبيقات</a>
+        <a href="links.html">روابط مهمة</a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <section class="page-hero compact">
+        <p class="kicker">PLAY NIHONGO</p>
+        <h1>ألعاب صغيرة تخلي الياباني يثبت</h1>
+        <p>أربع ألعاب سريعة: كانا، مفردات، particles، وكانجي. كل سؤال يتغير فورا والنتيجة قدامك.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="kanji-rush.html">افتح Kanji Rush</a>
+          <a class="button ghost" href="kanji-grid.html">افتح Kanji Match Grid</a>
+          <a class="button ghost" href="#mini-games">الألعاب السريعة</a>
+        </div>
+      </section>
+
+      <section class="feature-callout">
+        <div>
+          <p class="kicker">NEW GAME</p>
+          <h2>Kanji Rush: اكتب قراءة الكلمة قبل ما توصل للبوابة</h2>
+          <p>
+            لعبة فعلية للمتصفح: كلمات كانجي بتنزل بسرعة، وانت تكتب النطق مثل かんじ أو romaji مثل kanji.
+            فيها combo، مستويات، أرواح، وتدريب مباشر على قراءة الكلمات.
+          </p>
+        </div>
+        <a class="button primary" href="kanji-rush.html">العب الآن</a>
+      </section>
+
+      <section class="feature-callout grid-callout">
+        <div>
+          <p class="kicker">GRID GAME</p>
+          <h2>Kanji Match Grid: ركب القراءة فوق الكانجي الصح</h2>
+          <p>
+            شبكة مربعات كانجي جاهزة. اسحب قراءة الهيراغانا من تحت وارميها على المربع الصح.
+            المربع ينفجر، ومربع جديد ينزل من فوق لمكانه. تقدر كمان تبدل أماكن المربعات داخل الشبكة.
+          </p>
+        </div>
+        <a class="button primary" href="kanji-grid.html">العب الشبكة</a>
+      </section>
+
+      <section class="game-shell" id="mini-games">
+        <div class="game-menu">
+          <button class="game-tab active" data-game="kana" type="button">كانا سريع</button>
+          <button class="game-tab" data-game="meaning" type="button">معنى الكلمة</button>
+          <button class="game-tab" data-game="particle" type="button">اختار الأداة</button>
+          <button class="game-tab" data-game="kanji" type="button">كانجي</button>
+        </div>
+        <div class="game-board">
+          <div class="game-top"><span id="gameName">كانا سريع</span><strong id="gameScore">0 / 0</strong></div>
+          <div class="game-question" id="gameQuestion"></div>
+          <div class="game-options" id="gameOptions"></div>
+          <p class="game-feedback" id="gameFeedback"></p>
+          <button class="button primary" id="nextGameQuestion" type="button">سؤال جديد</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer"><span>الألعاب للتدريب السريع. المراجعة اليومية أهم من جلسة طويلة كل أسبوع.</span><a href="index.html">الرئيسية</a></footer>
+    <script src="script.js"></script>
+  </body>
+</html>

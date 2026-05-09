@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight, Sparkles, Construction } from "lucide-react";
@@ -11,6 +12,8 @@ import { useT } from "@/lib/i18n";
 
 type Project = {
   slug?: string;
+  href?: string;
+  external?: boolean;
   name: string;
   tagline: string;
   status: string;
@@ -34,6 +37,13 @@ const t = {
         year: "2025 — Present",
         description: "A Windows desktop app bundling the everyday workflow of a DTP operator — PDF comparison, Smart QC, Arabic mirror checking, font fixing, delivery packaging. One signed, auto-updating tool replacing a dozen scattered utilities.",
       },
+      {
+        href: "/nihongo-kit/",
+        name: "Nihongo Kit",
+        tagline: "Arabic-language starter kit for Japanese learners",
+        year: "2025 — Present",
+        description: "A practical hub for Arabic speakers studying Japanese — job sites in Japan, translator profiles, language apps, an N0-to-N1 roadmap, and interactive games (Kanji Rush, Kanji Grid). Static, fast, and fully responsive.",
+      },
     ],
     ideas: [
       "A web-based QC dashboard for Arabic/Japanese translation teams.",
@@ -54,6 +64,13 @@ const t = {
         tagline: "DTPプロフェッショナル向けのオールインワン デスクトップツール",
         year: "2025年 — 現在",
         description: "DTPオペレーターの日常業務をまとめたWindowsデスクトップアプリ。PDF比較、スマートQC、アラビア語ミラーチェック、フォント修復、納品パッケージングなどを1つのアプリに集約。署名済み・自動アップデート対応で、散在していた十数個のユーティリティを置き換えます。",
+      },
+      {
+        href: "/nihongo-kit/",
+        name: "Nihongo Kit",
+        tagline: "日本語学習者向けのアラビア語スターターキット",
+        year: "2025年 — 現在",
+        description: "アラビア語話者の日本語学習者向けの実用ハブ。日本の求人サイト、翻訳者プロフィール、言語アプリ、N0からN1までのロードマップ、インタラクティブゲーム(Kanji Rush・Kanji Grid)を収録。静的・高速・レスポンシブ対応。",
       },
     ],
     ideas: [
@@ -76,6 +93,13 @@ const t = {
         year: "2025 — حتى الآن",
         description: "تطبيق سطح مكتب لـWindows يجمع كل مهام مشغّل الـDTP اليومية — مقارنة PDF، مراجعة ذكية، فحص مرآة للعربية، إصلاح الخطوط، تغليف التسليم. أداة واحدة موقّعة ذاتية التحديث تحل محل عشرات الأدوات المبعثرة.",
       },
+      {
+        href: "/nihongo-kit/",
+        name: "Nihongo Kit",
+        tagline: "دليل عربي عملي لدارسي اللغة اليابانية",
+        year: "2025 — حتى الآن",
+        description: "منصة عملية لدارسي اليابانية بالعربي — مواقع شغل في اليابان، بروفايلات مترجمين، تطبيقات لغة، خريطة مذاكرة من الصفر للـN1، وألعاب تفاعلية (Kanji Rush و Kanji Grid). موقع ثابت سريع ومتجاوب.",
+      },
     ],
     ideas: [
       "لوحة تحكم جودة ويب لفرق الترجمة العربية/اليابانية.",
@@ -88,10 +112,15 @@ const t = {
 export default function ProjectsPage() {
   const text = useT(t);
 
+  const accents = [
+    "from-cyan-500/20 via-blue-500/10 to-transparent",
+    "from-blue-500/20 via-violet-500/10 to-transparent",
+  ];
+
   const projects: Project[] = text.projects.map((p, i) => ({
     ...p,
     status: text.statusInDev,
-    accent: ["from-cyan-500/20 via-blue-500/10 to-transparent"][i] ?? "",
+    accent: accents[i] ?? accents[0],
   }));
 
   return (
@@ -145,9 +174,14 @@ export default function ProjectsPage() {
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ delay: 0.1 + i * 0.1, duration: 0.6 }}
               >
-                {p.slug && (
-                  <Link
-                    href={`/projects/${p.slug}`}
+                {(() => {
+                  const linkHref = p.slug ? `/projects/${p.slug}` : p.href;
+                  if (!linkHref) return null;
+                  const LinkComp: React.ElementType = p.slug ? Link : "a";
+                  const linkProps = p.slug ? { href: linkHref } : { href: linkHref };
+                  return (
+                  <LinkComp
+                    {...linkProps}
                     className="group relative block rounded-2xl overflow-hidden border border-gray-800 bg-[#0f0f14] hover:border-cyan-500/40 transition-colors duration-300"
                   >
                     <div className={`absolute inset-0 bg-gradient-to-br ${p.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
@@ -173,8 +207,9 @@ export default function ProjectsPage() {
                       <p className="text-gray-300 mb-3">{p.tagline}</p>
                       <p className="text-gray-500 text-sm leading-relaxed">{p.description}</p>
                     </div>
-                  </Link>
-                )}
+                  </LinkComp>
+                  );
+                })()}
               </motion.div>
             ))}
           </div>
