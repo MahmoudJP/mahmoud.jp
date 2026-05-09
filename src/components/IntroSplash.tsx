@@ -6,9 +6,9 @@ import { SparklesCore } from "@/components/ui/sparkles";
 import { useT } from "@/lib/i18n";
 
 const copy = {
-  en: { greeting: "Welcome", name: "I'm Mahmoud Adel" },
-  ja: { greeting: "ようこそ", name: "マフムード・アーデル" },
-  ar: { greeting: "أهلاً وسهلاً", name: "أنا محمود عادل" },
+  en: { greeting: "Three languages.", name: "One story." },
+  ja: { greeting: "三つの言語、", name: "一つの物語。" },
+  ar: { greeting: "بين ثلاث لغات…", name: "قصة واحدة" },
 };
 
 export function IntroSplash() {
