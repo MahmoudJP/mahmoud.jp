@@ -3,6 +3,7 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Home as HomeIcon, FolderGit2, Wrench, Mail, PenLine } from "lucide-react";
 import { useT } from "@/lib/i18n";
 import { LocaleToggle } from "@/components/LocaleToggle";
@@ -49,9 +50,23 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2">
         <Link
           href="/"
-          className="hidden sm:inline text-xl font-bold bg-gradient-to-r from-blue-400 to-blue-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity shrink-0"
+          className="hidden sm:flex items-center gap-2 hover:opacity-80 transition-opacity shrink-0"
+          aria-label="Home"
         >
-          MA
+          <span className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-[2px] shadow-md shadow-blue-500/20 isolate">
+            <span className="block w-full h-full rounded-full overflow-hidden relative [transform:translateZ(0)]">
+              <Image
+                src="/mahmoud-cropped.jpg"
+                alt="Mahmoud Adel"
+                fill
+                sizes="32px"
+                className="object-cover scale-105 contrast-[1.05] brightness-[1.1]"
+              />
+            </span>
+          </span>
+          <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-blue-400 bg-clip-text text-transparent">
+            MA
+          </span>
         </Link>
 
         <div className="relative flex items-center gap-0.5 rounded-full border border-gray-800/80 bg-[#0d0d12]/70 backdrop-blur-md p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.02)_inset]">

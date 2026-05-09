@@ -11,12 +11,25 @@ const copy = {
   ar: { greeting: "بين ثلاث لغات…", name: "قصة واحدة" },
 };
 
+const SEEN_KEY = "mahmoud-jp-intro-seen";
+
 export function IntroSplash() {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const t = useT(copy);
 
   useEffect(() => {
+    let alreadySeen = false;
+    try {
+      alreadySeen = window.sessionStorage.getItem(SEEN_KEY) === "1";
+    } catch {}
+    if (alreadySeen) return;
+
+    setShow(true);
     document.body.style.overflow = "hidden";
+    try {
+      window.sessionStorage.setItem(SEEN_KEY, "1");
+    } catch {}
+
     const timer = setTimeout(() => setShow(false), 3200);
     return () => clearTimeout(timer);
   }, []);
