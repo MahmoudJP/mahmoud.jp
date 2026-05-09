@@ -5,9 +5,9 @@ const jobSearch = $("#jobSearch");
 if (jobSearch) {
   jobSearch.addEventListener("input", () => {
     const query = jobSearch.value.trim().toLowerCase();
-    $$("#jobList .resource-block").forEach((card) => {
-      const haystack = `${card.textContent} ${card.dataset.search}`.toLowerCase();
-      card.classList.toggle("hidden", query && !haystack.includes(query));
+    $$("#jobList tbody tr, #jobList .resource-block").forEach((row) => {
+      const haystack = `${row.textContent} ${row.dataset.search || ""}`.toLowerCase();
+      row.classList.toggle("hidden", query && !haystack.includes(query));
     });
   });
 }
