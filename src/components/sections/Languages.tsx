@@ -42,7 +42,7 @@ export function Languages() {
   const text = useT(t);
 
   return (
-    <section id="languages" className="py-20 md:py-24 px-6 bg-[#060606]">
+    <section id="languages" className="py-20 md:py-24 px-6 bg-[#0a1020]">
       <div className="max-w-4xl mx-auto">
         <motion.div
           variants={staggerContainer}
