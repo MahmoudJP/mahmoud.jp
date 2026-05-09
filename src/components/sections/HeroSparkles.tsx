@@ -70,36 +70,38 @@ export function HeroSparkles() {
 
       <div className="relative z-10 text-center px-6 max-w-4xl w-full py-24">
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8"
-        >
-          <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-[3px] shadow-xl shadow-blue-500/20 isolate">
-            <div className="w-full h-full rounded-full overflow-hidden relative [transform:translateZ(0)]">
-              <Image
-                src="/mahmoud-cropped.jpg"
-                alt="Mahmoud Adel"
-                fill
-                priority
-                sizes="(max-width: 640px) 128px, (max-width: 768px) 144px, 160px"
-                className="object-cover scale-105 contrast-[1.05] brightness-[1.1]"
-              />
-              <div className="absolute inset-0 rounded-full bg-gradient-to-t from-[#0a0a0a]/30 to-transparent" />
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4"
+          className="flex items-center justify-center gap-4 sm:gap-5 mb-4 flex-row rtl:flex-row-reverse"
         >
-          <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
-            Mahmoud Adel
-          </span>
-        </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="shrink-0"
+          >
+            <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-[2px] shadow-lg shadow-blue-500/20 isolate">
+              <div className="w-full h-full rounded-full overflow-hidden relative [transform:translateZ(0)]">
+                <Image
+                  src="/mahmoud-cropped.jpg"
+                  alt="Mahmoud Adel"
+                  fill
+                  priority
+                  sizes="(max-width: 640px) 56px, (max-width: 768px) 64px, 80px"
+                  className="object-cover scale-105 contrast-[1.05] brightness-[1.1]"
+                />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-t from-[#0a0a0a]/30 to-transparent" />
+              </div>
+            </div>
+          </motion.div>
+
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold">
+            <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+              Mahmoud Adel
+            </span>
+          </h1>
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
