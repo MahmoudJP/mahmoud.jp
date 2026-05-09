@@ -1,3 +1,4 @@
+import { IntroSplash } from "@/components/IntroSplash";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
@@ -15,6 +16,7 @@ import { Contact } from "@/components/sections/Contact";
 export default function Home() {
   return (
     <>
+      <IntroSplash />
       <Navbar />
       <main>
         <Hero />
