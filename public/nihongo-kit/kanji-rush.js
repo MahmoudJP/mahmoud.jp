@@ -234,7 +234,7 @@ function wordAtPoint(x, y) {
 function resolveDrop(reading, x, y) {
   const target = wordAtPoint(x, y);
   if (!target) {
-    messageEl.textContent = "ارمي القراءة على كلمة كانجي.";
+    messageEl.textContent = "أسقط القراءة على كلمة الكانجي.";
     return;
   }
 
@@ -242,7 +242,7 @@ function resolveDrop(reading, x, y) {
     combo = 0;
     target.element.classList.add("shake");
     window.setTimeout(() => target.element.classList.remove("shake"), 240);
-    messageEl.textContent = `غلط: ${target.word} ليست ${reading}`;
+    messageEl.textContent = `إجابة خاطئة: ${target.word} ليست ${reading}`;
     updateHud();
     return;
   }
@@ -252,14 +252,14 @@ function resolveDrop(reading, x, y) {
   score += 120 + combo * 15 + dangerBonus;
   level = Math.min(9, 1 + Math.floor(score / 900));
   lastCleared.textContent = `${target.word} / ${target.reading}`;
-  messageEl.textContent = combo % 5 === 0 ? `Combo ${combo}. جامد.` : "ضربة صحيحة.";
+  messageEl.textContent = combo % 5 === 0 ? `كومبو ${combo} · ممتاز!` : "إجابة صحيحة.";
   removeWord(target, true);
   updateHud();
 }
 
 function startDrag(tile, event) {
   if (!running || paused) {
-    messageEl.textContent = "اضغط ابدأ الأول.";
+    messageEl.textContent = "اضغط «ابدأ» أولاً.";
     return;
   }
 
@@ -342,7 +342,7 @@ function tick(timestamp) {
   escaped.forEach((item) => {
     lives -= 1;
     combo = 0;
-    messageEl.textContent = `فاتت: ${item.word} = ${item.reading}`;
+    messageEl.textContent = `فاتتك: ${item.word} = ${item.reading}`;
     removeWord(item, false);
   });
 
@@ -370,7 +370,7 @@ function startGame() {
   overlay.classList.add("hidden");
   lastFrame = performance.now();
   spawnTimer = 0.2;
-  messageEl.textContent = "اسحب القراءة وارميها على الكلمة الصح.";
+  messageEl.textContent = "اسحب القراءة وأسقطها على الكلمة الصحيحة.";
   cancelAnimationFrame(rafId);
   rafId = requestAnimationFrame(tick);
 }
@@ -380,7 +380,7 @@ function pauseGame() {
   paused = !paused;
   overlay.classList.toggle("hidden", !paused);
   overlay.querySelector("strong").textContent = paused ? "Paused" : "Kanji Rush";
-  overlay.querySelector("span").textContent = paused ? "اضغط ابدأ عشان تكمل" : "اضغط ابدأ واسحب القراءة على الكانجي";
+  overlay.querySelector("span").textContent = paused ? "اضغط «ابدأ» للمتابعة" : "اضغط «ابدأ» ثم اسحب القراءة فوق كلمة الكانجي";
   if (!paused) startGame();
 }
 
@@ -395,10 +395,10 @@ function resetGame() {
   running = false;
   paused = false;
   lastCleared.textContent = "جاهز؟";
-  messageEl.textContent = "ابدأ بهدوء. السرعة هتعلى مع كل مستوى.";
+  messageEl.textContent = "ابدأ بهدوء. ترتفع السرعة تدريجياً مع كل مستوى.";
   overlay.classList.remove("hidden");
   overlay.querySelector("strong").textContent = "Kanji Rush";
-  overlay.querySelector("span").textContent = "اضغط ابدأ واسحب القراءة على الكانجي";
+  overlay.querySelector("span").textContent = "اضغط «ابدأ» ثم اسحب القراءة فوق كلمة الكانجي";
   seedReadingChoices();
   updateHud();
 }
@@ -409,8 +409,8 @@ function endGame() {
   cancelAnimationFrame(rafId);
   overlay.classList.remove("hidden");
   overlay.querySelector("strong").textContent = "Game Over";
-  overlay.querySelector("span").textContent = `Score ${score}. اضغط إعادة وحاول تكسر الرقم.`;
-  messageEl.textContent = "خلصت الدرع. راجع الكلمات اللي فاتت وحاول تاني.";
+  overlay.querySelector("span").textContent = `Score ${score}. اضغط «إعادة» وحاول تجاوز نتيجتك.`;
+  messageEl.textContent = "انتهى الدرع. راجع الكلمات الفائتة وأعد المحاولة.";
   updateHud();
 }
 

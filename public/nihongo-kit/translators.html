@@ -4,18 +4,22 @@
     <meta charset="utf-8" />
     <base href="/nihongo-kit/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>المترجمين | Nihongo Kit</title>
+    <title>المترجمون · Nihongo Kit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="noise"></div>
     <header class="site-header">
       <a class="brand" href="index.html"><span>日</span><strong>Nihongo Kit</strong></a>
-      <nav class="nav"><a href="/" class="back-portfolio">↩ Portfolio</a>
-        <a href="jobs.html">الشغل</a>
-        <a class="active" href="translators.html">المترجمين</a>
+      <nav class="nav">
+        <a href="/" class="back-portfolio">↩ Portfolio</a>
+        <a href="jobs.html">العمل</a>
+        <a class="active" href="translators.html">المترجمون</a>
         <a href="games.html">الألعاب</a>
-        <a href="roadmap.html">خريطة المذاكرة</a>
+        <a href="roadmap.html">خريطة الدراسة</a>
         <a href="apps.html">التطبيقات</a>
         <a href="links.html">روابط مهمة</a>
       </nav>
@@ -24,33 +28,33 @@
     <main class="page">
       <section class="page-hero compact">
         <p class="kicker">TRANSLATOR BOARD</p>
-        <h1>صفحة للمترجمين وتقييم الترجمة</h1>
-        <p>Prototype محلي: أي مترجم يعمل بروفايل، والزوار يقدروا يقيّموا. البيانات محفوظة في المتصفح.</p>
+        <h1>دليل المترجمين ونظام التقييم.</h1>
+        <p>نسخة تجريبية محلية: أي مترجم يستطيع إنشاء ملف تعريفي، والزوّار يستطيعون التقييم. البيانات تُحفظ داخل المتصفح فقط.</p>
       </section>
 
       <section class="translator-layout">
         <form class="panel form-panel" id="translatorForm">
-          <h2>اعمل بروفايل</h2>
+          <h2>أنشئ ملفاً تعريفياً</h2>
           <label>الاسم<input name="name" required placeholder="الاسم أو اسم المكتب" /></label>
-          <label>اللغات<input name="languages" required placeholder="عربي، ياباني، إنجليزي" /></label>
+          <label>اللغات<input name="languages" required placeholder="العربية، اليابانية، الإنجليزية" /></label>
           <label>
-            التخصص
+            التخصّص
             <select name="specialty">
               <option>ترجمة عامة</option>
-              <option>DTP ومطبوعات</option>
-              <option>قانوني وإقامة</option>
+              <option>نشر مكتبي ومطبوعات (DTP)</option>
+              <option>قانوني وشؤون الإقامة</option>
               <option>طبي</option>
-              <option>IT وألعاب</option>
+              <option>تقنية معلومات وألعاب</option>
               <option>مرافقة ومحادثة</option>
             </select>
           </label>
-          <label>نبذة<textarea name="bio" rows="5" placeholder="اكتب الخبرة ونوع الملفات والمدينة أو طريقة التواصل"></textarea></label>
-          <button class="button primary" type="submit">حفظ البروفايل</button>
+          <label>نبذة<textarea name="bio" rows="5" placeholder="اذكر الخبرة، نوع الملفات، المدينة، وطريقة التواصل"></textarea></label>
+          <button class="button primary" type="submit">حفظ الملف</button>
         </form>
 
         <section class="panel">
           <div class="tool-strip inline">
-            <input id="translatorSearch" type="search" placeholder="ابحث عن مترجم، لغة، أو تخصص" />
+            <input id="translatorSearch" type="search" placeholder="ابحث باسم مترجم، لغة، أو تخصّص" />
             <button class="button ghost dark" id="resetTranslators" type="button">استرجاع الأمثلة</button>
           </div>
           <div class="translator-list" id="translatorList"></div>
@@ -58,7 +62,10 @@
       </section>
     </main>
 
-    <footer class="footer"><span>النسخة الحالية محلية للتجربة. النسخة الحقيقية تحتاج تسجيل دخول وقاعدة بيانات.</span><a href="index.html">الرئيسية</a></footer>
+    <footer class="footer">
+      <span>النسخة الحالية تجريبية ومحلية. النسخة الكاملة تتطلّب تسجيل دخول وقاعدة بيانات.</span>
+      <a href="index.html">الرئيسية</a>
+    </footer>
     <script src="script.js"></script>
   </body>
 </html>

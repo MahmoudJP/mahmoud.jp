@@ -4,18 +4,22 @@
     <meta charset="utf-8" />
     <base href="/nihongo-kit/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Kanji Match Grid | Nihongo Kit</title>
+    <title>Kanji Match Grid · Nihongo Kit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="noise"></div>
     <header class="site-header">
       <a class="brand" href="index.html"><span>日</span><strong>Nihongo Kit</strong></a>
-      <nav class="nav"><a href="/" class="back-portfolio">↩ Portfolio</a>
-        <a href="jobs.html">الشغل</a>
-        <a href="translators.html">المترجمين</a>
+      <nav class="nav">
+        <a href="/" class="back-portfolio">↩ Portfolio</a>
+        <a href="jobs.html">العمل</a>
+        <a href="translators.html">المترجمون</a>
         <a class="active" href="games.html">الألعاب</a>
-        <a href="roadmap.html">خريطة المذاكرة</a>
+        <a href="roadmap.html">خريطة الدراسة</a>
         <a href="apps.html">التطبيقات</a>
         <a href="links.html">روابط مهمة</a>
       </nav>
@@ -24,10 +28,10 @@
     <main class="grid-game-page">
       <section class="page-hero compact">
         <p class="kicker">KANJI MATCH GRID</p>
-        <h1>اسحب القراءة فوق الكانجي الصح.</h1>
+        <h1>طابق القراءة مع الكانجي الصحيح.</h1>
         <p>
-          كل مربع فيه كلمة كانجي. تحت هتلاقي قراءات هيراغانا. اسحب القراءة الصح وارميها على المربع.
-          لو صح ينفجر وينزل مكانه مربع جديد. اسحب أي مربع كانجي على مربع تاني عشان تبدل أماكنهم.
+          كل مربّع يحوي كلمة كانجي، وفي الأسفل تظهر قراءات الهيراغانا. اسحب القراءة الصحيحة وأسقطها على المربّع المناسب.
+          عند التطابق ينفجر المربّع ويظهر مكانه مربّع جديد. يمكنك أيضاً سحب أي مربع كانجي إلى آخر لتبديل أماكنهما.
         </p>
       </section>
 
@@ -42,14 +46,14 @@
         <aside class="panel match-side">
           <h2>القواعد</h2>
           <ul class="clean-list">
-            <li>اسحب قراءة الهيراغانا على مربع الكانجي.</li>
-            <li>التطابق الصح يفجر المربع ويجيب مربع جديد.</li>
-            <li>الغلط يعمل اهتزاز ويرجع الكومبو صفر.</li>
-            <li>اسحب مربع كانجي على مربع تاني لتبديل أماكنهم.</li>
+            <li>اسحب قراءة الهيراغانا فوق مربّع الكانجي.</li>
+            <li>التطابق الصحيح يفجّر المربّع ويستبدله بمربّع جديد.</li>
+            <li>الإجابة الخاطئة تُسبّب اهتزازاً وتعيد الكومبو إلى الصفر.</li>
+            <li>اسحب مربّع كانجي إلى آخر لتبديل أماكنهما.</li>
           </ul>
           <div class="rush-controls">
             <button class="button primary" id="newGrid" type="button">شبكة جديدة</button>
-            <button class="button ghost dark" id="addChoices" type="button">اختيارات جديدة</button>
+            <button class="button ghost dark" id="addChoices" type="button">خيارات جديدة</button>
           </div>
           <p class="match-message" id="matchMessage">ابدأ بسحب قراءة من الأسفل.</p>
         </aside>
@@ -58,7 +62,7 @@
           <div class="match-spawn" id="matchSpawn" aria-hidden="true"></div>
           <div class="match-board" id="matchBoard" aria-label="شبكة كانجي"></div>
           <div class="match-dock">
-            <div class="dock-hint">قراءات الهيراغانا: اسحب واحدة فوق الكانجي</div>
+            <div class="dock-hint">قراءات الهيراغانا · اسحب واحدة فوق مربع الكانجي</div>
             <div class="match-options" id="matchOptions"></div>
           </div>
         </section>
@@ -66,7 +70,7 @@
     </main>
 
     <footer class="footer">
-      <span>Kanji Match Grid يدرّب قراءة الكلمات، مش حفظ شكل الكانجي لوحده.</span>
+      <span>Kanji Match Grid أداة لتدريب قراءة الكلمات، لا لحفظ شكل الكانجي بمفرده.</span>
       <a href="games.html">رجوع للألعاب</a>
     </footer>
 

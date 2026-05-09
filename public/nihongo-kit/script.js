@@ -14,7 +14,7 @@ if (jobSearch) {
 
 const gameSets = {
   kana: {
-    name: "كانا سريع",
+    name: "الكانا",
     questions: [
       { q: "あ", a: "a", options: ["a", "i", "u", "e"] },
       { q: "き", a: "ki", options: ["ka", "ki", "ko", "ke"] },
@@ -33,7 +33,7 @@ const gameSets = {
     ],
   },
   particle: {
-    name: "اختار الأداة",
+    name: "اختر الأداة",
     questions: [
       { q: "私__学生です。", a: "は", options: ["は", "を", "で", "に"] },
       { q: "水__飲みます。", a: "を", options: ["が", "を", "へ", "と"] },
@@ -86,7 +86,7 @@ if ($("#gameQuestion")) {
       if (option.textContent === currentQuestion.a) option.classList.add("correct");
     });
     if (!correct) button.classList.add("wrong");
-    $("#gameFeedback").textContent = correct ? "صح. كمل." : `الإجابة الصحيحة: ${currentQuestion.a}`;
+    $("#gameFeedback").textContent = correct ? "إجابة صحيحة. تابع." : `الإجابة الصحيحة: ${currentQuestion.a}`;
     $("#gameScore").textContent = `${score} / ${attempts}`;
   });
 
@@ -109,17 +109,17 @@ const translatorDefaults = [
   {
     id: "t1",
     name: "Tokyo Arabic Studio",
-    languages: "عربي، ياباني، إنجليزي",
-    specialty: "DTP ومطبوعات",
-    bio: "ترجمة وتنسيق كتيبات، عروض، وملفات شركات متعددة اللغات.",
+    languages: "العربية، اليابانية، الإنجليزية",
+    specialty: "نشر مكتبي ومطبوعات (DTP)",
+    bio: "ترجمة وتنسيق كتيّبات وعروض وملفات الشركات متعدّدة اللغات.",
     ratings: [5, 5, 4],
   },
   {
     id: "t2",
     name: "Nihongo Legal Help",
-    languages: "عربي، ياباني",
-    specialty: "قانوني وإقامة",
-    bio: "مراجعة نماذج إقامة وبلدية وترجمة مستندات قصيرة للمقيمين الجدد.",
+    languages: "العربية، اليابانية",
+    specialty: "قانوني وشؤون الإقامة",
+    bio: "مراجعة نماذج الإقامة والبلدية، وترجمة مستندات قصيرة للمقيمين الجدد.",
     ratings: [4, 5],
   },
 ];
@@ -160,7 +160,7 @@ if ($("#translatorList")) {
         </div>
         <p>${item.bio || "لا توجد نبذة بعد."}</p>
         <div class="stars">
-          <span>قيم الترجمة:</span>
+          <span>قيّم الترجمة:</span>
           ${[1, 2, 3, 4, 5].map((n) => `<button class="star-button" data-rating="${n}" type="button">${n}</button>`).join("")}
         </div>
       </article>

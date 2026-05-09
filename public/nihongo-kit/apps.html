@@ -4,18 +4,22 @@
     <meta charset="utf-8" />
     <base href="/nihongo-kit/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>تطبيقات اللغة اليابانية | Nihongo Kit</title>
+    <title>تطبيقات اللغة اليابانية · Nihongo Kit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="noise"></div>
     <header class="site-header">
       <a class="brand" href="index.html"><span>日</span><strong>Nihongo Kit</strong></a>
-      <nav class="nav"><a href="/" class="back-portfolio">↩ Portfolio</a>
-        <a href="jobs.html">الشغل</a>
-        <a href="translators.html">المترجمين</a>
+      <nav class="nav">
+        <a href="/" class="back-portfolio">↩ Portfolio</a>
+        <a href="jobs.html">العمل</a>
+        <a href="translators.html">المترجمون</a>
         <a href="games.html">الألعاب</a>
-        <a href="roadmap.html">خريطة المذاكرة</a>
+        <a href="roadmap.html">خريطة الدراسة</a>
         <a class="active" href="apps.html">التطبيقات</a>
         <a href="links.html">روابط مهمة</a>
       </nav>
@@ -24,45 +28,69 @@
     <main class="page">
       <section class="page-hero compact">
         <p class="kicker">APP STACK</p>
-        <h1>تطبيقات الياباني المهمة وليه تستخدمها</h1>
-        <p>اختار stack صغير وثابت. كثرة التطبيقات بتدي إحساس إنك بتذاكر، لكن التقدم الحقيقي من الاستخدام اليومي.</p>
+        <h1>تطبيقات أساسية لتعلّم اللغة اليابانية.</h1>
+        <p>اختر مجموعة صغيرة وثابتة. كثرة التطبيقات تمنح إحساساً بالإنتاجية، لكن التقدّم الحقيقي يأتي من الاستخدام اليومي المنتظم.</p>
       </section>
 
-      <section class="app-grid">
-        <article class="app-card">
-          <span>Anki</span><h2>Anki</h2>
-          <p>الأهم تقريبا لأي دارس جاد. بيستخدم spaced repetition عشان الكلمات والكانجي يرجعوا في الوقت المناسب.</p>
-          <ul class="clean-list"><li>استخدمه للمفردات والجمل، مش للكلمات المعزولة فقط.</li><li>اعمل كروت قليلة يوميا وراجع بدون تراكم.</li></ul>
-          <a href="https://apps.ankiweb.net/" target="_blank" rel="noreferrer">افتح Anki</a>
+      <section class="resource-stack">
+        <article class="resource-block">
+          <div class="resource-head">
+            <span>01</span>
+            <h2>Anki</h2>
+            <a href="https://apps.ankiweb.net/" target="_blank" rel="noreferrer">افتح Anki</a>
+          </div>
+          <p>الأداة الأهم لأي دارس جادّ. تعتمد على نظام التكرار المتباعد (Spaced Repetition) لإعادة المفردات والكانجي في الوقت الأنسب.</p>
+          <ul class="clean-list">
+            <li>استخدمه لحفظ المفردات والجُمل، لا الكلمات المعزولة فقط.</li>
+            <li>أضف بطاقات قليلة يومياً، وراجع بانتظام لتجنّب التراكم.</li>
+          </ul>
         </article>
-        <article class="app-card">
-          <span>辞</span><h2>Jisho</h2>
-          <p>قاموس سريع للكانجي والكلمات والأمثلة. ممتاز لما تقرأ نص وتحتاج معنى أو قراءة الكانجي.</p>
-          <a href="https://jisho.org/" target="_blank" rel="noreferrer">افتح Jisho</a>
+        <article class="resource-block">
+          <div class="resource-head">
+            <span>02</span>
+            <h2>Jisho</h2>
+            <a href="https://jisho.org/" target="_blank" rel="noreferrer">افتح Jisho</a>
+          </div>
+          <p>قاموس سريع للكانجي والمفردات والأمثلة. مثالي عند قراءة نصّ يحتاج إلى معنى أو قراءة كلمة.</p>
         </article>
-        <article class="app-card">
-          <span>漢</span><h2>WaniKani</h2>
-          <p>قوي للكانجي والمفردات بنظام مراجعة. مفيد لو تحب نظام جاهز بدل ما تبني deck بنفسك.</p>
-          <a href="https://www.wanikani.com/" target="_blank" rel="noreferrer">افتح WaniKani</a>
+        <article class="resource-block">
+          <div class="resource-head">
+            <span>03</span>
+            <h2>WaniKani</h2>
+            <a href="https://www.wanikani.com/" target="_blank" rel="noreferrer">افتح WaniKani</a>
+          </div>
+          <p>منصّة قوية لتعلّم الكانجي والمفردات بنظام مراجعة جاهز. مناسب لمن يفضّل اتّباع منهج معدّ سلفاً بدلاً من بناء مجموعته بنفسه.</p>
         </article>
-        <article class="app-card">
-          <span>読</span><h2>NHK Easy News</h2>
-          <p>قراءة أخبار مبسطة. ممتاز من N4/N3، ويعلمك مفردات الحياة الحقيقية بدون صدمة النصوص الصعبة.</p>
-          <a href="https://www3.nhk.or.jp/news/easy/" target="_blank" rel="noreferrer">افتح NHK Easy</a>
+        <article class="resource-block">
+          <div class="resource-head">
+            <span>04</span>
+            <h2>NHK Easy News</h2>
+            <a href="https://www3.nhk.or.jp/news/easy/" target="_blank" rel="noreferrer">افتح NHK Easy</a>
+          </div>
+          <p>أخبار يابانية مبسّطة. مثالي ابتداءً من مستوى N4/N3، يساعدك على تعلّم مفردات الحياة الحقيقية دون صدمة النصوص المعقّدة.</p>
         </article>
-        <article class="app-card">
-          <span>聞</span><h2>JapanesePod101</h2>
-          <p>مفيد للاستماع والحوارات القصيرة. استخدمه كروتين سماع، وليس كمصدر القواعد الوحيد.</p>
-          <a href="https://www.japanesepod101.com/" target="_blank" rel="noreferrer">افتح الموقع</a>
+        <article class="resource-block">
+          <div class="resource-head">
+            <span>05</span>
+            <h2>JapanesePod101</h2>
+            <a href="https://www.japanesepod101.com/" target="_blank" rel="noreferrer">افتح الموقع</a>
+          </div>
+          <p>مفيد للاستماع والحوارات القصيرة. استخدمه كجزء من روتين الاستماع، لا كمصدر وحيد لتعلّم القواعد.</p>
         </article>
-        <article class="app-card">
-          <span>書</span><h2>Takoboto</h2>
-          <p>قاموس موبايل قوي ومفيد offline. مناسب للمراجعة السريعة والبحث وقت القراءة.</p>
-          <a href="https://takoboto.jp/" target="_blank" rel="noreferrer">افتح Takoboto</a>
+        <article class="resource-block">
+          <div class="resource-head">
+            <span>06</span>
+            <h2>Takoboto</h2>
+            <a href="https://takoboto.jp/" target="_blank" rel="noreferrer">افتح Takoboto</a>
+          </div>
+          <p>قاموس قوي للهاتف يعمل دون اتّصال بالإنترنت. مناسب للمراجعة السريعة والبحث أثناء القراءة.</p>
         </article>
       </section>
     </main>
 
-    <footer class="footer"><span>Anki + قاموس + قراءة + استماع. دي نواة كافية جدا.</span><a href="index.html">الرئيسية</a></footer>
+    <footer class="footer">
+      <span>Anki + قاموس + قراءة + استماع · هذه نواة كافية تماماً للتقدّم.</span>
+      <a href="index.html">الرئيسية</a>
+    </footer>
   </body>
 </html>

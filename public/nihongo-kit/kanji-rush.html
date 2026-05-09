@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <base href="/nihongo-kit/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Kanji Rush | Nihongo Kit</title>
+    <title>Kanji Rush · Nihongo Kit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="rush-body">
@@ -12,10 +15,10 @@
     <header class="site-header">
       <a class="brand" href="index.html"><span>日</span><strong>Nihongo Kit</strong></a>
       <nav class="nav"><a href="/" class="back-portfolio">↩ Portfolio</a>
-        <a href="jobs.html">الشغل</a>
-        <a href="translators.html">المترجمين</a>
+        <a href="jobs.html">العمل</a>
+        <a href="translators.html">المترجمون</a>
         <a class="active" href="games.html">الألعاب</a>
-        <a href="roadmap.html">خريطة المذاكرة</a>
+        <a href="roadmap.html">خريطة الدراسة</a>
         <a href="apps.html">التطبيقات</a>
         <a href="links.html">روابط مهمة</a>
       </nav>
@@ -25,11 +28,11 @@
       <section class="rush-hero">
         <div>
           <p class="kicker">KANJI RUSH</p>
-          <h1>اقرأ الكلمة قبل ما تخترق البوابة.</h1>
+          <h1>اقرأ الكلمة قبل أن تتجاوز البوابة.</h1>
           <p>
-            الكلمات بتنزل من أعلى. اسحب القراءة الصحيحة من الاختيارات وارميها على كلمة الكانجي:
-            <strong>漢字 = かんじ</strong>. كل ضربة صحيحة تزود الكومبو وتفتح كلمات أصعب.
-            الكلمات الحالية من مستوى N5 و N4.
+            تنزل كلمات الكانجي من أعلى الشاشة. اسحب القراءة الصحيحة من الخيارات وأسقطها على الكلمة:
+            <strong>漢字 = かんじ</strong>. كل إجابة صحيحة تزيد الكومبو وتفتح كلمات أصعب.
+            الكلمات الحالية من مستويَي N5 و N4.
           </p>
         </div>
         <div class="rush-stats">
@@ -45,9 +48,9 @@
           <h2>طريقة اللعب</h2>
           <ul class="clean-list">
             <li>اسحب القراءة من الأسفل.</li>
-            <li>ارميها على كلمة الكانجي الصح.</li>
-            <li>مثال: 日本 ترمي عليها にほん.</li>
-            <li>لو رميت غلط الكومبو يرجع صفر.</li>
+            <li>أسقطها على كلمة الكانجي الصحيحة.</li>
+            <li>مثال: 日本 يقابلها にほん.</li>
+            <li>الإجابة الخاطئة تعيد الكومبو إلى الصفر.</li>
           </ul>
           <div class="rush-controls">
             <button class="button primary" id="startRush" type="button">ابدأ</button>
@@ -78,20 +81,20 @@
             <div class="gate-line"><span>読め!</span></div>
             <div class="rush-overlay" id="rushOverlay">
               <strong>Kanji Rush</strong>
-              <span>اضغط ابدأ واسحب القراءة على الكانجي</span>
+              <span>اضغط «ابدأ» ثم اسحب القراءة فوق كلمة الكانجي</span>
             </div>
           </div>
           <div class="reading-dock" id="readingDock" aria-label="اختيارات قراءة الكانجي">
-            <div class="dock-hint">اسحب القراءة وارميها على الكلمة</div>
+            <div class="dock-hint">اسحب القراءة وأسقطها على الكلمة</div>
             <div class="reading-options" id="readingOptions"></div>
           </div>
-          <p class="rush-message" id="rushMessage">ابدأ بهدوء. السرعة هتعلى مع كل مستوى.</p>
+          <p class="rush-message" id="rushMessage">ابدأ بهدوء. ترتفع السرعة تدريجياً مع كل مستوى.</p>
         </section>
       </section>
     </main>
 
     <footer class="footer">
-      <span>اللعبة تركز على قراءة كلمات الكانجي. المعنى يثبت بعد القراءة، مش قبلها.</span>
+      <span>تركّز اللعبة على قراءة كلمات الكانجي. المعنى يثبت لاحقاً بعد إتقان القراءة.</span>
       <a href="games.html">رجوع للألعاب</a>
     </footer>
 

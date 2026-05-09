@@ -109,7 +109,7 @@ function newGrid() {
   renderBoard();
   renderOptions();
   updateHud();
-  messageEl.textContent = "اسحب قراءة من تحت على الكانجي الصح.";
+  messageEl.textContent = "اسحب قراءة من الأسفل فوق الكانجي الصحيح.";
 }
 
 function tileAtPoint(x, y) {
@@ -157,7 +157,7 @@ function startCellDrag(cell, event) {
 function finishReadingDrop(event) {
   const target = tileAtPoint(event.clientX, event.clientY);
   if (!target) {
-    messageEl.textContent = "حط القراءة فوق مربع كانجي.";
+    messageEl.textContent = "أسقط القراءة فوق مربّع كانجي.";
     return;
   }
 
@@ -166,7 +166,7 @@ function finishReadingDrop(event) {
     combo = 0;
     target.element.classList.add("bad-drop");
     window.setTimeout(() => target.element.classList.remove("bad-drop"), 260);
-    messageEl.textContent = `غلط: ${word.word} قراءتها ${word.reading}`;
+    messageEl.textContent = `إجابة خاطئة: ${word.word} قراءتها ${word.reading}`;
     updateHud();
     return;
   }
@@ -174,7 +174,7 @@ function finishReadingDrop(event) {
   combo += 1;
   matched += 1;
   score += 100 + combo * 18;
-  messageEl.textContent = combo % 5 === 0 ? `Combo ${combo}. الشبكة ولعت.` : `${word.word} = ${word.reading}`;
+  messageEl.textContent = combo % 5 === 0 ? `كومبو ${combo} · الشبكة مشتعلة!` : `${word.word} = ${word.reading}`;
   explodeAndReplace(target.index, target.element);
   updateHud();
 }
@@ -186,7 +186,7 @@ function finishCellDrop(event) {
   cells[drag.fromIndex] = cells[target.index];
   cells[target.index] = temp;
   renderBoard();
-  messageEl.textContent = "اتبدلت أماكن المربعات.";
+  messageEl.textContent = "تبدّلت أماكن المربّعات.";
 }
 
 function endDrag(event) {
@@ -258,7 +258,7 @@ document.addEventListener("pointercancel", () => {
 document.querySelector("#newGrid").addEventListener("click", newGrid);
 document.querySelector("#addChoices").addEventListener("click", () => {
   renderOptions(randomWord().reading);
-  messageEl.textContent = "تم تحديث اختيارات القراءة.";
+  messageEl.textContent = "تم تحديث خيارات القراءة.";
 });
 
 newGrid();
