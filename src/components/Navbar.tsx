@@ -53,13 +53,13 @@ export function Navbar() {
           className="hidden sm:flex items-center gap-2 hover:opacity-80 transition-opacity shrink-0"
           aria-label="Home"
         >
-          <span className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-[2px] shadow-md shadow-blue-500/20 isolate">
+          <span className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-[2px] shadow-md shadow-blue-500/20 isolate">
             <span className="block w-full h-full rounded-full overflow-hidden relative [transform:translateZ(0)]">
               <Image
                 src="/mahmoud-cropped.jpg"
                 alt="Mahmoud Adel"
                 fill
-                sizes="32px"
+                sizes="48px"
                 className="object-cover scale-105 contrast-[1.05] brightness-[1.1]"
               />
             </span>
