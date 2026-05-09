@@ -3,7 +3,9 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
 import { SectionReveal } from "@/components/SectionReveal";
-import { Hero } from "@/components/sections/Hero";
+import { HeroSparkles as Hero } from "@/components/sections/HeroSparkles";
+// To revert to the original Hero, swap the line above for:
+// import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Experience } from "@/components/sections/Experience";
 import { Skills } from "@/components/sections/Skills";
