@@ -67,6 +67,8 @@ export function HeroSparkles() {
 
       <div className="pointer-events-none absolute inset-0 h-full w-full bg-black [mask-image:radial-gradient(circle_at_center,transparent_30%,black)]" />
 
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent via-[#070a13] to-[#0d1424]" />
+
       <div className="relative z-10 text-center px-6 max-w-4xl w-full py-24">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
