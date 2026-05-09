@@ -161,8 +161,9 @@ export function Freelance() {
   const text = useT(t);
 
   return (
-    <section id="volunteer" className="py-20 md:py-24 px-6 bg-[#0a1020]">
-      <div className="max-w-4xl mx-auto">
+    <section id="volunteer" className="relative py-20 md:py-24 px-6 bg-[#0a1020]">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0d1424] to-transparent" />
+      <div className="relative max-w-4xl mx-auto">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
