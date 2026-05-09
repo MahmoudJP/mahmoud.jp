@@ -52,7 +52,7 @@ export function HeroSparkles() {
   const text = useT(t);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
       <div className="absolute inset-0 h-full w-full">
         <SparklesCore
           id="hero-sparkles"
@@ -66,7 +66,7 @@ export function HeroSparkles() {
         />
       </div>
 
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(2,6,23,0.6)_70%,_rgba(2,6,23,0.95)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 h-full w-full bg-black [mask-image:radial-gradient(circle_at_center,transparent_30%,black)]" />
 
       <div className="relative z-10 text-center px-6 max-w-4xl w-full py-24">
         <motion.div
