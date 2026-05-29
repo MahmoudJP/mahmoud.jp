@@ -161,8 +161,7 @@ export function Hero() {
             {text.learnMore}
           </a>
           <a
-            href="/mahmoud-cv.pdf"
-            download
+            href="#contact"
             className="px-6 sm:px-8 py-2.5 sm:py-3 rounded-full border border-blue-500/30 text-blue-300 text-sm sm:text-base hover:bg-blue-500/10 transition-all duration-300 flex items-center gap-2 whitespace-nowrap"
           >
             <Download className="w-4 h-4" />

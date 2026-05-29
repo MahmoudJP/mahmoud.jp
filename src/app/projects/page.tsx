@@ -1,137 +1,89 @@
 "use client";
 
-import * as React from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { ArrowUpRight, Sparkles, Construction, ExternalLink } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
 import { Particles } from "@/components/Particles";
 import { useT } from "@/lib/i18n";
 
-type Project = {
-  slug?: string;
-  href?: string;
-  external?: boolean;
+type AppItem = {
+  slug: string;
   name: string;
+  category: string;
   tagline: string;
-  status: string;
-  year: string;
-  description: string;
   accent: string;
+};
+
+const KORYUU_URL = "https://koryuu.com";
+
+// Visual accent per app (matches the Koryuu site).
+const ACCENTS: Record<string, string> = {
+  "dtp-master": "from-cyan-500/20 via-cyan-500/5 to-transparent",
+  "jlpt-master": "from-rose-500/20 via-rose-500/5 to-transparent",
+  supernotch: "from-violet-500/20 via-violet-500/5 to-transparent",
+  switcher: "from-emerald-500/20 via-emerald-500/5 to-transparent",
+  "cloudops-associate": "from-sky-500/20 via-sky-500/5 to-transparent",
+  mylife: "from-amber-500/20 via-amber-500/5 to-transparent",
 };
 
 const t = {
   en: {
-    kicker: "Projects",
-    heading: "Things I'm building.",
-    sub: "Tools for translation, DTP, and multilingual workflows — built to solve problems I hit in my own day-to-day work.",
-    statusInDev: "In Development",
-    boardKicker: "On the drawing board",
-    founderBadge: "Founder",
-    koryuu: {
-      name: "Koryuu",
-      tagline: "Software at the crossroads of cultures.",
-      year: "2025 — Present",
-      description:
-        "Koryuu (交流, “exchange”) is the software studio I founded as the home for everything I build. It gathers my apps under one roof — from trilingual DTP automation to Japanese study tools for Arabic speakers — each one born from a real problem in my own work across Arabic, Japanese, and English.",
-      cta: "Visit koryuu.com",
-    },
-    projects: [
-      {
-        slug: "dtp-master",
-        name: "DTP Master",
-        tagline: "All-in-one desktop toolkit for DTP professionals",
-        year: "2025 — Present",
-        description: "A Windows desktop app bundling the everyday workflow of a DTP operator — PDF comparison, Smart QC, Arabic mirror checking, font fixing, delivery packaging. One signed, auto-updating tool replacing a dozen scattered utilities.",
-      },
-      {
-        href: "/nihongo-kit/",
-        name: "Nihongo Kit",
-        tagline: "Arabic-language starter kit for Japanese learners",
-        year: "2025 — Present",
-        description: "A practical hub for Arabic speakers studying Japanese — job sites in Japan, translator profiles, language apps, an N0-to-N1 roadmap, and interactive games (Kanji Rush, Kanji Grid). Static, fast, and fully responsive.",
-      },
-    ],
-    ideas: [
-      "A web-based QC dashboard for Arabic/Japanese translation teams.",
-      "A lightweight quote calculator for translation agencies.",
-      "A snippets & templates library for DTP teams.",
+    kicker: "Founder · Koryuu",
+    heading: "Koryuu",
+    tagline: "Software at the crossroads of cultures.",
+    intro:
+      "Koryuu (交流, “exchange”) is the software studio I founded — the home for everything I build. From trilingual DTP automation to language-learning tools and native macOS utilities, every project below lives under the Koryuu umbrella, each one born from a real problem in my own work across Arabic, Japanese, and English.",
+    visitCta: "Visit koryuu.com",
+    inside: "What's inside",
+    moreNote: "…and more, with the full story and downloads on koryuu.com.",
+    closing: "Explore the full collection",
+    apps: [
+      { slug: "dtp-master", name: "DTP Master", category: "Production", tagline: "Trilingual desktop-publishing, automated." },
+      { slug: "jlpt-master", name: "JLPT Master", category: "Study", tagline: "Japanese, the way Arabic speakers learn it." },
+      { slug: "supernotch", name: "SuperNotch", category: "macOS", tagline: "Your MacBook's notch, finally useful." },
+      { slug: "switcher", name: "Switcher", category: "macOS", tagline: "Two thumb-keys, one window away." },
+      { slug: "cloudops-associate", name: "CloudOps Associate", category: "Study", tagline: "AWS SOA-C03, drilled the right way." },
+      { slug: "mylife", name: "Mylife", category: "Personal", tagline: "Track the parts of life that matter." },
     ],
   },
   ja: {
-    kicker: "プロジェクト",
-    heading: "制作中のプロジェクト",
-    sub: "翻訳・DTP・多言語ワークフローのためのツール。日々の業務で直面する課題を解決するために自ら制作しています。",
-    statusInDev: "開発中",
-    boardKicker: "構想中のアイデア",
-    founderBadge: "創業者",
-    koryuu: {
-      name: "Koryuu",
-      tagline: "文化の交差点に立つソフトウェア。",
-      year: "2025年 — 現在",
-      description:
-        "Koryuu（交流）は、私が手がけるソフトウェアの拠点として立ち上げたスタジオです。三言語対応のDTP自動化から、アラビア語話者向けの日本語学習ツールまで——アラビア語・日本語・英語をまたぐ私自身の現場の課題から生まれたアプリを、一つの場所に集めています。",
-      cta: "koryuu.com を見る",
-    },
-    projects: [
-      {
-        slug: "dtp-master",
-        name: "DTP Master",
-        tagline: "DTPプロフェッショナル向けのオールインワン デスクトップツール",
-        year: "2025年 — 現在",
-        description: "DTPオペレーターの日常業務をまとめたWindowsデスクトップアプリ。PDF比較、スマートQC、アラビア語ミラーチェック、フォント修復、納品パッケージングなどを1つのアプリに集約。署名済み・自動アップデート対応で、散在していた十数個のユーティリティを置き換えます。",
-      },
-      {
-        href: "/nihongo-kit/",
-        name: "Nihongo Kit",
-        tagline: "日本語学習者向けのアラビア語スターターキット",
-        year: "2025年 — 現在",
-        description: "アラビア語話者の日本語学習者向けの実用ハブ。日本の求人サイト、翻訳者プロフィール、言語アプリ、N0からN1までのロードマップ、インタラクティブゲーム(Kanji Rush・Kanji Grid)を収録。静的・高速・レスポンシブ対応。",
-      },
-    ],
-    ideas: [
-      "アラビア語・日本語翻訳チーム向けのWebベースQCダッシュボード。",
-      "翻訳会社向けの軽量な見積もり計算ツール。",
-      "DTPチーム向けのスニペット&テンプレートライブラリ。",
+    kicker: "創業者 · Koryuu",
+    heading: "Koryuu",
+    tagline: "文化の交差点に立つソフトウェア。",
+    intro:
+      "Koryuu（交流）は、私が手がけるすべてのソフトウェアの拠点として立ち上げたスタジオです。三言語対応のDTP自動化から、言語学習ツール、ネイティブのmacOSユーティリティまで——以下のプロジェクトはすべてKoryuuの傘下にあり、アラビア語・日本語・英語をまたぐ私自身の現場の課題から生まれています。",
+    visitCta: "koryuu.com を見る",
+    inside: "収録プロジェクト",
+    moreNote: "…ほかにも多数。詳細とダウンロードは koryuu.com で。",
+    closing: "すべてのプロジェクトを見る",
+    apps: [
+      { slug: "dtp-master", name: "DTP Master", category: "制作", tagline: "三言語DTPワークフローを自動化。" },
+      { slug: "jlpt-master", name: "JLPT Master", category: "学習", tagline: "アラビア語話者のための日本語学習。" },
+      { slug: "supernotch", name: "SuperNotch", category: "macOS", tagline: "MacBookのノッチを使えるツールに。" },
+      { slug: "switcher", name: "Switcher", category: "macOS", tagline: "親指キー2つでウィンドウ操作。" },
+      { slug: "cloudops-associate", name: "CloudOps Associate", category: "学習", tagline: "AWS SOA-C03を効率的に対策。" },
+      { slug: "mylife", name: "Mylife", category: "パーソナル", tagline: "大切な日々の習慣を記録。" },
     ],
   },
   ar: {
-    kicker: "المشاريع",
-    heading: "أشياء أبنيها.",
-    sub: "أدوات للترجمة وDTP والعمل متعدد اللغات — مصممة لحل مشاكل أواجهها يومياً في عملي.",
-    statusInDev: "قيد التطوير",
-    boardKicker: "على لوحة الأفكار",
-    founderBadge: "المؤسس",
-    koryuu: {
-      name: "Koryuu",
-      tagline: "برمجيات عند ملتقى الثقافات.",
-      year: "2025 — حتى الآن",
-      description:
-        "Koryuu (交流، أي «التبادل») هو الاستوديو البرمجي الذي أسّسته ليكون بيتاً لكل ما أبنيه. يجمع تطبيقاتي في مكان واحد — من أتمتة الـDTP ثلاثية اللغات إلى أدوات تعلّم اليابانية لمتحدثي العربية — وكلٌّ منها وُلد من مشكلة حقيقية في عملي بين العربية واليابانية والإنجليزية.",
-      cta: "زيارة koryuu.com",
-    },
-    projects: [
-      {
-        slug: "dtp-master",
-        name: "DTP Master",
-        tagline: "أداة مكتبية شاملة لمحترفي DTP",
-        year: "2025 — حتى الآن",
-        description: "تطبيق سطح مكتب لـWindows يجمع كل مهام مشغّل الـDTP اليومية — مقارنة PDF، مراجعة ذكية، فحص مرآة للعربية، إصلاح الخطوط، تغليف التسليم. أداة واحدة موقّعة ذاتية التحديث تحل محل عشرات الأدوات المبعثرة.",
-      },
-      {
-        href: "/nihongo-kit/",
-        name: "Nihongo Kit",
-        tagline: "دليل عربي عملي لدارسي اللغة اليابانية",
-        year: "2025 — حتى الآن",
-        description: "منصة عملية لدارسي اليابانية بالعربي — مواقع شغل في اليابان، بروفايلات مترجمين، تطبيقات لغة، خريطة مذاكرة من الصفر للـN1، وألعاب تفاعلية (Kanji Rush و Kanji Grid). موقع ثابت سريع ومتجاوب.",
-      },
-    ],
-    ideas: [
-      "لوحة تحكم جودة ويب لفرق الترجمة العربية/اليابانية.",
-      "حاسبة عروض أسعار خفيفة لوكالات الترجمة.",
-      "مكتبة قصاصات وقوالب لفرق DTP.",
+    kicker: "المؤسس · Koryuu",
+    heading: "Koryuu",
+    tagline: "برمجيات عند ملتقى الثقافات.",
+    intro:
+      "Koryuu (交流، أي «التبادل») هو الاستوديو البرمجي الذي أسّسته ليكون بيتاً لكل ما أبنيه. من أتمتة الـDTP ثلاثية اللغات إلى أدوات تعلّم اللغات وأدوات macOS الأصلية — كل المشاريع أدناه تقع تحت مظلة Koryuu، وكلٌّ منها وُلد من مشكلة حقيقية في عملي بين العربية واليابانية والإنجليزية.",
+    visitCta: "زيارة koryuu.com",
+    inside: "ماذا يضم",
+    moreNote: "…والمزيد، مع التفاصيل الكاملة والتنزيلات على koryuu.com.",
+    closing: "استكشف المجموعة كاملةً",
+    apps: [
+      { slug: "dtp-master", name: "DTP Master", category: "إنتاج", tagline: "أتمتة النشر المكتبي ثلاثي اللغات." },
+      { slug: "jlpt-master", name: "JLPT Master", category: "تعلّم", tagline: "اليابانية كما يتعلّمها العرب فعلاً." },
+      { slug: "supernotch", name: "SuperNotch", category: "macOS", tagline: "نوتش الماك بوك أخيراً مفيد." },
+      { slug: "switcher", name: "Switcher", category: "macOS", tagline: "مفتاحان تحت إبهامك ونافذة واحدة بعيدة." },
+      { slug: "cloudops-associate", name: "CloudOps Associate", category: "تعلّم", tagline: "تحضير امتحان AWS SOA-C03 كما يجب." },
+      { slug: "mylife", name: "Mylife", category: "شخصي", tagline: "تتبّع تفاصيل الحياة التي تهمّك." },
     ],
   },
 };
@@ -139,15 +91,9 @@ const t = {
 export default function ProjectsPage() {
   const text = useT(t);
 
-  const accents = [
-    "from-cyan-500/20 via-blue-500/10 to-transparent",
-    "from-blue-500/20 via-violet-500/10 to-transparent",
-  ];
-
-  const projects: Project[] = text.projects.map((p, i) => ({
-    ...p,
-    status: text.statusInDev,
-    accent: accents[i] ?? accents[0],
+  const apps: AppItem[] = text.apps.map((a) => ({
+    ...a,
+    accent: ACCENTS[a.slug] ?? "from-blue-500/20 via-blue-500/5 to-transparent",
   }));
 
   return (
@@ -155,9 +101,9 @@ export default function ProjectsPage() {
       <Navbar />
 
       <section className="relative overflow-hidden pt-32 pb-16">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_#1a1a2e_0%,_#0a0a0a_70%)]" />
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-20 right-1/4 w-[400px] h-[400px] bg-cyan-600/10 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_#1a1430_0%,_#0a0a0a_70%)]" />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-20 right-1/4 w-[400px] h-[400px] bg-violet-600/10 rounded-full blur-3xl animate-pulse delay-1000" />
         <Particles />
 
         <div className="relative z-10 max-w-3xl mx-auto px-6">
@@ -165,7 +111,7 @@ export default function ProjectsPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-sm uppercase tracking-[0.25em] text-blue-300/80 mb-4"
+            className="text-sm uppercase tracking-[0.25em] text-indigo-300/80 mb-4"
           >
             {text.kicker}
           </motion.p>
@@ -173,9 +119,9 @@ export default function ProjectsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.6 }}
-            className="text-4xl md:text-6xl font-bold mb-5 leading-[1.05]"
+            className="text-5xl md:text-7xl font-bold mb-4 leading-[1.05]"
           >
-            <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-white via-indigo-100 to-violet-300 bg-clip-text text-transparent">
               {text.heading}
             </span>
           </motion.h1>
@@ -183,133 +129,95 @@ export default function ProjectsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-gray-400 text-base md:text-lg leading-relaxed max-w-2xl"
+            className="text-lg md:text-xl text-indigo-200/90 mb-5"
           >
-            {text.sub}
+            {text.tagline}
           </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="text-gray-400 text-base md:text-lg leading-relaxed max-w-2xl mb-8"
+          >
+            {text.intro}
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
+            <a
+              href={KORYUU_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-medium hover:from-indigo-500 hover:to-violet-500 shadow-lg shadow-indigo-500/20 transition-all duration-300"
+            >
+              {text.visitCta}
+              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
+          </motion.div>
         </div>
       </section>
 
       <main className="relative pb-24">
         <div className="max-w-3xl mx-auto px-6">
-          {/* Featured: Koryuu */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="mb-12"
-          >
-            <a
-              href="https://koryuu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative block rounded-2xl overflow-hidden border border-indigo-500/30 bg-[#0f0f14] hover:border-indigo-400/60 transition-colors duration-300"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-violet-500/10 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative p-6 md:p-8">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <span className="text-xs font-mono text-gray-500">{text.koryuu.year}</span>
-                    <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 rounded-full border border-indigo-400/40 text-indigo-200 bg-indigo-500/15 font-medium uppercase tracking-wider">
-                      {text.founderBadge}
-                    </span>
-                  </div>
-                  <ExternalLink className="w-5 h-5 text-gray-600 group-hover:text-indigo-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
-                </div>
-                <h2 className="text-3xl md:text-4xl font-bold mt-4 mb-2">
-                  <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent group-hover:from-indigo-200 group-hover:to-violet-300 transition-all duration-500">
-                    {text.koryuu.name}
-                  </span>
-                </h2>
-                <p className="text-gray-300 mb-3">{text.koryuu.tagline}</p>
-                <p className="text-gray-400 text-sm md:text-base leading-relaxed">{text.koryuu.description}</p>
-                <span className="inline-flex items-center gap-1.5 mt-5 text-sm font-medium text-indigo-300 group-hover:text-indigo-200 transition-colors">
-                  {text.koryuu.cta}
-                  <ArrowUpRight className="w-4 h-4 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
-                </span>
-              </div>
-            </a>
-          </motion.div>
+          <div className="flex items-center gap-2 mb-6">
+            <p className="text-sm uppercase tracking-[0.2em] text-gray-500">{text.inside}</p>
+            <span className="h-px flex-1 bg-gradient-to-r from-gray-700/60 to-transparent" />
+          </div>
 
-          <div className="grid gap-5">
-            {projects.map((p, i) => (
-              <motion.div
-                key={p.name}
-                initial={{ opacity: 0, y: 30 }}
+          <div className="grid sm:grid-cols-2 gap-4">
+            {apps.map((app, i) => (
+              <motion.a
+                key={app.slug}
+                href={`${KORYUU_URL}/apps/${app.slug}/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ delay: 0.1 + i * 0.1, duration: 0.6 }}
+                transition={{ delay: 0.05 + i * 0.06, duration: 0.5 }}
+                className="group relative block rounded-2xl overflow-hidden border border-gray-800 bg-[#0f0f14] hover:border-indigo-500/40 transition-colors duration-300"
               >
-                {(() => {
-                  const linkHref = p.slug ? `/projects/${p.slug}` : p.href;
-                  if (!linkHref) return null;
-                  const LinkComp: React.ElementType = p.slug ? Link : "a";
-                  const linkProps = p.slug ? { href: linkHref } : { href: linkHref };
-                  return (
-                  <LinkComp
-                    {...linkProps}
-                    className="group relative block rounded-2xl overflow-hidden border border-gray-800 bg-[#0f0f14] hover:border-cyan-500/40 transition-colors duration-300"
-                  >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${p.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                    <div className="relative p-6 md:p-8">
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex items-center gap-3 flex-wrap">
-                          <span className="text-xs font-mono text-gray-500">{p.year}</span>
-                          <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 rounded-full border border-cyan-500/30 text-cyan-300 bg-cyan-500/10">
-                            <span className="relative flex h-1.5 w-1.5">
-                              <span className="absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75 animate-ping" />
-                              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan-400" />
-                            </span>
-                            {p.status}
-                          </span>
-                        </div>
-                        <ArrowUpRight className="w-5 h-5 text-gray-600 group-hover:text-cyan-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
-                      </div>
-                      <h2 className="text-2xl md:text-3xl font-bold mt-4 mb-2">
-                        <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent group-hover:from-cyan-200 group-hover:to-blue-300 transition-all duration-500">
-                          {p.name}
-                        </span>
-                      </h2>
-                      <p className="text-gray-300 mb-3">{p.tagline}</p>
-                      <p className="text-gray-500 text-sm leading-relaxed">{p.description}</p>
-                    </div>
-                  </LinkComp>
-                  );
-                })()}
-              </motion.div>
+                <div className={`absolute inset-0 bg-gradient-to-br ${app.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                <div className="relative p-5 md:p-6">
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="text-xs px-2.5 py-0.5 rounded-full border border-gray-700 text-gray-400 bg-white/[0.02]">
+                      {app.category}
+                    </span>
+                    <ArrowUpRight className="w-4 h-4 text-gray-600 group-hover:text-indigo-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
+                  </div>
+                  <h2 className="text-xl font-bold mt-3 mb-1.5">
+                    <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent group-hover:from-indigo-200 group-hover:to-violet-300 transition-all duration-500">
+                      {app.name}
+                    </span>
+                  </h2>
+                  <p className="text-gray-500 text-sm leading-relaxed">{app.tagline}</p>
+                </div>
+              </motion.a>
             ))}
           </div>
 
-          <motion.section
-            initial={{ opacity: 0, y: 30 }}
+          <p className="text-gray-600 text-sm mt-6">{text.moreNote}</p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="mt-20"
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
+            className="mt-14 rounded-2xl border border-indigo-500/25 bg-gradient-to-br from-indigo-500/10 via-violet-500/5 to-transparent p-8 text-center"
           >
-            <div className="flex items-center gap-2 mb-6">
-              <Construction className="w-4 h-4 text-amber-400" />
-              <p className="text-sm uppercase tracking-[0.2em] text-gray-500">
-                {text.boardKicker}
-              </p>
-            </div>
-            <ul className="grid gap-3">
-              {text.ideas.map((idea, i) => (
-                <motion.li
-                  key={idea}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08, duration: 0.4 }}
-                  className="flex items-start gap-3 p-4 rounded-xl border border-gray-800/60 bg-[#0d0d12] hover:border-amber-500/30 transition-colors"
-                >
-                  <Sparkles className="w-4 h-4 text-amber-400/80 flex-shrink-0 mt-1" />
-                  <span className="text-gray-400 leading-relaxed">{idea}</span>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.section>
+            <p className="text-lg text-gray-200 mb-5">{text.closing}</p>
+            <a
+              href={KORYUU_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2.5 px-7 py-3 rounded-full bg-white text-gray-900 font-semibold hover:bg-gray-100 transition-colors"
+            >
+              {text.visitCta}
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          </motion.div>
         </div>
       </main>
 

@@ -1,9 +1,11 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ChevronDown, Download, Cloud, Monitor, Sparkles, ArrowUpRight } from "lucide-react";
+import { ChevronDown, FileText, Cloud, Monitor, Sparkles, ArrowUpRight } from "lucide-react";
 import { SparklesCore } from "@/components/ui/sparkles";
+import { RequestCvModal } from "@/components/RequestCvModal";
 import { useT } from "@/lib/i18n";
 
 const t = {
@@ -16,7 +18,7 @@ const t = {
     ],
     contact: "Contact Me",
     learnMore: "Learn More",
-    cv: "CV",
+    cv: "Request CV",
   },
   ja: {
     tagline: "東京在住のトリリンガル・DTPスペシャリスト・通訳者",
@@ -27,7 +29,7 @@ const t = {
     ],
     contact: "お問い合わせ",
     learnMore: "詳しく見る",
-    cv: "履歴書",
+    cv: "履歴書をリクエスト",
   },
   ar: {
     tagline: "محترف ثلاثي اللغات في طوكيو · أخصائي DTP · مترجم فوري",
@@ -38,7 +40,7 @@ const t = {
     ],
     contact: "تواصل معي",
     learnMore: "اعرف المزيد",
-    cv: "السيرة الذاتية",
+    cv: "اطلب السيرة الذاتية",
   },
 };
 
@@ -49,6 +51,7 @@ const credentialMeta = [
 
 export function HeroSparkles() {
   const text = useT(t);
+  const [cvOpen, setCvOpen] = React.useState(false);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
@@ -150,14 +153,14 @@ export function HeroSparkles() {
           >
             {text.learnMore}
           </a>
-          <a
-            href="/mahmoud-cv.pdf"
-            download
-            className="px-6 sm:px-8 py-2.5 sm:py-3 rounded-full border border-blue-500/30 text-blue-300 text-sm sm:text-base hover:bg-blue-500/10 transition-all duration-300 flex items-center gap-2 whitespace-nowrap"
+          <button
+            type="button"
+            onClick={() => setCvOpen(true)}
+            className="px-6 sm:px-8 py-2.5 sm:py-3 rounded-full border border-blue-500/30 text-blue-300 text-sm sm:text-base hover:bg-blue-500/10 transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer"
           >
-            <Download className="w-4 h-4" />
+            <FileText className="w-4 h-4" />
             {text.cv}
-          </a>
+          </button>
           <a
             href="https://www.linkedin.com/in/mahmoud-adel-jp"
             target="_blank"
@@ -178,6 +181,8 @@ export function HeroSparkles() {
       >
         <ChevronDown className="w-6 h-6 text-gray-500 animate-bounce" />
       </motion.div>
+
+      <RequestCvModal open={cvOpen} onClose={() => setCvOpen(false)} />
     </section>
   );
 }
