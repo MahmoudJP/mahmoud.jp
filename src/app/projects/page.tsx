@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowUpRight, Sparkles, Construction } from "lucide-react";
+import { ArrowUpRight, Sparkles, Construction, ExternalLink } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
@@ -29,6 +29,15 @@ const t = {
     sub: "Tools for translation, DTP, and multilingual workflows — built to solve problems I hit in my own day-to-day work.",
     statusInDev: "In Development",
     boardKicker: "On the drawing board",
+    founderBadge: "Founder",
+    koryuu: {
+      name: "Koryuu",
+      tagline: "Software at the crossroads of cultures.",
+      year: "2025 — Present",
+      description:
+        "Koryuu (交流, “exchange”) is the software studio I founded as the home for everything I build. It gathers my apps under one roof — from trilingual DTP automation to Japanese study tools for Arabic speakers — each one born from a real problem in my own work across Arabic, Japanese, and English.",
+      cta: "Visit koryuu.com",
+    },
     projects: [
       {
         slug: "dtp-master",
@@ -57,6 +66,15 @@ const t = {
     sub: "翻訳・DTP・多言語ワークフローのためのツール。日々の業務で直面する課題を解決するために自ら制作しています。",
     statusInDev: "開発中",
     boardKicker: "構想中のアイデア",
+    founderBadge: "創業者",
+    koryuu: {
+      name: "Koryuu",
+      tagline: "文化の交差点に立つソフトウェア。",
+      year: "2025年 — 現在",
+      description:
+        "Koryuu（交流）は、私が手がけるソフトウェアの拠点として立ち上げたスタジオです。三言語対応のDTP自動化から、アラビア語話者向けの日本語学習ツールまで——アラビア語・日本語・英語をまたぐ私自身の現場の課題から生まれたアプリを、一つの場所に集めています。",
+      cta: "koryuu.com を見る",
+    },
     projects: [
       {
         slug: "dtp-master",
@@ -85,6 +103,15 @@ const t = {
     sub: "أدوات للترجمة وDTP والعمل متعدد اللغات — مصممة لحل مشاكل أواجهها يومياً في عملي.",
     statusInDev: "قيد التطوير",
     boardKicker: "على لوحة الأفكار",
+    founderBadge: "المؤسس",
+    koryuu: {
+      name: "Koryuu",
+      tagline: "برمجيات عند ملتقى الثقافات.",
+      year: "2025 — حتى الآن",
+      description:
+        "Koryuu (交流، أي «التبادل») هو الاستوديو البرمجي الذي أسّسته ليكون بيتاً لكل ما أبنيه. يجمع تطبيقاتي في مكان واحد — من أتمتة الـDTP ثلاثية اللغات إلى أدوات تعلّم اليابانية لمتحدثي العربية — وكلٌّ منها وُلد من مشكلة حقيقية في عملي بين العربية واليابانية والإنجليزية.",
+      cta: "زيارة koryuu.com",
+    },
     projects: [
       {
         slug: "dtp-master",
@@ -165,6 +192,46 @@ export default function ProjectsPage() {
 
       <main className="relative pb-24">
         <div className="max-w-3xl mx-auto px-6">
+          {/* Featured: Koryuu */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+            className="mb-12"
+          >
+            <a
+              href="https://koryuu.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative block rounded-2xl overflow-hidden border border-indigo-500/30 bg-[#0f0f14] hover:border-indigo-400/60 transition-colors duration-300"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-violet-500/10 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative p-6 md:p-8">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <span className="text-xs font-mono text-gray-500">{text.koryuu.year}</span>
+                    <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 rounded-full border border-indigo-400/40 text-indigo-200 bg-indigo-500/15 font-medium uppercase tracking-wider">
+                      {text.founderBadge}
+                    </span>
+                  </div>
+                  <ExternalLink className="w-5 h-5 text-gray-600 group-hover:text-indigo-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold mt-4 mb-2">
+                  <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent group-hover:from-indigo-200 group-hover:to-violet-300 transition-all duration-500">
+                    {text.koryuu.name}
+                  </span>
+                </h2>
+                <p className="text-gray-300 mb-3">{text.koryuu.tagline}</p>
+                <p className="text-gray-400 text-sm md:text-base leading-relaxed">{text.koryuu.description}</p>
+                <span className="inline-flex items-center gap-1.5 mt-5 text-sm font-medium text-indigo-300 group-hover:text-indigo-200 transition-colors">
+                  {text.koryuu.cta}
+                  <ArrowUpRight className="w-4 h-4 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                </span>
+              </div>
+            </a>
+          </motion.div>
+
           <div className="grid gap-5">
             {projects.map((p, i) => (
               <motion.div
