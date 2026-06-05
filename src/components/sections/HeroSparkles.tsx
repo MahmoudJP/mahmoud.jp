@@ -3,7 +3,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import { ChevronDown, FileText, Cloud, Monitor, Sparkles, ArrowUpRight } from "lucide-react";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { RequestCvModal } from "@/components/RequestCvModal";
@@ -74,27 +73,6 @@ export function HeroSparkles() {
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent via-[#070a13] to-[#0d1424]" />
 
       <div className="relative z-10 text-center px-6 max-w-4xl w-full py-24">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8"
-        >
-          <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-[3px] shadow-xl shadow-blue-500/20 isolate">
-            <div className="w-full h-full rounded-full overflow-hidden relative [transform:translateZ(0)]">
-              <Image
-                src="/mahmoud-logo.png"
-                alt="Mahmoud Adel logo"
-                fill
-                priority
-                sizes="(max-width: 640px) 128px, (max-width: 768px) 144px, 160px"
-                className="object-contain"
-              />
-              <div className="absolute inset-0 rounded-full bg-gradient-to-t from-[#0a0a0a]/20 to-transparent" />
-            </div>
-          </div>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
