@@ -5,7 +5,7 @@ export const person = {
   alternateName: ["محمود عادل إبراهيم", "マフムード・アーデル"],
   jobTitle: "Trilingual DTP Specialist & Interpreter",
   email: "m@mahmoud.jp",
-  image: `${siteUrl}/mahmoud.jpg`,
+  image: `${siteUrl}/mahmoud-logo.png`,
   sameAs: [
     "https://www.linkedin.com/in/mahmoud-adel-jp",
     "https://github.com/MahmoudJP",

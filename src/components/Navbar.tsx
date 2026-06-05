@@ -67,16 +67,16 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setAvatarOpen(true)}
-            aria-label="View photo"
+            aria-label="View logo"
             className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-[2px] shadow-md shadow-blue-500/20 isolate hover:scale-105 hover:shadow-blue-500/40 transition-transform duration-200 cursor-pointer"
           >
             <span className="block w-full h-full rounded-full overflow-hidden relative [transform:translateZ(0)]">
               <Image
-                src="/mahmoud-cropped.jpg"
-                alt="Mahmoud Adel"
+                src="/mahmoud-logo.png"
+                alt="Mahmoud Adel logo"
                 fill
                 sizes="48px"
-                className="object-cover scale-105 contrast-[1.05] brightness-[1.1]"
+                className="object-contain"
               />
             </span>
           </button>
@@ -147,12 +147,12 @@ export function Navbar() {
             >
               <span className="block w-full h-full rounded-full overflow-hidden relative">
                 <Image
-                  src="/mahmoud.jpg"
-                  alt="Mahmoud Adel"
+                  src="/mahmoud-logo.png"
+                  alt="Mahmoud Adel logo"
                   fill
                   priority
                   sizes="(max-width: 640px) 90vw, 520px"
-                  className="object-cover"
+                  className="object-contain"
                 />
               </span>
             </motion.div>

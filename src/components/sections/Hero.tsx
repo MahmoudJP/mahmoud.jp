@@ -68,12 +68,12 @@ export function Hero() {
           <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-[3px] shadow-xl shadow-blue-500/20 isolate">
             <div className="w-full h-full rounded-full overflow-hidden relative [transform:translateZ(0)]">
               <Image
-                src="/mahmoud-cropped.jpg"
-                alt="Mahmoud Adel"
+                src="/mahmoud-logo.png"
+                alt="Mahmoud Adel logo"
                 fill
                 priority
                 sizes="(max-width: 640px) 128px, (max-width: 768px) 144px, 160px"
-                className="object-cover scale-105 contrast-[1.05] brightness-[1.1]"
+                className="object-contain"
               />
               <div className="absolute inset-0 rounded-full bg-gradient-to-t from-[#0a0a0a]/30 to-transparent" />
             </div>
