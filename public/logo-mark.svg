@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 300" width="320" height="300">
+  <defs>
+    <linearGradient id="stroke" x1="0" y1="0" x2="1" y2="0.4">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+  <!--
+    M monogram — three strokes = three languages (Arabic / Japanese / English).
+    Center vertex dips to a nib-like point: DTP & typography, languages meeting in one voice.
+    Cyan dot = the "." in mahmoud.jp.
+  -->
+  <polyline points="40,236 40,40 160,176 280,40 280,236"
+            fill="none" stroke="url(#stroke)" stroke-width="40"
+            stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="40" y1="270" x2="232" y2="270"
+        stroke="#ffffff" stroke-opacity="0.3" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="268" cy="270" r="14" fill="#22d3ee"/>
+</svg>

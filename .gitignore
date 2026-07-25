@@ -42,7 +42,6 @@ next-env.d.ts
 
 # local assistant artifacts
 .claude/
-AGENTS.md
 PROMPT.md
 SESSION-NOTES.md
 .env*.local

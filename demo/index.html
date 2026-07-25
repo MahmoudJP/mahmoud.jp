@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mahmoud Adel | Portfolio Demo</title>
+    <meta name="description" content="Experimental portfolio concept for Mahmoud Adel, a Tokyo-based trilingual DTP specialist, interpreter, and IT support professional.">
+    <meta name="theme-color" content="#080908">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="page-loader" id="pageLoader" aria-hidden="true">
+      <div class="loader-inner">
+        <span class="loader-mark">
+          <span class="loader-mono">MA</span>
+        </span>
+        <span class="loader-scripts">
+          <span dir="rtl">ع</span>
+          <span class="loader-dot">·</span>
+          <span>日</span>
+          <span class="loader-dot">·</span>
+          <span>A</span>
+        </span>
+        <span class="loader-bar"><i></i></span>
+      </div>
+    </div>
+
+    <div class="scroll-progress" aria-hidden="true"><i></i></div>
+    <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+    <nav class="dot-nav" id="dotNav" aria-label="Section navigation">
+      <a href="#home" data-label="Home"><span></span></a>
+      <a href="#services" data-label="Specialties"><span></span></a>
+      <a href="#about" data-label="About"><span></span></a>
+      <a href="#experience" data-label="Experience"><span></span></a>
+      <a href="#workflow" data-label="Journey"><span></span></a>
+      <a href="#contact" data-label="Contact"><span></span></a>
+    </nav>
+
+    <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+
+    <header class="site-header">
+      <div class="topbar">
+        <a class="brand" href="#home" aria-label="Mahmoud home">
+          <img src="assets/mahmoud-cropped.jpg" alt="Mahmoud Adel">
+          <span>
+            <strong>Mahmoud Adel</strong>
+            <small>Trilingual DTP Specialist & Interpreter in Tokyo</small>
+          </span>
+        </a>
+        <nav class="language-nav" aria-label="Languages preview">
+          <span>日本語</span>
+          <span class="active" aria-current="true">English</span>
+          <span dir="rtl">العربية</span>
+        </nav>
+        <a class="phone-link" href="mailto:m@mahmoud.jp">m@mahmoud.jp</a>
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">Menu</button>
+      </div>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#services">Specialties</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#workflow">Workflow</a>
+        <a class="nav-cta" href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="hero-inner">
+          <div class="hero-copy">
+            <span class="hero-spotlight" aria-hidden="true"></span>
+            <p class="hero-greeting" aria-label="Multilingual greeting">
+              <span class="hero-greeting-track" data-greeting>
+                <span dir="rtl" lang="ar">السلام عليكم</span>
+                <span lang="ja">こんにちは</span>
+                <span lang="en">Hello</span>
+              </span>
+              <span class="hero-greeting-wave" aria-hidden="true">👋</span>
+            </p>
+            <p class="eyebrow">Arabic · Japanese · English</p>
+            <h1>Multilingual production, interpretation, and IT support with <em>sharp</em> delivery.</h1>
+            <p class="hero-lede">I'm Mahmoud Adel, a Tokyo-based trilingual professional specializing in Arabic DTP, translation quality control, interpretation, IT support, and practical AI-powered workflows.</p>
+            <div class="hero-points" aria-label="Portfolio highlights">
+              <span>DTP & QC</span>
+              <span>Interpretation</span>
+              <span>Cloud & IT</span>
+            </div>
+            <div class="hero-actions">
+              <a class="button primary" href="#projects">See work</a>
+              <a class="button ghost" href="assets/mahmoud-cv.pdf" download>Download CV</a>
+            </div>
+          </div>
+          <aside class="hero-card" aria-label="Mahmoud profile card">
+            <div class="hero-card-top">
+              <div class="hero-card-id">
+                <strong>Mahmoud Adel</strong>
+                <small>DTP · Interpretation · IT</small>
+                <span class="hero-card-loc">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-12a7 7 0 1114 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                  Tokyo, Japan
+                </span>
+              </div>
+            </div>
+            <ul class="hero-card-langs" aria-label="Working languages">
+              <li dir="rtl">العربية</li>
+              <li>日本語</li>
+              <li>English</li>
+            </ul>
+            <ul class="hero-card-list">
+              <li>
+                <strong>Arabic DTP</strong>
+                <span>RTL layout, QC, PDF checks.</span>
+              </li>
+              <li>
+                <strong>Live Interpretation</strong>
+                <span>Arabic, Japanese, English.</span>
+              </li>
+              <li>
+                <strong>Systems Mindset</strong>
+                <span>IT support, AWS, AI workflows.</span>
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="service-overview" id="services" aria-label="Core specialties" data-reveal>
+        <a href="#projects">
+          <span class="service-num">01</span>
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9M14 13h4M14 17h2"/></svg>
+          <strong>Arabic DTP</strong>
+          <p>Right-to-left layout, InDesign and Illustrator production, PDF checks, and print-ready multilingual documents.</p>
+        </a>
+        <a href="#experience">
+          <span class="service-num">02</span>
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h12M10 3v2M6 19l4-10 4 10M6.5 17h7M14 12c2 4 4 6 7 7M21 12c-3 1-5 3-7 7"/></svg>
+          <strong>Interpretation</strong>
+          <p>Arabic-Japanese support for business communication, calls, emergencies, events, and cross-cultural moments.</p>
+        </a>
+        <a href="#workflow">
+          <span class="service-num">03</span>
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M2 9h20M8 21h8M12 18v3"/></svg>
+          <strong>IT & AI Systems</strong>
+          <p>Server administration, device troubleshooting, cloud study, and custom productivity tools like DTP Master.</p>
+        </a>
+      </section>
+
+      <div class="script-divider" aria-hidden="true"><span dir="rtl">ع</span><i></i><span>日</span><i></i><span>A</span></div>
+
+      <section class="trust-badges" aria-label="Highlights" data-reveal>
+        <div class="badge"><svg viewBox="0 0 24 24"><path d="M12 2l2.5 6.5H21l-5 4 2 7-6-4.5L6 19.5l2-7-5-4h6.5z"/></svg><span><strong>3 Languages</strong>Arabic, Japanese, English</span></div>
+        <div class="badge"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span><strong>DTP + QC</strong>production discipline</span></div>
+        <div class="badge"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span><strong>AWS Track</strong>cloud engineering study</span></div>
+        <div class="badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg><span><strong>Tokyo</strong>global work base</span></div>
+      </section>
+
+      <section data-reveal class="section split" id="about">
+        <div>
+          <p class="eyebrow">About Mahmoud</p>
+          <h2>Multilingual production mind, interpreter instinct, and a serious eye for details.</h2>
+          <p>My work sits between language, layout, and technology. I handle multilingual DTP operations, Arabic translation QC, Arabic-Japanese interpretation, and hands-on IT support for production environments.</p>
+          <p>I like practical systems: clean documents, clear communication, stable machines, and AI tools that actually save time instead of adding noise.</p>
+          <div class="feature-list">
+            <span>Arabic right-to-left composition</span>
+            <span>Japanese business communication</span>
+            <span>Translation quality checks</span>
+            <span>InDesign / Illustrator workflows</span>
+            <span>Server and hardware support</span>
+            <span>Volunteer and event interpretation</span>
+          </div>
+        </div>
+        <figure class="framed-image">
+          <img src="assets/mahmoud-cropped.jpg" alt="Mahmoud Adel">
+        </figure>
+      </section>
+
+      <section class="metrics" aria-label="Profile metrics" data-reveal>
+        <article>
+          <strong data-count="3">0</strong>
+          <span>working languages across Arabic, Japanese and English</span>
+        </article>
+        <article>
+          <strong data-count="2021">0</strong>
+          <span>professional interpreting experience since</span>
+        </article>
+        <article>
+          <strong data-count="24" data-suffix="/7">0</strong>
+          <span>on-call interpretation mindset</span>
+        </article>
+        <article>
+          <strong>Tokyo</strong>
+          <span>based in Japan with Egyptian roots</span>
+        </article>
+      </section>
+
+      <section class="manifesto" aria-label="In three languages" data-reveal>
+        <p class="manifesto-eyebrow">In three languages</p>
+        <ol class="manifesto-lines">
+          <li dir="rtl" lang="ar"><span class="manifesto-tag">AR</span>الدقة في كل تفصيلة.</li>
+          <li lang="ja"><span class="manifesto-tag">JA</span>細部までこだわる。</li>
+          <li lang="en"><span class="manifesto-tag">EN</span>Precision in every detail.</li>
+        </ol>
+      </section>
+
+      <div class="script-divider" aria-hidden="true"><span dir="rtl">ع</span><i></i><span>日</span><i></i><span>A</span></div>
+
+      <section data-reveal class="section warm" id="experience">
+        <div class="section-head">
+          <p class="eyebrow">Experience</p>
+          <h2>Work history with one theme: making complex communication usable.</h2>
+        </div>
+        <div class="service-grid">
+          <article>
+            <span>Sep 2025 - Present</span>
+            <h3>SHAMS Co., Ltd.</h3>
+            <p><strong>DTP Operator & Arabic QC</strong></p>
+            <p>Multilingual document production, Arabic translation QC, server administration, device maintenance, and daily IT support.</p>
+          </article>
+          <article>
+            <span>Apr 2026 - Present</span>
+            <h3>BeBorn Inc.</h3>
+            <p><strong>On-call Interpreter</strong></p>
+            <p>Real-time Arabic-Japanese telephone interpretation for urgent, medical, housing, utility, and business situations.</p>
+          </article>
+          <article>
+            <span>May 2021 - May 2024</span>
+            <h3>EDJ Translation Company</h3>
+            <p><strong>Arabic Interpreter & Translator</strong></p>
+            <p>Project-based Arabic interpretation and translation across Egypt and Japan-facing communication needs.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="clients" aria-label="Skills ribbon" data-reveal>
+        <div class="clients-head">
+          <p class="eyebrow">Toolbox</p>
+            <h2>Skills that move between <strong>language, layout and systems</strong>.</h2>
+          <p>A rare professional mix: linguistic precision, DTP discipline, hardware confidence, and cloud curiosity.</p>
+        </div>
+        <div class="clients-marquee">
+          <ul class="clients-track">
+            <li>Arabic DTP</li>
+            <li>Japanese Interpretation</li>
+            <li>InDesign</li>
+            <li>Illustrator</li>
+            <li>PDF Preflight</li>
+            <li>Rare Mix</li>
+            <li>Server Admin</li>
+            <li>IT Repair</li>
+            <li>AWS Study</li>
+            <li>AI Power User</li>
+            <li>PC Building</li>
+          </ul>
+        </div>
+      </section>
+
+      <section data-reveal class="section split projects" id="projects">
+        <div>
+          <p class="eyebrow">Featured project</p>
+          <h2>DTP Master: a production helper built from real workflow pain.</h2>
+          <p>DTP Master is a practical tool for document production work, designed around the repetitive checks and decisions that slow down multilingual desktop publishing.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="https://mahmoud.jp/projects/dtp-master/" target="_blank" rel="noopener noreferrer">View project page</a>
+            <a class="button ghost" href="https://mahmoud.jp/" target="_blank" rel="noopener noreferrer">Original portfolio</a>
+          </div>
+        </div>
+        <figure class="framed-image project-shot">
+          <img src="assets/dtp-master-screen-1.png" alt="DTP Master app screenshot">
+        </figure>
+      </section>
+
+      <div class="script-divider" aria-hidden="true"><span dir="rtl">ع</span><i></i><span>日</span><i></i><span>A</span></div>
+
+      <section class="workflow journey" id="workflow" aria-label="Journey from Cairo to Tokyo" data-reveal>
+        <div class="workflow-head">
+          <p class="eyebrow">The journey</p>
+          <h2>From Cairo to Tokyo — a path that built a rare mix.</h2>
+          <p class="workflow-sub">Three languages, two continents, one obsession with getting the details right.</p>
+        </div>
+        <ol class="timeline">
+          <li data-flag="eg">
+            <div class="timeline-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="10.5" r="3"/><path d="M12 21s-7-6.2-7-12a7 7 0 1114 0c0 5.8-7 12-7 12z"/></svg></div>
+            <span class="timeline-step">Cairo · Egypt</span>
+            <strong>Where it started</strong>
+            <p>Born and raised in Egypt. Arabic mother tongue, an early curiosity for languages, and the patience that desktop publishing later demanded.</p>
+          </li>
+          <li>
+            <div class="timeline-icon"><svg viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 016.5 4H20v15H6.5A2.5 2.5 0 014 16.5v-10z"/><path d="M4 16.5A2.5 2.5 0 016.5 14H20"/><path d="M9 4v10"/></svg></div>
+            <span class="timeline-step">2017 — 2022</span>
+            <strong>Falling into Japanese</strong>
+            <p>Four years at Benha University studying Japanese language and literature. The first time three writing systems lived inside one notebook.</p>
+          </li>
+          <li data-flag="jp">
+            <div class="timeline-icon"><svg viewBox="0 0 24 24"><path d="M3 17l9-9 4 4 5-5"/><path d="M21 7v5h-5"/><path d="M4 21h16"/></svg></div>
+            <span class="timeline-step">2024 — Tokyo</span>
+            <strong>Moved to Japan</strong>
+            <p>Landed in Tokyo to live the language, not just study it. One year at Tokyo Language and Culture Academy, then straight into production work.</p>
+          </li>
+          <li>
+            <div class="timeline-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/><path d="M14 13h4M14 17h2"/></svg></div>
+            <span class="timeline-step">2025 — present</span>
+            <strong>Production in three scripts</strong>
+            <p>DTP, Arabic QC, server admin, and on-call Arabic-Japanese interpretation. Every workday touches Arabic, Japanese, and English.</p>
+          </li>
+          <li class="timeline-finale">
+            <span class="timeline-step finale-eyebrow">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.6 5L19 10l-5.4 2L12 17l-1.6-5L5 10l5.4-2z"/></svg>
+              Today
+            </span>
+            <strong>The rare mix</strong>
+            <p>Arabic + Japanese + English. DTP + Interpretation + IT.<br>A combination most teams cannot hire for in one person — and the reason this site exists.</p>
+            <ul class="finale-trio" aria-hidden="true">
+              <li>عربي</li>
+              <li>日本語</li>
+              <li>EN</li>
+            </ul>
+            <span class="timeline-sparkle" aria-hidden="true"></span>
+            <span class="timeline-sparkle" aria-hidden="true"></span>
+            <span class="timeline-sparkle" aria-hidden="true"></span>
+            <span class="timeline-sparkle" aria-hidden="true"></span>
+            <span class="timeline-sparkle" aria-hidden="true"></span>
+            <span class="timeline-sparkle" aria-hidden="true"></span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="quote-section" data-reveal aria-label="A note on the work">
+        <figure class="pull-quote">
+          <svg class="quote-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h4v4H8c0 2 1 3 3 3v3c-3 0-6-2-6-6V7zm9 0h4v4h-3c0 2 1 3 3 3v3c-3 0-6-2-6-6V7z"/></svg>
+          <blockquote>
+            Most teams hire one DTP operator, one interpreter, one IT person — and hope they talk to each other. With Mahmoud, all three live in the same head, and the result is just <em>cleaner work</em>.
+          </blockquote>
+          <figcaption>
+            <strong>The kind of feedback the work earns</strong>
+            <span>Multilingual production teams · Tokyo &amp; Cairo</span>
+          </figcaption>
+        </figure>
+      </section>
+
+      <section data-reveal class="contact-section section" id="contact">
+        <div class="contact-grid">
+          <div class="contact-intro">
+            <p class="eyebrow">Contact</p>
+            <h2>Need Arabic, Japanese, DTP or IT help? <strong>Send the details.</strong></h2>
+            <p>This demo uses the same mailto-style contact behavior as the SHAMS static site, adapted for your portfolio.</p>
+            <ul class="contact-info">
+              <li><span>Email</span><a href="mailto:m@mahmoud.jp">m@mahmoud.jp</a></li>
+              <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/mahmoud-adel-jp" target="_blank" rel="noopener noreferrer">mahmoud-adel-jp</a></li>
+              <li><span>GitHub</span><a href="https://github.com/MahmoudJP" target="_blank" rel="noopener noreferrer">MahmoudJP</a></li>
+            </ul>
+          </div>
+          <form class="contact-form" id="contactForm" novalidate>
+            <div class="field-row">
+              <label class="field">Name<input name="name" type="text" placeholder="Your name" autocomplete="name" aria-describedby="nameError" required><span class="error" id="nameError" data-error="name"></span></label>
+              <label class="field">Email<input name="email" type="email" placeholder="you@example.com" autocomplete="email" aria-describedby="emailError" required><span class="error" id="emailError" data-error="email"></span></label>
+            </div>
+            <label class="field">Project type
+              <select name="service">
+                <option>DTP / Arabic QC</option>
+                <option>Interpretation</option>
+                <option>IT Support</option>
+                <option>AI Workflow</option>
+              </select>
+            </label>
+            <label class="field">Message<textarea name="message" placeholder="Tell me what you need..." aria-describedby="messageError" required minlength="10"></textarea><span class="error" id="messageError" data-error="message"></span></label>
+            <button class="button primary contact-submit" type="submit">Open email</button>
+            <p class="contact-status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <svg class="footer-signature" viewBox="0 0 120 60" aria-hidden="true">
+            <path d="M8 50 L8 12 L24 38 L40 12 L40 50" />
+            <path d="M58 50 L74 12 L90 50 M64 38 L84 38" />
+            <path d="M100 48 Q108 52 114 46" class="footer-signature-stroke" />
+          </svg>
+          <strong>Mahmoud Adel</strong>
+          <span>Arabic · Japanese · English — DTP, Interpretation, IT.</span>
+        </div>
+        <ul class="footer-links" aria-label="Quick links">
+          <li>
+            <a href="mailto:m@mahmoud.jp" aria-label="Email">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              <span>Email</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/mahmoud-adel-jp" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20.4 20.4h-3.5v-5.5c0-1.3 0-3-1.85-3-1.85 0-2.13 1.45-2.13 2.94v5.56H9.4V9h3.36v1.56h.05c.47-.9 1.62-1.85 3.34-1.85 3.58 0 4.24 2.36 4.24 5.43zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.4H3.55V9h3.57z"/></svg>
+              <span>LinkedIn</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/MahmoudJP" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.4 7.86 10.92.57.1.78-.25.78-.55v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.16 1.17a10.94 10.94 0 015.74 0c2.2-1.48 3.16-1.17 3.16-1.17.62 1.59.23 2.76.11 3.05.74.8 1.18 1.82 1.18 3.07 0 4.4-2.7 5.36-5.27 5.65.41.36.78 1.06.78 2.14v3.17c0 .31.21.66.79.55A10.96 10.96 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+              <span>GitHub</span>
+            </a>
+          </li>
+        </ul>
+        <div class="footer-meta">
+          <span class="footer-tag">Built in Tokyo · 東京</span>
+          <span class="footer-copy">&copy; <span id="footerYear">2025</span> Mahmoud Adel</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

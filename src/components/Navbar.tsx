@@ -83,9 +83,16 @@ export function Navbar() {
           <Link
             href="/"
             aria-label="Home"
-            className="text-xl font-bold bg-gradient-to-r from-blue-400 to-blue-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+            className="hover:opacity-80 transition-opacity"
           >
-            MA
+            <Image
+              src="/logo-mark.svg"
+              alt="Mahmoud Adel"
+              width={42}
+              height={39}
+              className="h-7 w-auto"
+              priority
+            />
           </Link>
         </div>
 
