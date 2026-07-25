@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, Send, Loader2 } from "lucide-react";
+import { ExternalLink, Mail, Send, Loader2 } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { useT } from "@/lib/i18n";
 
@@ -10,7 +10,7 @@ const t = {
   en: {
     title: "Get In Touch",
     emailLabel: "Email",
-    phoneLabel: "Phone",
+    linkedinLabel: "LinkedIn",
     nameLabel: "Name",
     emailField: "Email",
     messageLabel: "Message",
@@ -25,7 +25,7 @@ const t = {
   ja: {
     title: "お問い合わせ",
     emailLabel: "メール",
-    phoneLabel: "電話番号",
+    linkedinLabel: "LinkedIn",
     nameLabel: "お名前",
     emailField: "メールアドレス",
     messageLabel: "メッセージ",
@@ -40,7 +40,7 @@ const t = {
   ar: {
     title: "تواصل معي",
     emailLabel: "البريد الإلكتروني",
-    phoneLabel: "الهاتف",
+    linkedinLabel: "LinkedIn",
     nameLabel: "الاسم",
     emailField: "البريد الإلكتروني",
     messageLabel: "الرسالة",
@@ -112,12 +112,14 @@ export function Contact() {
                 <p className="text-white font-medium break-all">m@mahmoud.jp</p>
               </a>
               <a
-                href="tel:08035455054"
+                href="https://www.linkedin.com/in/mahmoud-adel-jp"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6 hover:border-blue-500/30 transition-all duration-300 group block"
               >
-                <Phone className="w-7 h-7 sm:w-8 sm:h-8 text-blue-400 mb-3 sm:mb-4 group-hover:scale-110 transition-transform" />
-                <p className="text-gray-400 text-sm">{text.phoneLabel}</p>
-                <p className="text-white font-medium">080-3545-5054</p>
+                <ExternalLink className="w-7 h-7 sm:w-8 sm:h-8 text-blue-400 mb-3 sm:mb-4 group-hover:scale-110 transition-transform" />
+                <p className="text-gray-400 text-sm">{text.linkedinLabel}</p>
+                <p className="text-white font-medium">mahmoud-adel-jp</p>
               </a>
             </motion.div>
 

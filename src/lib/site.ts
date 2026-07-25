@@ -3,7 +3,7 @@ export const siteUrl = "https://mahmoud.jp";
 export const person = {
   name: "Mahmoud Adel Ibrahim",
   alternateName: ["محمود عادل إبراهيم", "マフムード・アーデル"],
-  jobTitle: "Trilingual DTP Specialist & Interpreter",
+  jobTitle: "Multilingual Product Builder",
   email: "m@mahmoud.jp",
   image: `${siteUrl}/mahmoud-logo.png`,
   sameAs: [
@@ -20,10 +20,12 @@ export const person = {
     "Adobe InDesign",
     "PDF preflight",
     "Localization workflows",
+    "Software product development",
+    "Multilingual product design",
     "IT support",
   ],
   knowsLanguage: ["Arabic", "Japanese", "English"],
 };
 
 export const defaultDescription =
-  "Trilingual professional based in Tokyo specializing in Arabic, Japanese, and English DTP operations, translation quality checks, IT support, and interpretation services.";
+  "I build software for work between Arabic, Japanese, and English—combining multilingual DTP, interpretation, and product development from Tokyo.";

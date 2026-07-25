@@ -30,7 +30,7 @@ const notoArabic = Noto_Sans_Arabic({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Mahmoud Adel | Trilingual DTP Specialist & Interpreter",
+  title: "Mahmoud Adel | Multilingual Product Builder",
   description: defaultDescription,
   keywords: [
     "Mahmoud Adel",
@@ -41,6 +41,8 @@ export const metadata: Metadata = {
     "Arabic",
     "Japanese",
     "English",
+    "Product Builder",
+    "Software Development",
     "Interpreter",
     "Translator",
     "Translation QC",
@@ -55,7 +57,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Mahmoud Adel | Trilingual DTP Specialist & Interpreter",
+    title: "Mahmoud Adel | Multilingual Product Builder",
     description: defaultDescription,
     url: siteUrl,
     siteName: "Mahmoud Adel",
@@ -64,18 +66,18 @@ export const metadata: Metadata = {
     alternateLocale: ["ar_EG", "ja_JP"],
     images: [
       {
-        url: "/opengraph-image",
+        url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Mahmoud Adel portfolio",
+        alt: "Mahmoud Adel — software for work between languages",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mahmoud Adel | Trilingual DTP Specialist & Interpreter",
+    title: "Mahmoud Adel | Multilingual Product Builder",
     description: defaultDescription,
-    images: ["/opengraph-image"],
+    images: ["/og.png"],
   },
 };
 
@@ -95,7 +97,7 @@ const structuredData = {
       "@type": "ProfilePage",
       "@id": `${siteUrl}/#profile`,
       url: siteUrl,
-      name: "Mahmoud Adel | Trilingual DTP Specialist & Interpreter",
+      name: "Mahmoud Adel | Multilingual Product Builder",
       description: defaultDescription,
       inLanguage: ["en", "ar", "ja"],
       about: { "@id": `${siteUrl}/#person` },
@@ -123,7 +125,7 @@ const structuredData = {
       sameAs: person.sameAs,
       hasOccupation: {
         "@type": "Occupation",
-        name: "DTP Specialist and Interpreter",
+        name: "Multilingual Product Builder, DTP Specialist and Interpreter",
         occupationLocation: {
           "@type": "City",
           name: "Tokyo",
