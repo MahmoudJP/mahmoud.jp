@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -100,21 +99,12 @@ export function Navbar() {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-8 lg:px-12">
         <Link href="/" className="group flex min-w-0 items-center gap-3">
-          <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-cyan-300/20 bg-cyan-300/[0.06]">
-            <Image
-              src="/logo-mark.svg"
-              alt=""
-              width={28}
-              height={26}
-              priority
-              className="h-6 w-auto transition-transform duration-300 group-hover:scale-105"
-            />
-          </span>
-          <span className="hidden min-w-0 sm:block">
+          <span className="h-8 w-px shrink-0 bg-gradient-to-b from-cyan-300 via-indigo-400 to-transparent" />
+          <span className="min-w-0">
             <span className="block truncate text-sm font-semibold tracking-tight text-white">
               Mahmoud Adel
             </span>
-            <span className="block truncate font-mono text-[9px] uppercase tracking-[0.17em] text-slate-500">
+            <span className="hidden truncate font-mono text-[9px] uppercase tracking-[0.17em] text-slate-500 sm:block">
               {text.brand}
             </span>
           </span>

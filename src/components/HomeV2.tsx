@@ -34,6 +34,8 @@ type HomeCopy = {
   intro: string;
   studio: string;
   status: string;
+  visualLabel: string;
+  visualValue: string;
   buttons: {
     contact: string;
     learn: string;
@@ -92,9 +94,11 @@ const copy: Record<Locale, HomeCopy> = {
     headlineStart: "I build software for work",
     headlineAccent: "between languages.",
     intro:
-      "I turn the difficult parts of multilingual production into clear tools — combining Arabic DTP, Japanese communication, interpretation, and practical software.",
-    studio: "Founder of Koryuu · Creator of DTP Master",
+      "I turn real problems across language, learning, work, and everyday life into clear, useful software.",
+    studio: "Founder of Koryuu · Building a growing app ecosystem",
     status: "Building in public from Tokyo",
+    visualLabel: "Product ecosystem",
+    visualValue: "Language · Work · Learning · Life",
     buttons: {
       contact: "Contact me",
       learn: "Learn more",
@@ -104,7 +108,7 @@ const copy: Record<Locale, HomeCopy> = {
     proof: [
       { label: "Working languages", value: "Arabic · Japanese · English" },
       { label: "Base", value: "Tokyo, Japan" },
-      { label: "Focus", value: "DTP · Software · Interpretation" },
+      { label: "Focus", value: "Products · Languages · AI" },
     ],
     workKicker: "Selected work",
     workTitle: "Products born from real workflow problems.",
@@ -230,9 +234,11 @@ const copy: Record<Locale, HomeCopy> = {
     headlineStart: "言語をまたぐ仕事のための",
     headlineAccent: "ソフトウェアをつくる。",
     intro:
-      "アラビア語DTP、日本語コミュニケーション、通訳、ソフトウェア開発を組み合わせ、多言語制作の難しい部分をわかりやすいツールに変えています。",
-    studio: "Koryuu 創業者 · DTP Master 開発者",
+      "言語、学習、仕事、日々の暮らしにある課題を、わかりやすく実用的なソフトウェアに変えています。",
+    studio: "Koryuu 創業者 · 広がり続けるアプリ群を開発",
     status: "東京からプロダクトを開発中",
+    visualLabel: "プロダクト・エコシステム",
+    visualValue: "言語 · 仕事 · 学習 · 暮らし",
     buttons: {
       contact: "お問い合わせ",
       learn: "詳しく見る",
@@ -242,7 +248,7 @@ const copy: Record<Locale, HomeCopy> = {
     proof: [
       { label: "対応言語", value: "アラビア語 · 日本語 · 英語" },
       { label: "拠点", value: "東京、日本" },
-      { label: "専門", value: "DTP · ソフトウェア · 通訳" },
+      { label: "専門", value: "プロダクト · 言語 · AI" },
     ],
     workKicker: "主なプロジェクト",
     workTitle: "現場の課題から生まれたプロダクト。",
@@ -369,9 +375,11 @@ const copy: Record<Locale, HomeCopy> = {
     headlineStart: "أبني برمجيات للعمل",
     headlineAccent: "بين اللغات.",
     intro:
-      "أحوّل الأجزاء الصعبة في الإنتاج متعدد اللغات إلى أدوات واضحة، جامعًا بين DTP العربي والتواصل الياباني والترجمة الفورية وتطوير البرمجيات.",
-    studio: "مؤسس Koryuu · مطوّر DTP Master",
+      "أحوّل المشاكل الحقيقية في اللغات والتعلّم والعمل والحياة اليومية إلى برمجيات واضحة ومفيدة.",
+    studio: "مؤسس Koryuu · أبني منظومة تطبيقات تتوسع باستمرار",
     status: "أبني منتجاتي من طوكيو",
+    visualLabel: "منظومة تطبيقات",
+    visualValue: "اللغات · العمل · التعلم · الحياة",
     buttons: {
       contact: "تواصل معي",
       learn: "اعرف المزيد",
@@ -381,7 +389,7 @@ const copy: Record<Locale, HomeCopy> = {
     proof: [
       { label: "لغات العمل", value: "العربية · اليابانية · الإنجليزية" },
       { label: "الموقع", value: "طوكيو، اليابان" },
-      { label: "التركيز", value: "DTP · برمجيات · ترجمة فورية" },
+      { label: "التركيز", value: "منتجات · لغات · ذكاء اصطناعي" },
     ],
     workKicker: "أعمال مختارة",
     workTitle: "منتجات وُلدت من مشاكل حقيقية في العمل.",
@@ -609,48 +617,26 @@ export function HomeV2() {
               initial={{ opacity: 0, x: 32 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.15, duration: 0.7 }}
-              className="relative mx-auto w-full max-w-xl"
+              className="relative mx-auto w-full max-w-2xl"
             >
               <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-cyan-400/10 via-transparent to-indigo-500/10 blur-2xl" />
-              <div className="product-window relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#07101f]/90 shadow-2xl shadow-black/50">
-                <div className="flex items-center justify-between border-b border-white/8 px-4 py-3">
-                  <div className="flex gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-full bg-rose-400/70" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-amber-300/70" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
-                  </div>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-slate-500">
-                    DTP Master · v1.5
-                  </span>
-                </div>
-                <div className="relative aspect-[16/10] bg-[#0b1322]">
-                  <Image
-                    src="/dtp-master/screen-1.png"
-                    alt="DTP Master application interface"
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 90vw, 42vw"
-                    className="object-cover object-top"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#07101f] to-transparent" />
-                </div>
-                <div className="grid grid-cols-3 gap-px border-t border-white/8 bg-white/8">
-                  {["العربية", "日本語", "English"].map((language) => (
-                    <div
-                      key={language}
-                      className="bg-[#07101f] px-3 py-3 text-center text-xs text-slate-300"
-                    >
-                      {language}
-                    </div>
-                  ))}
-                </div>
+              <div className="product-window relative aspect-[3/2] overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#07101f]/90 shadow-2xl shadow-black/50">
+                <Image
+                  src="/hero-app-ecosystem.png"
+                  alt="A visual ecosystem of multilingual, learning, cloud, productivity, and developer applications"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 92vw, 48vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07101f]/35 via-transparent to-cyan-300/[0.04]" />
               </div>
               <div className="absolute -bottom-5 -left-3 rounded-2xl border border-white/10 bg-[#0b1424]/95 p-4 shadow-xl backdrop-blur sm:-left-8">
                 <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">
-                  Built for
+                  {text.visualLabel}
                 </p>
                 <p className="mt-1 text-sm font-medium text-white">
-                  Multilingual production
+                  {text.visualValue}
                 </p>
               </div>
             </motion.div>
@@ -694,10 +680,10 @@ export function HomeV2() {
                     <ArrowUpRight className="h-4 w-4" />
                   </Link>
                 </div>
-                <div className="relative aspect-[16/11] overflow-hidden rounded-2xl border border-white/10 bg-black/20">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-black/20">
                   <Image
-                    src="/dtp-master/screen-2.png"
-                    alt="DTP Master comparison workspace"
+                    src="/dtp-master-v15-latest.png"
+                    alt="Latest DTP Master v1.5 application workspace"
                     fill
                     sizes="(max-width: 1024px) 90vw, 42vw"
                     className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.025]"
@@ -769,36 +755,26 @@ export function HomeV2() {
         </section>
 
         <section id="about" className="section-shell bg-[#091322]">
-          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
-            <motion.div {...reveal} className="relative mx-auto w-full max-w-md">
-              <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-cyan-400/12 to-indigo-500/12 blur-2xl" />
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[1.6rem] border border-white/10 bg-[#0d1728]">
-                <Image
-                  src="/mahmoud.jpg"
-                  alt="Mahmoud Adel in Tokyo"
-                  fill
-                  sizes="(max-width: 1024px) 90vw, 34vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#091322] to-transparent" />
-                <div className="absolute bottom-5 start-5 rounded-xl border border-white/10 bg-black/45 px-4 py-3 backdrop-blur">
-                  <p className="flex items-center gap-2 text-sm font-medium text-white">
-                    <MapPin className="h-4 w-4 text-cyan-300" />
-                    Tokyo, Japan
-                  </p>
-                </div>
+          <motion.div
+            {...reveal}
+            className="mx-auto max-w-7xl rounded-[2rem] border border-white/8 bg-gradient-to-br from-white/[0.04] via-transparent to-cyan-400/[0.035] p-7 sm:p-10 lg:p-12"
+          >
+            <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-start">
+              <div>
+                <Kicker>{text.aboutKicker}</Kicker>
+                <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-white sm:text-5xl">
+                  {text.aboutTitle}
+                </h2>
               </div>
-            </motion.div>
-
-            <motion.div {...reveal}>
-              <Kicker>{text.aboutKicker}</Kicker>
-              <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-white sm:text-5xl">
-                {text.aboutTitle}
-              </h2>
-              <p className="mt-6 max-w-3xl text-base leading-8 text-slate-300">
-                {text.aboutBody}
+              <p className="inline-flex shrink-0 items-center gap-2 rounded-full border border-cyan-300/15 bg-cyan-300/[0.06] px-4 py-2 text-sm font-medium text-cyan-100">
+                <MapPin className="h-4 w-4 text-cyan-300" />
+                Tokyo, Japan
               </p>
-              <ul className="mt-8 grid gap-3">
+            </div>
+            <p className="mt-8 max-w-4xl text-base leading-8 text-slate-300">
+              {text.aboutBody}
+            </p>
+            <ul className="mt-8 grid gap-3 md:grid-cols-3">
                 {text.aboutPoints.map((point) => (
                   <li
                     key={point}
@@ -810,9 +786,8 @@ export function HomeV2() {
                     {point}
                   </li>
                 ))}
-              </ul>
-            </motion.div>
-          </div>
+            </ul>
+          </motion.div>
         </section>
 
         <section className="section-shell bg-[#07101d]">
