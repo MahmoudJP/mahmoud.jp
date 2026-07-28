@@ -70,7 +70,7 @@ export function Languages() {
                   key={i}
                   variants={fadeInUp}
                   custom={i + 1}
-                  className={`bg-[#111] border ${s.border} rounded-xl p-5 sm:p-6 text-center hover:border-gray-600 transition-all duration-300`}
+                  className={`bg-[#05070c] border ${s.border} rounded-xl p-5 sm:p-6 text-center hover:border-gray-600 transition-all duration-300`}
                 >
                   <div className={`w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${s.gradient} flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-lg`}>
                     {s.code}

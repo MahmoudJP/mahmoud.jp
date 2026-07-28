@@ -114,7 +114,7 @@ export function RequestCvModal({ open, onClose }: { open: boolean; onClose: () =
             role="dialog"
             aria-modal="true"
             aria-label={text.title}
-            className="relative w-full max-w-md rounded-2xl border border-gray-700/70 bg-[#0d0f17] p-6 sm:p-7 shadow-2xl shadow-black/50"
+            className="relative w-full max-w-md rounded-2xl border border-gray-700/70 bg-[#05070c] p-6 sm:p-7 shadow-2xl shadow-black/50"
           >
             <button
               type="button"
@@ -162,7 +162,7 @@ export function RequestCvModal({ open, onClose }: { open: boolean; onClose: () =
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={text.emailPlaceholder}
-                    className="w-full rounded-lg border border-gray-700 bg-[#11141d] px-3.5 py-2.5 text-sm text-white placeholder-gray-600 focus:border-blue-500/60 focus:outline-none focus:ring-1 focus:ring-blue-500/40 transition-colors"
+                    className="w-full rounded-lg border border-gray-700 bg-[#05070c] px-3.5 py-2.5 text-sm text-white placeholder-gray-600 focus:border-blue-500/60 focus:outline-none focus:ring-1 focus:ring-blue-500/40 transition-colors"
                   />
                 </div>
 
@@ -175,7 +175,7 @@ export function RequestCvModal({ open, onClose }: { open: boolean; onClose: () =
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder={text.messagePlaceholder}
-                    className="w-full resize-none rounded-lg border border-gray-700 bg-[#11141d] px-3.5 py-2.5 text-sm text-white placeholder-gray-600 focus:border-blue-500/60 focus:outline-none focus:ring-1 focus:ring-blue-500/40 transition-colors"
+                    className="w-full resize-none rounded-lg border border-gray-700 bg-[#05070c] px-3.5 py-2.5 text-sm text-white placeholder-gray-600 focus:border-blue-500/60 focus:outline-none focus:ring-1 focus:ring-blue-500/40 transition-colors"
                   />
                 </div>
 

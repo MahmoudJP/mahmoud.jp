@@ -113,7 +113,7 @@ export function Explore() {
                 <motion.div key={c.href} variants={fadeInUp} custom={i + 1}>
                   <Link
                     href={c.href}
-                    className={`group relative block rounded-2xl overflow-hidden border border-gray-800 bg-[#0f0f14] ${a.border} transition-colors duration-300 h-full`}
+                    className={`group relative block rounded-2xl overflow-hidden border border-gray-800 bg-[#05070c] ${a.border} transition-colors duration-300 h-full`}
                   >
                     <div className={`absolute inset-0 bg-gradient-to-br ${a.grad} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                     <div className="relative p-6 md:p-7">

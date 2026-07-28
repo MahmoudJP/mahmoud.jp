@@ -1,12 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { PenLine, Clock } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
-import { Particles } from "@/components/Particles";
 import { useT } from "@/lib/i18n";
+import { writingArticles } from "@/lib/writing";
 
 const t = {
   en: {
@@ -82,11 +83,7 @@ export default function WritingPage() {
       <Navbar />
 
       <section className="relative overflow-hidden pt-32 pb-16">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_#1a1a2e_0%,_#0a0a0a_70%)]" />
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl animate-pulse" />
-        <Particles />
-
-        <div className="relative z-10 max-w-3xl mx-auto px-6">
+        <div className="copy-surface relative z-10 mx-auto max-w-3xl px-6 py-8 sm:px-8">
           <p className="text-sm uppercase tracking-[0.25em] text-blue-300/80 mb-4">
             {text.kicker}
           </p>
@@ -111,18 +108,23 @@ export default function WritingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ delay: 0.05 + i * 0.05, duration: 0.4 }}
-                className="rounded-2xl border border-gray-800 bg-[#0f0f14] p-6 md:p-7"
+                className="rounded-2xl bg-[#05070c] p-6 md:p-7"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <Clock className="w-3.5 h-3.5 text-amber-400/70" />
-                  <span className="text-xs uppercase tracking-[0.15em] text-amber-400/70">
-                    {text.status}
+                <Link href={`/writing/${writingArticles[i].slug}`} className="group block">
+                  <div className="mb-3 flex items-center gap-2">
+                    <Clock className="h-3.5 w-3.5 text-amber-400/70" />
+                    <span className="text-xs uppercase tracking-[0.15em] text-amber-400/70">
+                      {text.status}
+                    </span>
+                  </div>
+                  <h2 className="mb-3 text-xl font-bold leading-snug text-white transition-colors group-hover:text-cyan-100 md:text-2xl">
+                    {d.title}
+                  </h2>
+                  <p className="leading-relaxed text-gray-400">{d.summary}</p>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-cyan-200">
+                    Read article <PenLine className="h-3.5 w-3.5" />
                   </span>
-                </div>
-                <h2 className="text-xl md:text-2xl font-bold text-white mb-3 leading-snug">
-                  {d.title}
-                </h2>
-                <p className="text-gray-400 leading-relaxed">{d.summary}</p>
+                </Link>
               </motion.article>
             ))}
           </div>
@@ -132,7 +134,7 @@ export default function WritingPage() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="flex items-center justify-center gap-2 text-gray-500 text-sm text-center mt-10"
+            className="copy-surface mx-auto mt-10 flex w-fit items-center justify-center gap-2 px-4 py-3 text-center text-sm text-gray-500"
           >
             <PenLine className="w-4 h-4" />
             {text.soon}

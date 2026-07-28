@@ -4,6 +4,8 @@ import "./globals.css";
 import { LocaleProvider } from "@/lib/i18n";
 import { Analytics } from "@vercel/analytics/next";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
+import { GlobalStarfield } from "@/components/GlobalStarfield";
+import { CursorStardust } from "@/components/CursorStardust";
 import { defaultDescription, person, siteUrl } from "@/lib/site";
 
 const geistSans = Geist({
@@ -30,7 +32,7 @@ const notoArabic = Noto_Sans_Arabic({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Mahmoud Adel | Trilingual DTP Specialist & Interpreter",
+  title: "Mahmoud Adel | Multilingual Product Builder",
   description: defaultDescription,
   keywords: [
     "Mahmoud Adel",
@@ -41,6 +43,8 @@ export const metadata: Metadata = {
     "Arabic",
     "Japanese",
     "English",
+    "Product Builder",
+    "Software Development",
     "Interpreter",
     "Translator",
     "Translation QC",
@@ -55,7 +59,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Mahmoud Adel | Trilingual DTP Specialist & Interpreter",
+    title: "Mahmoud Adel | Multilingual Product Builder",
     description: defaultDescription,
     url: siteUrl,
     siteName: "Mahmoud Adel",
@@ -64,18 +68,18 @@ export const metadata: Metadata = {
     alternateLocale: ["ar_EG", "ja_JP"],
     images: [
       {
-        url: "/opengraph-image",
+        url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Mahmoud Adel portfolio",
+        alt: "Mahmoud Adel — software for work between languages",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mahmoud Adel | Trilingual DTP Specialist & Interpreter",
+    title: "Mahmoud Adel | Multilingual Product Builder",
     description: defaultDescription,
-    images: ["/opengraph-image"],
+    images: ["/og.png"],
   },
 };
 
@@ -95,7 +99,7 @@ const structuredData = {
       "@type": "ProfilePage",
       "@id": `${siteUrl}/#profile`,
       url: siteUrl,
-      name: "Mahmoud Adel | Trilingual DTP Specialist & Interpreter",
+      name: "Mahmoud Adel | Multilingual Product Builder",
       description: defaultDescription,
       inLanguage: ["en", "ar", "ja"],
       about: { "@id": `${siteUrl}/#person` },
@@ -123,7 +127,7 @@ const structuredData = {
       sameAs: person.sameAs,
       hasOccupation: {
         "@type": "Occupation",
-        name: "DTP Specialist and Interpreter",
+        name: "Multilingual Product Builder, DTP Specialist and Interpreter",
         occupationLocation: {
           "@type": "City",
           name: "Tokyo",
@@ -146,16 +150,20 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${notoJp.variable} ${notoArabic.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+      <body className="min-h-full bg-black" suppressHydrationWarning>
+        <GlobalStarfield />
+        <CursorStardust />
+        <div className="site-content min-h-full flex flex-col">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(structuredData),
           }}
         />
-        <LocaleProvider>{children}</LocaleProvider>
-        <AnalyticsTracker />
-        <Analytics />
+          <LocaleProvider>{children}</LocaleProvider>
+          <AnalyticsTracker />
+          <Analytics />
+        </div>
       </body>
     </html>
   );

@@ -97,7 +97,7 @@ export function Education() {
                   key={i}
                   variants={fadeInUp}
                   custom={i + 2}
-                  className={`bg-[#111] border rounded-xl p-5 sm:p-6 transition-all duration-300 flex items-start gap-3 sm:gap-4 ${
+                  className={`bg-[#05070c] border rounded-xl p-5 sm:p-6 transition-all duration-300 flex items-start gap-3 sm:gap-4 ${
                     edu.japanese
                       ? "border-red-500/20 hover:border-red-500/40"
                       : "border-gray-800 hover:border-blue-500/30"
@@ -148,7 +148,7 @@ export function Education() {
                   key={i}
                   variants={fadeInUp}
                   custom={i + 6}
-                  className="bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6 hover:border-yellow-500/30 transition-all duration-300"
+                  className="bg-[#05070c] border border-gray-800 rounded-xl p-5 sm:p-6 hover:border-yellow-500/30 transition-all duration-300"
                 >
                   <div className="flex items-start gap-4">
                     <div className={`flex-shrink-0 p-3 rounded-lg ${meta.bg}`}>

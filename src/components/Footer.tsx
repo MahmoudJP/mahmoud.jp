@@ -12,8 +12,8 @@ const t = {
 export function Footer() {
   const text = useT(t);
   return (
-    <footer className="py-10 px-6 border-t border-gray-800/50">
-      <div className="max-w-4xl mx-auto">
+    <footer className="px-6 py-10">
+      <div className="copy-surface mx-auto max-w-4xl px-6 py-5">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-gray-500 text-sm text-center md:text-left">
             &copy; {new Date().getFullYear()} Mahmoud Adel Ibrahim. {text.rights}
