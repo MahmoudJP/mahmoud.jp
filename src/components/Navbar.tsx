@@ -10,7 +10,6 @@ import {
   Mail,
   Menu,
   PenLine,
-  Sparkles,
   Wrench,
   X,
 } from "lucide-react";
@@ -66,7 +65,6 @@ function isActive(pathname: string, href: string) {
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [cursorEffect, setCursorEffect] = React.useState(true);
   const pathname = usePathname() ?? "/";
   const text = useT(labels);
 
@@ -82,19 +80,6 @@ export function Navbar() {
       window.removeEventListener("keydown", onKey);
     };
   }, [mobileOpen]);
-
-  React.useEffect(() => {
-    setCursorEffect(window.localStorage.getItem("mahmoud-cursor-effect") !== "off");
-  }, []);
-
-  const toggleCursorEffect = () => {
-    const enabled = !cursorEffect;
-    setCursorEffect(enabled);
-    window.localStorage.setItem("mahmoud-cursor-effect", enabled ? "on" : "off");
-    window.dispatchEvent(
-      new CustomEvent("cursor-effect-change", { detail: { enabled } }),
-    );
-  };
 
   return (
     <nav
@@ -136,20 +121,6 @@ export function Navbar() {
 
         <div className="flex items-center gap-2 drop-shadow-[0_2px_10px_rgba(2,6,23,0.95)]">
           <LocaleToggle className="shrink-0" />
-          <button
-            type="button"
-            onClick={toggleCursorEffect}
-            aria-pressed={cursorEffect}
-            aria-label={cursorEffect ? "Disable cursor effect" : "Enable cursor effect"}
-            title={cursorEffect ? "Turn off cursor effect" : "Turn on cursor effect"}
-            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors ${
-              cursorEffect
-                ? "bg-cyan-300/10 text-cyan-200 hover:bg-cyan-300/15"
-                : "bg-[#05070c] text-slate-500 hover:bg-[#0b1525] hover:text-slate-300"
-            }`}
-          >
-            <Sparkles className="h-4 w-4" />
-          </button>
           <button
             type="button"
             onClick={() => setMobileOpen((open) => !open)}
