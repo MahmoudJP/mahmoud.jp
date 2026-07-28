@@ -4,6 +4,8 @@ import "./globals.css";
 import { LocaleProvider } from "@/lib/i18n";
 import { Analytics } from "@vercel/analytics/next";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
+import { GlobalStarfield } from "@/components/GlobalStarfield";
+import { CursorStardust } from "@/components/CursorStardust";
 import { defaultDescription, person, siteUrl } from "@/lib/site";
 
 const geistSans = Geist({
@@ -148,16 +150,20 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${notoJp.variable} ${notoArabic.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+      <body className="min-h-full bg-black" suppressHydrationWarning>
+        <GlobalStarfield />
+        <CursorStardust />
+        <div className="site-content min-h-full flex flex-col">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(structuredData),
           }}
         />
-        <LocaleProvider>{children}</LocaleProvider>
-        <AnalyticsTracker />
-        <Analytics />
+          <LocaleProvider>{children}</LocaleProvider>
+          <AnalyticsTracker />
+          <Analytics />
+        </div>
       </body>
     </html>
   );

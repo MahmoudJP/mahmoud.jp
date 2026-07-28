@@ -189,7 +189,7 @@ export function Freelance() {
                   key={i}
                   variants={fadeInUp}
                   custom={Math.min(i + 1, 5)}
-                  className={`bg-[#111] border rounded-xl p-4 sm:p-5 transition-all duration-300 flex items-start gap-3 sm:gap-4 ${
+                  className={`bg-[#05070c] border rounded-xl p-4 sm:p-5 transition-all duration-300 flex items-start gap-3 sm:gap-4 ${
                     act.highlight
                       ? "border-cyan-500/30 hover:border-cyan-500/50"
                       : "border-gray-800 hover:border-green-500/20"

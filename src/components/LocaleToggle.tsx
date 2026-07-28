@@ -13,7 +13,7 @@ export function LocaleToggle({ className = "" }: { className?: string }) {
 
   if (!ready) {
     return (
-      <div className={`inline-flex rounded-full border border-gray-700/50 bg-[#0f0f14] p-0.5 opacity-50 ${className}`}>
+      <div className={`inline-flex rounded-full bg-[#05070c] p-0.5 opacity-50 ${className}`}>
         {OPTIONS.map((o) => (
           <span key={o.code} className="px-2.5 py-1 text-xs font-medium text-gray-400">
             {o.label}
@@ -25,7 +25,7 @@ export function LocaleToggle({ className = "" }: { className?: string }) {
 
   return (
     <div
-      className={`inline-flex rounded-full border border-gray-700/60 bg-[#0f0f14]/80 backdrop-blur p-0.5 ${className}`}
+      className={`inline-flex rounded-full bg-[#05070c] p-0.5 ${className}`}
       role="group"
       aria-label="Language"
       dir="ltr"

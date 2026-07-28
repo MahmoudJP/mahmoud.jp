@@ -89,6 +89,7 @@ export function Contact() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
+          className="copy-surface p-6 sm:p-8"
         >
           <motion.h2
             variants={fadeInUp}
@@ -105,7 +106,7 @@ export function Contact() {
             <motion.div variants={fadeInUp} custom={1} className="space-y-4">
               <a
                 href="mailto:m@mahmoud.jp"
-                className="bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6 hover:border-blue-500/30 transition-all duration-300 group block"
+                className="group block rounded-xl bg-[#05070c] p-5 transition-all duration-300 sm:p-6"
               >
                 <Mail className="w-7 h-7 sm:w-8 sm:h-8 text-blue-400 mb-3 sm:mb-4 group-hover:scale-110 transition-transform" />
                 <p className="text-gray-400 text-sm">{text.emailLabel}</p>
@@ -115,7 +116,7 @@ export function Contact() {
                 href="https://www.linkedin.com/in/mahmoud-adel-jp"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6 hover:border-blue-500/30 transition-all duration-300 group block"
+                className="group block rounded-xl bg-[#05070c] p-5 transition-all duration-300 sm:p-6"
               >
                 <ExternalLink className="w-7 h-7 sm:w-8 sm:h-8 text-blue-400 mb-3 sm:mb-4 group-hover:scale-110 transition-transform" />
                 <p className="text-gray-400 text-sm">{text.linkedinLabel}</p>
@@ -127,7 +128,7 @@ export function Contact() {
               variants={fadeInUp}
               custom={2}
               onSubmit={handleSubmit}
-              className="bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6 space-y-4"
+              className="space-y-4 rounded-xl bg-[#05070c] p-5 sm:p-6"
             >
               <div className="absolute -left-[9999px]" aria-hidden="true">
                 <label>
@@ -150,7 +151,7 @@ export function Contact() {
                   maxLength={100}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg px-4 py-2.5 text-white text-sm focus:border-blue-500 focus:outline-none transition-colors"
+                  className="w-full bg-[#05070c] border border-gray-700 rounded-lg px-4 py-2.5 text-white text-sm focus:border-blue-500 focus:outline-none transition-colors"
                   placeholder={text.namePlaceholder}
                 />
               </div>
@@ -162,7 +163,7 @@ export function Contact() {
                   maxLength={200}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg px-4 py-2.5 text-white text-sm focus:border-blue-500 focus:outline-none transition-colors"
+                  className="w-full bg-[#05070c] border border-gray-700 rounded-lg px-4 py-2.5 text-white text-sm focus:border-blue-500 focus:outline-none transition-colors"
                   placeholder={text.emailPlaceholder}
                 />
               </div>
@@ -174,7 +175,7 @@ export function Contact() {
                   maxLength={5000}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg px-4 py-2.5 text-white text-sm focus:border-blue-500 focus:outline-none transition-colors resize-none"
+                  className="w-full bg-[#05070c] border border-gray-700 rounded-lg px-4 py-2.5 text-white text-sm focus:border-blue-500 focus:outline-none transition-colors resize-none"
                   placeholder={text.messagePlaceholder}
                 />
               </div>

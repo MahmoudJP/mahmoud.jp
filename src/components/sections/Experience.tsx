@@ -111,7 +111,7 @@ const badgeStyle = {
 
 function Card({ exp, durationLabel }: { exp: Experience; durationLabel: string }) {
   return (
-    <div className={`bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6 transition-all duration-300 h-full ${exp.cardHover}`}>
+    <div className={`bg-[#05070c] border border-gray-800 rounded-xl p-5 sm:p-6 transition-all duration-300 h-full ${exp.cardHover}`}>
       {exp.badge && (
         <span className={`inline-block px-3 py-1 rounded-full ${badgeStyle[exp.badge.color]} text-xs font-medium mb-3`}>
           {exp.badge.label}

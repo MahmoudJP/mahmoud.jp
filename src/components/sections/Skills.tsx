@@ -99,7 +99,7 @@ export function Skills() {
                   key={i}
                   variants={fadeInUp}
                   custom={Math.min(i + 1, 5)}
-                  className="bg-[#111] border border-gray-800 rounded-xl p-4 sm:p-5 hover:border-gray-700 transition-all duration-300 text-center"
+                  className="bg-[#05070c] border border-gray-800 rounded-xl p-4 sm:p-5 hover:border-gray-700 transition-all duration-300 text-center"
                 >
                   <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg ${meta.bg} flex items-center justify-center mx-auto mb-3`}>
                     <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${meta.color}`} />

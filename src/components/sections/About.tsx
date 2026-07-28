@@ -84,7 +84,7 @@ export function About() {
           <motion.div
             variants={fadeInUp}
             custom={1}
-            className="bg-[#111] border border-gray-800 rounded-2xl p-6 sm:p-8 md:p-10"
+            className="bg-[#05070c] border border-gray-800 rounded-2xl p-6 sm:p-8 md:p-10"
           >
             <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
               {text.p1a}
@@ -105,17 +105,17 @@ export function About() {
             custom={2}
             className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6"
           >
-            <div className="bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6 text-center">
+            <div className="bg-[#05070c] border border-gray-800 rounded-xl p-5 sm:p-6 text-center">
               <MapPin className="w-6 h-6 text-blue-400 mx-auto mb-3" />
               <p className="text-gray-400 text-sm">{text.locationLabel}</p>
               <p className="text-white font-medium">{text.locationValue}</p>
             </div>
-            <div className="bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6 text-center">
+            <div className="bg-[#05070c] border border-gray-800 rounded-xl p-5 sm:p-6 text-center">
               <Globe className="w-6 h-6 text-blue-400 mx-auto mb-3" />
               <p className="text-gray-400 text-sm">{text.nationalityLabel}</p>
               <p className="text-white font-medium">{text.nationalityValue}</p>
             </div>
-            <div className="bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6 text-center">
+            <div className="bg-[#05070c] border border-gray-800 rounded-xl p-5 sm:p-6 text-center">
               <Briefcase className="w-6 h-6 text-green-400 mx-auto mb-3" />
               <p className="text-gray-400 text-sm">{text.roleLabel}</p>
               <p className="text-white font-medium">{text.roleValue}</p>

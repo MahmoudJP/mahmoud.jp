@@ -10,6 +10,7 @@ import {
   Mail,
   Menu,
   PenLine,
+  Sparkles,
   Wrench,
   X,
 } from "lucide-react";
@@ -64,17 +65,10 @@ function isActive(pathname: string, href: string) {
 }
 
 export function Navbar() {
-  const [scrolled, setScrolled] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [cursorEffect, setCursorEffect] = React.useState(true);
   const pathname = usePathname() ?? "/";
   const text = useT(labels);
-
-  React.useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 24);
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
-  }, []);
 
   React.useEffect(() => {
     if (!mobileOpen) return;
@@ -89,28 +83,37 @@ export function Navbar() {
     };
   }, [mobileOpen]);
 
+  React.useEffect(() => {
+    setCursorEffect(window.localStorage.getItem("mahmoud-cursor-effect") !== "off");
+  }, []);
+
+  const toggleCursorEffect = () => {
+    const enabled = !cursorEffect;
+    setCursorEffect(enabled);
+    window.localStorage.setItem("mahmoud-cursor-effect", enabled ? "on" : "off");
+    window.dispatchEvent(
+      new CustomEvent("cursor-effect-change", { detail: { enabled } }),
+    );
+  };
+
   return (
     <nav
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled || mobileOpen
-          ? "border-b border-white/7 bg-[#06101d]/88 backdrop-blur-xl"
-          : "bg-transparent"
-      }`}
+      className="fixed inset-x-0 top-0 z-50 px-5 pt-5 sm:px-8 lg:px-12"
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-8 lg:px-12">
-        <Link href="/" className="group flex min-w-0 items-center gap-3">
-          <span className="h-8 w-px shrink-0 bg-gradient-to-b from-cyan-300 via-indigo-400 to-transparent" />
-          <span className="min-w-0">
-            <span className="block truncate text-sm font-semibold tracking-tight text-white">
-              Mahmoud Adel
-            </span>
-            <span className="hidden truncate font-mono text-[9px] uppercase tracking-[0.17em] text-slate-500 sm:block">
-              {text.brand}
-            </span>
+      <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-4">
+        <Link
+          href="/"
+          className="group min-w-0 drop-shadow-[0_2px_10px_rgba(2,6,23,0.95)]"
+        >
+          <span className="block truncate text-base font-semibold tracking-[-0.035em] text-white leading-none">
+            Mahmoud Adel
+          </span>
+          <span className="mt-1.5 hidden whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.11em] text-cyan-100 sm:block">
+            {text.brand}
           </span>
         </Link>
 
-        <div className="hidden items-center gap-1 rounded-full border border-white/8 bg-[#08111e]/75 p-1 shadow-lg shadow-black/20 backdrop-blur lg:flex">
+        <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 lg:flex">
           {NAV.map((item) => {
             const active = isActive(pathname, item.href);
             const Icon = item.icon;
@@ -118,10 +121,10 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-medium transition-colors ${
+                className={`relative inline-flex items-center gap-1.5 py-2 text-xs font-medium transition-colors ${
                   active
-                    ? "bg-white/[0.08] text-white"
-                    : "text-slate-400 hover:bg-white/[0.04] hover:text-white"
+                    ? "text-white after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:bg-cyan-300"
+                    : "text-slate-300 hover:text-white"
                 }`}
               >
                 <Icon className={`h-3.5 w-3.5 ${active ? "text-cyan-300" : ""}`} />
@@ -131,14 +134,28 @@ export function Navbar() {
           })}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 drop-shadow-[0_2px_10px_rgba(2,6,23,0.95)]">
           <LocaleToggle className="shrink-0" />
+          <button
+            type="button"
+            onClick={toggleCursorEffect}
+            aria-pressed={cursorEffect}
+            aria-label={cursorEffect ? "Disable cursor effect" : "Enable cursor effect"}
+            title={cursorEffect ? "Turn off cursor effect" : "Turn on cursor effect"}
+            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors ${
+              cursorEffect
+                ? "bg-cyan-300/10 text-cyan-200 hover:bg-cyan-300/15"
+                : "bg-[#05070c] text-slate-500 hover:bg-[#0b1525] hover:text-slate-300"
+            }`}
+          >
+            <Sparkles className="h-4 w-4" />
+          </button>
           <button
             type="button"
             onClick={() => setMobileOpen((open) => !open)}
             aria-expanded={mobileOpen}
             aria-label={mobileOpen ? text.close : text.menu}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.035] text-slate-200 lg:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-[#05070c] text-slate-200 transition-colors hover:bg-[#0b1525] lg:hidden"
           >
             {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
@@ -152,9 +169,9 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="border-t border-white/7 bg-[#06101d]/97 px-4 pb-6 pt-4 backdrop-blur-xl lg:hidden"
+            className="absolute right-0 top-[calc(100%+0.9rem)] w-[min(22rem,calc(100vw-2.5rem))] rounded-2xl bg-[#05070c] p-3 shadow-2xl shadow-black/40 lg:hidden"
           >
-            <div className="mx-auto grid max-w-7xl gap-2">
+            <div className="grid gap-2">
               {NAV.map((item, index) => {
                 const active = isActive(pathname, item.href);
                 const Icon = item.icon;
@@ -171,7 +188,7 @@ export function Navbar() {
                       className={`flex items-center gap-3 rounded-xl border px-4 py-3.5 text-sm font-medium ${
                         active
                           ? "border-cyan-300/20 bg-cyan-300/[0.07] text-white"
-                          : "border-white/7 bg-white/[0.025] text-slate-300"
+                          : "border-white/7 bg-[#05070c] text-slate-300"
                       }`}
                     >
                       <Icon className={`h-4 w-4 ${active ? "text-cyan-300" : ""}`} />

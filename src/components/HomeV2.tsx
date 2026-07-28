@@ -25,7 +25,7 @@ import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
 import { Contact } from "@/components/sections/Contact";
 import { RequestCvModal } from "@/components/RequestCvModal";
-import { type Locale, useT } from "@/lib/i18n";
+import { type Locale, useLocale, useT } from "@/lib/i18n";
 
 type HomeCopy = {
   eyebrow: string;
@@ -513,7 +513,74 @@ const copy: Record<Locale, HomeCopy> = {
   },
 };
 
+type CredibilityCopy = {
+  statsKicker: string;
+  statsTitle: string;
+  statsIntro: string;
+  stats: { value: string; label: string; detail: string }[];
+  organizationsKicker: string;
+  organizationsTitle: string;
+  organizationsIntro: string;
+  organizations: string[];
+  organizationsNote: string;
+};
+
+const credibilityCopy: Record<Locale, CredibilityCopy> = {
+  en: {
+    statsKicker: "By the numbers",
+    statsTitle: "Built on language work, production, and product thinking.",
+    statsIntro: "A concise view of the experience behind the work.",
+    stats: [
+      { value: "5+", label: "years of hands-on experience", detail: "Working professionally since 2021" },
+      { value: "3", label: "working languages", detail: "Arabic · Japanese · English" },
+      { value: "6", label: "portfolio products", detail: "Across the Koryuu ecosystem" },
+    ],
+    organizationsKicker: "Trusted experience",
+    organizationsTitle: "Organizations whose materials I have worked on.",
+    organizationsIntro:
+      "Selected client materials handled through my work in multilingual production and language services.",
+    organizations: ["Canon", "Nissan", "Toyota", "North Coast Apparel", "Arab embassies in Japan"],
+    organizationsNote:
+      "These names reflect files and production work handled through my employer, not necessarily a direct personal contract, partnership, or endorsement.",
+  },
+  ja: {
+    statsKicker: "数字で見る経験",
+    statsTitle: "言語、制作、プロダクトづくりを横断して培った実務経験。",
+    statsIntro: "仕事の背景にある経験を、簡潔にまとめました。",
+    stats: [
+      { value: "5+", label: "年の実務経験", detail: "2021年からプロとして活動" },
+      { value: "3", label: "業務言語", detail: "アラビア語・日本語・英語" },
+      { value: "6", label: "ポートフォリオのプロダクト", detail: "Koryuuエコシステム全体" },
+    ],
+    organizationsKicker: "実務で扱った主な案件",
+    organizationsTitle: "制作物・ファイルを担当した組織。",
+    organizationsIntro:
+      "多言語DTP・言語サービスの業務を通じて担当した、代表的なクライアント資料です。",
+    organizations: ["Canon", "Nissan", "Toyota", "North Coast Apparel", "在日アラブ大使館"],
+    organizationsNote:
+      "掲載名は勤務先を通じて担当したファイル・制作業務を示すものであり、個人での直接契約、提携、推薦を意味するものではありません。",
+  },
+  ar: {
+    statsKicker: "بالأرقام",
+    statsTitle: "خبرة تجمع بين اللغات والإنتاج وبناء المنتجات.",
+    statsIntro: "لمحة مختصرة عن الخبرة التي تقف خلف هذا العمل.",
+    stats: [
+      { value: "+5", label: "سنوات خبرة عملية", detail: "أعمل بشكل مهني منذ 2021" },
+      { value: "3", label: "لغات عمل", detail: "العربية · اليابانية · الإنجليزية" },
+      { value: "6", label: "منتجات في المحفظة", detail: "ضمن منظومة Koryuu" },
+    ],
+    organizationsKicker: "خبرة موثوقة",
+    organizationsTitle: "جهات عملت على ملفاتها ومطبوعاتها.",
+    organizationsIntro:
+      "نماذج من ملفات جهات تعاملت معها ضمن عملي في الإنتاج متعدد اللغات والخدمات اللغوية.",
+    organizations: ["Canon", "Nissan", "Toyota", "North Coast Apparel", "سفارات عربية في اليابان"],
+    organizationsNote:
+      "هذه الأسماء تشير إلى ملفات وأعمال إنتاج تم التعامل معها من خلال جهة عملي، وليست بالضرورة عقودًا شخصية مباشرة أو شراكات أو تزكيات من هذه الجهات.",
+  },
+};
+
 const capabilityIcons = [LayoutTemplate, Braces, Mic2, Sparkles];
+const proofIcons = [Languages, MapPin, Sparkles];
 
 const reveal = {
   initial: { opacity: 0, y: 22 },
@@ -532,29 +599,21 @@ function Kicker({ children }: { children: React.ReactNode }) {
 
 export function HomeV2() {
   const text = useT(copy);
+  const { locale } = useLocale();
+  const credibility = credibilityCopy[locale];
   const [cvOpen, setCvOpen] = React.useState(false);
 
   return (
     <>
       <Navbar />
       <main className="overflow-hidden">
-        <section className="cultural-grid relative min-h-[100svh] px-5 pb-14 pt-28 sm:px-8 lg:px-12">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_25%,rgba(8,145,178,0.17),transparent_34%),radial-gradient(circle_at_20%_72%,rgba(99,102,241,0.12),transparent_30%)]" />
-          <div
-            aria-hidden
-            className="absolute right-[7%] top-24 hidden select-none gap-4 text-[8rem] font-black leading-none text-white/[0.025] lg:flex"
-          >
-            <span>ع</span>
-            <span>交</span>
-            <span>A</span>
-          </div>
-
+        <section className="relative min-h-[100svh] px-5 pb-14 pt-28 sm:px-8 lg:px-12">
           <div className="relative mx-auto grid min-h-[calc(100svh-8rem)] max-w-7xl items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65 }}
-              className="max-w-3xl"
+              className="copy-surface copy-surface--hero max-w-3xl"
             >
               <div className="mb-7 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/[0.07] px-3 py-1.5 text-xs font-medium text-cyan-100">
@@ -620,7 +679,7 @@ export function HomeV2() {
               className="relative mx-auto w-full max-w-2xl"
             >
               <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-cyan-400/10 via-transparent to-indigo-500/10 blur-2xl" />
-              <div className="product-window relative aspect-[3/2] overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#07101f]/90 shadow-2xl shadow-black/50">
+              <div className="product-window relative aspect-[3/2] overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#05070c] shadow-2xl shadow-black/50">
                 <Image
                   src="/hero-app-ecosystem.png"
                   alt="A visual ecosystem of multilingual, learning, cloud, productivity, and developer applications"
@@ -631,7 +690,7 @@ export function HomeV2() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#07101f]/35 via-transparent to-cyan-300/[0.04]" />
               </div>
-              <div className="absolute -bottom-5 -left-3 rounded-2xl border border-white/10 bg-[#0b1424]/95 p-4 shadow-xl backdrop-blur sm:-left-8">
+              <div className="absolute -bottom-5 -left-3 rounded-2xl border border-white/10 bg-[#05070c] p-4 shadow-xl sm:-left-8">
                 <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">
                   {text.visualLabel}
                 </p>
@@ -642,20 +701,49 @@ export function HomeV2() {
             </motion.div>
           </div>
 
-          <div className="relative mx-auto mt-8 grid max-w-7xl gap-px overflow-hidden rounded-2xl border border-white/8 bg-white/8 sm:grid-cols-3">
-            {text.proof.map((item) => (
-              <div key={item.label} className="bg-[#08101d]/90 px-5 py-4">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-500">
+          <div className="relative mx-auto mt-8 grid max-w-7xl gap-3 sm:grid-cols-3">
+            {text.proof.map((item, index) => {
+              const Icon = proofIcons[index];
+              return (
+              <div key={item.label} className={`proof-card proof-card--${index}`}>
+                <p className="proof-card__label">
+                  <Icon className="h-3.5 w-3.5" />
                   {item.label}
                 </p>
-                <p className="mt-1 text-sm font-medium text-slate-200">{item.value}</p>
+                <p className="proof-card__value">{item.value}</p>
               </div>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="section-shell star-surface accent-build">
+          <motion.div {...reveal} className="section-heading copy-surface">
+            <Kicker>{credibility.statsKicker}</Kicker>
+            <h2>{credibility.statsTitle}</h2>
+            <p>{credibility.statsIntro}</p>
+          </motion.div>
+
+          <div className="mx-auto mt-8 grid max-w-7xl gap-4 md:grid-cols-3">
+            {credibility.stats.map((stat, index) => (
+              <motion.article
+                key={stat.label}
+                {...reveal}
+                transition={{ duration: 0.5, delay: index * 0.06 }}
+                className="bento-card stat-card p-6 sm:p-8"
+              >
+                <p className="font-mono text-5xl font-semibold tracking-[-0.08em] text-white sm:text-6xl">
+                  {stat.value}
+                </p>
+                <h3 className="mt-5 text-lg font-semibold text-slate-100">{stat.label}</h3>
+                <p className="mt-2 text-sm text-slate-400">{stat.detail}</p>
+              </motion.article>
             ))}
           </div>
         </section>
 
-        <section id="work" className="section-shell bg-[#07101d]">
-          <motion.div {...reveal} className="section-heading">
+        <section id="work" className="section-shell star-surface accent-projects">
+          <motion.div {...reveal} className="section-heading copy-surface">
             <Kicker>{text.workKicker}</Kicker>
             <h2>{text.workTitle}</h2>
             <p>{text.workIntro}</p>
@@ -698,7 +786,7 @@ export function HomeV2() {
                   key={project.title}
                   {...reveal}
                   transition={{ duration: 0.55, delay: index * 0.06 }}
-                  className="bento-card cultural-card p-6"
+                  className="bento-card p-6"
                 >
                   <span className="project-label">{project.label}</span>
                   <div className="mt-7 flex items-end justify-between gap-4">
@@ -708,7 +796,7 @@ export function HomeV2() {
                         {project.description}
                       </p>
                     </div>
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-cyan-200">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-[#05070c] text-cyan-200">
                       {index === 0 ? (
                         <Globe2 className="h-4 w-4" />
                       ) : (
@@ -736,7 +824,7 @@ export function HomeV2() {
 
           <motion.div
             {...reveal}
-            className="mx-auto mt-5 flex max-w-7xl flex-col justify-between gap-6 rounded-2xl border border-white/8 bg-white/[0.025] p-6 sm:flex-row sm:items-center"
+            className="mx-auto mt-5 flex max-w-7xl flex-col justify-between gap-6 rounded-2xl bg-[#05070c] p-6 sm:flex-row sm:items-center"
           >
             <div>
               <span className="project-label">{text.projects[2].label}</span>
@@ -754,10 +842,10 @@ export function HomeV2() {
           </motion.div>
         </section>
 
-        <section id="about" className="section-shell bg-[#091322]">
+        <section id="about" className="section-shell star-surface accent-about">
           <motion.div
             {...reveal}
-            className="mx-auto max-w-7xl rounded-[2rem] border border-white/8 bg-gradient-to-br from-white/[0.04] via-transparent to-cyan-400/[0.035] p-7 sm:p-10 lg:p-12"
+            className="copy-surface mx-auto max-w-7xl rounded-[2rem] p-7 sm:p-10 lg:p-12"
           >
             <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-start">
               <div>
@@ -778,7 +866,7 @@ export function HomeV2() {
                 {text.aboutPoints.map((point) => (
                   <li
                     key={point}
-                    className="flex items-start gap-3 rounded-xl border border-white/7 bg-white/[0.025] px-4 py-3.5 text-sm leading-6 text-slate-300"
+                    className="flex items-start gap-3 rounded-xl bg-[#05070c] px-4 py-3.5 text-sm leading-6 text-slate-300"
                   >
                     <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cyan-300/10 text-cyan-200">
                       <Check className="h-3 w-3" />
@@ -790,8 +878,35 @@ export function HomeV2() {
           </motion.div>
         </section>
 
-        <section className="section-shell bg-[#07101d]">
-          <motion.div {...reveal} className="section-heading">
+        <section className="section-shell star-surface accent-projects">
+          <motion.div {...reveal} className="section-heading copy-surface">
+            <Kicker>{credibility.organizationsKicker}</Kicker>
+            <h2>{credibility.organizationsTitle}</h2>
+            <p>{credibility.organizationsIntro}</p>
+          </motion.div>
+
+          <motion.div
+            {...reveal}
+            className="mx-auto mt-8 grid max-w-7xl gap-3 sm:grid-cols-2 lg:grid-cols-5"
+          >
+            {credibility.organizations.map((organization) => (
+              <div key={organization} className="trust-mark px-5 py-6">
+                <span className="trust-mark__dot" aria-hidden />
+                <p>{organization}</p>
+              </div>
+            ))}
+          </motion.div>
+
+          <motion.p
+            {...reveal}
+            className="copy-surface mx-auto mt-5 max-w-7xl px-6 py-4 text-sm leading-6 text-slate-400"
+          >
+            {credibility.organizationsNote}
+          </motion.p>
+        </section>
+
+        <section className="section-shell star-surface accent-build">
+          <motion.div {...reveal} className="section-heading copy-surface">
             <Kicker>{text.capabilitiesKicker}</Kicker>
             <h2>{text.capabilitiesTitle}</h2>
           </motion.div>
@@ -820,18 +935,18 @@ export function HomeV2() {
           </div>
         </section>
 
-        <section className="section-shell bg-[#091322]">
-          <motion.div {...reveal} className="section-heading">
+        <section className="section-shell star-surface accent-about">
+          <motion.div {...reveal} className="section-heading copy-surface">
             <Kicker>{text.journeyKicker}</Kicker>
             <h2>{text.journeyTitle}</h2>
           </motion.div>
-          <div className="mx-auto mt-12 max-w-5xl">
+          <div className="copy-surface mx-auto mt-12 max-w-5xl p-6 sm:p-8">
             {text.journey.map((item, index) => (
               <motion.article
                 key={item.title}
                 {...reveal}
                 transition={{ duration: 0.5, delay: index * 0.04 }}
-                className="grid gap-3 border-t border-white/8 py-7 first:border-t-0 sm:grid-cols-[150px_1fr]"
+                className="grid gap-3 py-7 sm:grid-cols-[150px_1fr]"
               >
                 <p className="font-mono text-xs uppercase tracking-[0.16em] text-cyan-300/70">
                   {item.period}
@@ -850,10 +965,10 @@ export function HomeV2() {
           </div>
         </section>
 
-        <section className="section-shell bg-[#07101d]">
+        <section className="section-shell star-surface accent-writing">
           <motion.div
             {...reveal}
-            className="mx-auto flex max-w-7xl flex-col justify-between gap-6 sm:flex-row sm:items-end"
+            className="copy-surface mx-auto flex max-w-7xl flex-col justify-between gap-6 p-6 sm:flex-row sm:items-end sm:p-8"
           >
             <div className="max-w-3xl">
               <Kicker>{text.writingKicker}</Kicker>
@@ -894,7 +1009,7 @@ export function HomeV2() {
           </div>
         </section>
 
-        <section className="bg-[#091322]">
+        <section className="star-surface">
           <Contact />
         </section>
       </main>

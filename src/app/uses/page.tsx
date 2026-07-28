@@ -12,7 +12,6 @@ import {
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
-import { Particles } from "@/components/Particles";
 import { useT } from "@/lib/i18n";
 
 type Tool = { name: string; note: string };
@@ -319,12 +318,7 @@ export default function UsesPage() {
       <Navbar />
 
       <section className="relative overflow-hidden pt-32 pb-16">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_#1a1a2e_0%,_#0a0a0a_70%)]" />
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-20 right-1/4 w-[400px] h-[400px] bg-cyan-600/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <Particles />
-
-        <div className="relative z-10 max-w-3xl mx-auto px-6">
+        <div className="copy-surface relative z-10 mx-auto max-w-3xl px-6 py-8 sm:px-8">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -366,7 +360,7 @@ export default function UsesPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.15 }}
                   transition={{ delay: 0.05 + i * 0.05, duration: 0.5 }}
-                  className="group relative rounded-2xl overflow-hidden border border-gray-800 bg-[#0f0f14]"
+                  className="group relative overflow-hidden rounded-2xl bg-[#05070c]"
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${g.accent} opacity-50`} />
                   <div className="relative p-6 md:p-8">
@@ -386,7 +380,7 @@ export default function UsesPage() {
                       {g.tools.map((tool) => (
                         <li
                           key={tool.name}
-                          className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 py-2.5 px-3 rounded-lg bg-[#0a0a0e] border border-gray-800/60"
+                          className="flex flex-col gap-1 rounded-lg bg-[#05070c] px-3 py-2.5 sm:flex-row sm:items-baseline sm:gap-3"
                         >
                           <span className="text-white font-medium text-sm flex-shrink-0 sm:min-w-[200px]">
                             {tool.name}
@@ -408,7 +402,7 @@ export default function UsesPage() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-gray-500 text-sm text-center mt-12 leading-relaxed"
+            className="copy-surface mx-auto mt-12 max-w-2xl px-4 py-3 text-center text-sm leading-relaxed text-gray-500"
           >
             {text.footnote}
           </motion.p>

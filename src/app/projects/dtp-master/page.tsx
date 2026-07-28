@@ -21,7 +21,6 @@ import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
-import { Particles } from "@/components/Particles";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { useT } from "@/lib/i18n";
 
@@ -168,12 +167,7 @@ export default function DtpMasterPage() {
       <Navbar />
 
       <section className="relative overflow-hidden pt-32 pb-16">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_#0e1b2c_0%,_#0a0a0a_70%)]" />
-        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-cyan-600/15 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-40 right-1/4 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <Particles />
-
-        <div className="relative z-10 max-w-3xl mx-auto px-6">
+        <div className="copy-surface relative z-10 mx-auto max-w-3xl px-6 py-8 sm:px-8">
           <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
@@ -233,7 +227,7 @@ export default function DtpMasterPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
-            className="mb-16 space-y-5 text-gray-400 leading-relaxed text-base md:text-lg"
+            className="copy-surface mb-16 space-y-5 p-6 text-base leading-relaxed text-gray-400 md:p-8 md:text-lg"
           >
             <p>{text.whyP1}</p>
             <p>{text.whyP2}</p>
@@ -263,7 +257,7 @@ export default function DtpMasterPage() {
                     custom={i + 1}
                     className="space-y-4"
                   >
-                    <div className="relative rounded-xl overflow-hidden border border-gray-800 bg-[#0f0f14]">
+                    <div className="relative overflow-hidden rounded-xl bg-[#05070c]">
                       <Image
                         src={src}
                         alt={`DTP Master — ${shot.caption}`}
@@ -310,7 +304,7 @@ export default function DtpMasterPage() {
                     variants={fadeInUp}
                     custom={i + 1}
                     whileHover={{ y: -3 }}
-                    className={`group relative rounded-xl border border-gray-800 bg-[#0f0f14] p-5 transition-all duration-300 shadow-[0_0_0_0_transparent] hover:shadow-lg ${s.hoverBorder} ${s.glow}`}
+                    className={`group relative rounded-xl bg-[#05070c] p-5 transition-all duration-300 shadow-[0_0_0_0_transparent] hover:shadow-lg ${s.glow}`}
                   >
                     <div className="relative">
                       <div className={`inline-flex items-center justify-center w-11 h-11 rounded-lg ${s.iconBg} ring-1 ring-white/5 ${s.ring} transition-all duration-300 mb-4 group-hover:scale-110`}>
@@ -350,7 +344,7 @@ export default function DtpMasterPage() {
                     key={s.label}
                     variants={fadeInUp}
                     custom={i + 1}
-                    className="rounded-xl border border-gray-800 bg-[#0f0f14] p-5"
+                    className="rounded-xl bg-[#05070c] p-5"
                   >
                     <Icon className="w-5 h-5 text-blue-300/90 mb-3" />
                     <h3 className="text-white font-medium mb-2">{s.label}</h3>
