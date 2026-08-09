@@ -39,13 +39,36 @@ export type StudioDocument = {
   updatedAt: string;
 };
 
+export type StudioRecordCategory =
+  | "decision"
+  | "health"
+  | "automation"
+  | "asset"
+  | "career"
+  | "finance";
+
+export type StudioRecord = {
+  id: string;
+  category: StudioRecordCategory;
+  title: string;
+  projectSlug: string | null;
+  status: string;
+  summary: string;
+  details: Record<string, string>;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+};
+
 const NOTES_KEY = "mahmoud:studio:notes";
 const DOCUMENTS_KEY = "mahmoud:studio:documents";
+const RECORDS_KEY = "mahmoud:studio:records";
 const MAP_KEY = "mahmoud:studio:mind-map";
 
 type MemoryStore = {
   notes: Map<string, StudioNote>;
   documents: Map<string, StudioDocument>;
+  records: Map<string, StudioRecord>;
   map: Record<string, string> | null;
 };
 
@@ -57,6 +80,7 @@ function memoryStore() {
   globalThis.__mahmoudStudioMemory ??= {
     notes: new Map(),
     documents: new Map(),
+    records: new Map(),
     map: null,
   };
   return globalThis.__mahmoudStudioMemory;
@@ -291,6 +315,62 @@ export async function deleteStudioDocument(id: string) {
   const redis = getRedis();
   if (redis) await redis.hdel(DOCUMENTS_KEY, id);
   else memoryStore().documents.delete(id);
+}
+
+export async function listStudioRecords() {
+  const redis = getRedis();
+  const rows = redis
+    ? await redis.hgetall<Record<string, StudioRecord>>(RECORDS_KEY)
+    : Object.fromEntries(memoryStore().records);
+  return Object.values(rows ?? {}).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+}
+
+export async function createStudioRecord(input: {
+  category: StudioRecordCategory;
+  title: string;
+  projectSlug?: string | null;
+  status?: string;
+  summary?: string;
+  details?: Record<string, string>;
+  tags?: string[];
+}) {
+  const now = new Date().toISOString();
+  const record: StudioRecord = {
+    id: crypto.randomUUID(),
+    category: input.category,
+    title: input.title,
+    projectSlug: input.projectSlug ?? null,
+    status: input.status ?? "active",
+    summary: input.summary ?? "",
+    details: input.details ?? {},
+    tags: input.tags ?? [],
+    createdAt: now,
+    updatedAt: now,
+  };
+  const redis = getRedis();
+  if (redis) await redis.hset(RECORDS_KEY, { [record.id]: record });
+  else memoryStore().records.set(record.id, record);
+  return record;
+}
+
+export async function updateStudioRecord(
+  id: string,
+  updates: Partial<Pick<StudioRecord, "title" | "projectSlug" | "status" | "summary" | "details" | "tags">>,
+) {
+  const records = await listStudioRecords();
+  const current = records.find((record) => record.id === id);
+  if (!current) return null;
+  const record: StudioRecord = { ...current, ...updates, updatedAt: new Date().toISOString() };
+  const redis = getRedis();
+  if (redis) await redis.hset(RECORDS_KEY, { [record.id]: record });
+  else memoryStore().records.set(record.id, record);
+  return record;
+}
+
+export async function deleteStudioRecord(id: string) {
+  const redis = getRedis();
+  if (redis) await redis.hdel(RECORDS_KEY, id);
+  else memoryStore().records.delete(id);
 }
 
 export async function getStudioMindMap() {
