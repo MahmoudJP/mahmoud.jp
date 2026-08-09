@@ -7,19 +7,15 @@ import {
   ArrowRight,
   Activity,
   BookOpen,
-  Box,
   Check,
   CheckCircle2,
-  ChevronRight,
   Copy,
   Download,
   FileText,
   FileArchive,
   FolderGit2,
-  GitCommit,
   Home,
   Layers3,
-  Lightbulb,
   ListTodo,
   LogOut,
   Map,
@@ -38,6 +34,7 @@ import {
 } from "lucide-react";
 import { studioProjects, type StudioProject } from "@/lib/studio-data";
 import { StudioHandoffPanel, StudioOperations, StudioRecordsPanel } from "./StudioSystems";
+import { StudioProjectsWorkspace } from "./StudioProjects";
 import type {
   StudioDocument,
   StudioDocumentType,
@@ -161,8 +158,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
   const [capture, setCapture] = useState("");
   const [captureProject, setCaptureProject] = useState("");
   const [capturePriority, setCapturePriority] = useState<StudioPriority>("medium");
-  const [projectIdea, setProjectIdea] = useState("");
-  const [selectedProject, setSelectedProject] = useState<StudioProject | null>(null);
+  const [selectedProject, setSelectedProject] = useState<StudioProject>(studioProjects[0]);
   const [selectedDocumentId, setSelectedDocumentId] = useState<string | null>(null);
   const [documentDraft, setDocumentDraft] = useState<DocumentDraft>(emptyDocument);
   const [editingDocument, setEditingDocument] = useState(false);
@@ -283,7 +279,6 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
     const { note } = (await response.json()) as { note: StudioNote };
     setNotes((current) => [note, ...current]);
     setCapture("");
-    setProjectIdea("");
   }
 
   async function updateNote(note: StudioNote, updates: Partial<StudioNote>) {
@@ -315,17 +310,20 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
   }
 
   function openKnowledgeForProject(project: StudioProject) {
-    setSelectedProject(null);
     setKnowledgeProject(project.slug);
     setKnowledgeMode("docs");
     openTab("knowledge");
   }
 
   function openHandoffForProject(project: StudioProject) {
-    setSelectedProject(null);
     setKnowledgeProject(project.slug);
     setKnowledgeMode("handoff");
     openTab("knowledge");
+  }
+
+  function openWorkForProject(project: StudioProject) {
+    setCaptureProject(project.slug);
+    openTab("work");
   }
 
   function beginNewDocument() {
@@ -449,7 +447,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
         {tab === "home" && (
           <div className="studio-dashboard-content">
             <section className="studio-dashboard-hero">
-              <div><p className="studio-kicker">PRIVATE COMMAND CENTER</p><h1>Your work, in one calm place.</h1><p>Capture ideas, continue projects, preserve knowledge, and keep code, stable checkpoints, and live releases clearly separated.</p></div>
+              <div><p className="studio-kicker">PRIVATE COMMAND CENTER</p><h1>See what matters. Continue quickly.</h1><p>Start with a project, understand its current code and live version, then move directly to the next action without searching across tools.</p></div>
               <button onClick={() => openTab("work")}><Plus size={17} /> Capture work</button>
             </section>
             <form className="studio-capture" onSubmit={(event) => { event.preventDefault(); void addNote(capture); }}>
@@ -459,14 +457,14 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
               <article><span className="violet"><FolderGit2 size={17} /></span><div><small>Projects</small><strong>{studioProjects.length}</strong><p>With release context</p></div></article>
               <article><span className="green"><Rocket size={17} /></span><div><small>Live products</small><strong>{liveProjects}</strong><p>Deliberately released</p></div></article>
               <article><span className="gold"><ListTodo size={17} /></span><div><small>Active work</small><strong>{activeWork}</strong><p>{inboxCount} waiting in inbox</p></div></article>
-              <article><span className="pink"><BookOpen size={17} /></span><div><small>Knowledge</small><strong>{documents.length}</strong><p>Human and AI ready</p></div></article>
+              <article><span className="pink"><BookOpen size={17} /></span><div><small>Knowledge</small><strong>{documents.length + records.filter((record) => record.category === "decision").length}</strong><p>Docs and decisions</p></div></article>
             </section>
             <div className="studio-home-grid">
               <section className="studio-panel">
-                <div className="studio-panel-heading"><div><p className="studio-kicker">RECENT CHECKPOINTS</p><h2>Continue where you left off</h2></div><button onClick={() => openTab("projects")}>View projects</button></div>
+                <div className="studio-panel-heading"><div><p className="studio-kicker">PROJECT SHORTCUTS</p><h2>Choose a project and continue</h2></div><button onClick={() => openTab("projects")}>Open catalog</button></div>
                 <div className="studio-activity-list">
                   {studioProjects.slice(0, 5).map((project) => (
-                    <button key={project.slug} onClick={() => setSelectedProject(project)}>
+                    <button key={project.slug} onClick={() => { setSelectedProject(project); openTab("projects"); }}>
                       <span>{project.initials}</span><div><strong>{project.name}</strong><p>{project.latest}</p><small>{project.branch} · {project.commit}</small></div><ArrowRight size={16} />
                     </button>
                   ))}
@@ -482,26 +480,18 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
         )}
 
         {tab === "projects" && (
-          <div className="studio-dashboard-content">
-            <div className="studio-page-heading"><div><p className="studio-kicker">PROJECTS & RELEASES</p><h1>One catalog. Three version states.</h1><p>Open any project to see its latest saved code, trusted checkpoint, live release, notes, and knowledge in one place.</p></div><span>{filteredProjects.length} projects</span></div>
-            <section className="studio-release-summary">
-              <div><GitCommit size={16} /><span><small>Latest code</small><strong>Remote development checkpoints</strong></span></div>
-              <ChevronRight size={15} />
-              <div><CheckCircle2 size={16} /><span><small>Stable</small><strong>Validated versions</strong></span></div>
-              <ChevronRight size={15} />
-              <div><Rocket size={16} /><span><small>Live</small><strong>Currently in use</strong></span></div>
-            </section>
-            <div className="studio-project-grid">
-              {filteredProjects.map((project) => (
-                <button className="studio-project-card" key={project.slug} onClick={() => setSelectedProject(project)}>
-                  <div className="studio-project-top"><span>{project.initials}</span><b className={project.state === "Live" || project.state === "Active" ? "good" : ""}>{project.state}</b></div>
-                  <h2>{project.name}</h2><p>{project.platform}</p>
-                  <div className="studio-project-versions"><div><small>Latest code</small><strong>{project.commit}</strong></div><div><small>Stable</small><strong>{project.stable}</strong></div><div><small>Live</small><strong>{project.live}</strong></div></div>
-                  <footer><span>{project.branch}</span><span>{project.updated} <ArrowRight size={12} /></span></footer>
-                </button>
-              ))}
-            </div>
-          </div>
+          <StudioProjectsWorkspace
+            projects={filteredProjects.length ? filteredProjects : studioProjects}
+            activeProject={filteredProjects.find((project) => project.slug === selectedProject.slug) ?? filteredProjects[0] ?? selectedProject}
+            notes={notes}
+            documents={documents}
+            records={records}
+            onSelect={setSelectedProject}
+            onOpenKnowledge={openKnowledgeForProject}
+            onOpenHandoff={openHandoffForProject}
+            onOpenWork={openWorkForProject}
+            onAddWork={async (title, project) => { await addNote(title, project.slug, "next"); }}
+          />
         )}
 
         {tab === "work" && (
@@ -620,22 +610,6 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
         )}
       </main>
 
-      {selectedProject && (
-        <div className="studio-drawer-shell"><button className="studio-drawer-backdrop" onClick={() => setSelectedProject(null)} aria-label="Close project details" /><aside className="studio-project-drawer">
-          <button className="studio-drawer-close" onClick={() => setSelectedProject(null)} aria-label="Close"><X size={18} /></button>
-          <div className="studio-drawer-title"><span>{selectedProject.initials}</span><div><p>{selectedProject.platform}</p><h2>{selectedProject.name}</h2></div></div>
-          <section className="studio-release-path">
-            <div className="latest"><GitCommit size={16} /><span><small>Latest saved code</small><strong>{selectedProject.latest}</strong><code>{selectedProject.commit} · {selectedProject.branch}</code></span></div>
-            <ChevronRight size={15} />
-            <div className="stable"><CheckCircle2 size={16} /><span><small>Stable checkpoint</small><strong>{selectedProject.stable}</strong><p>Validated and trusted</p></span></div>
-            <ChevronRight size={15} />
-            <div className="live"><Rocket size={16} /><span><small>Currently live</small><strong>{selectedProject.live}</strong><p>Used by people now</p></span></div>
-          </section>
-          <div className="studio-project-actions studio-project-actions-three"><button onClick={() => openKnowledgeForProject(selectedProject)}><BookOpen size={14} /> Knowledge</button><button onClick={() => openHandoffForProject(selectedProject)}><Sparkles size={14} /> AI Handoff</button><button onClick={() => { setCaptureProject(selectedProject.slug); setSelectedProject(null); openTab("work"); }}><ListTodo size={14} /> Add work</button></div>
-          <section className="studio-drawer-ideas"><p className="studio-kicker">PROJECT CONTEXT</p><h3>Leave context for your next session</h3><form onSubmit={(event) => { event.preventDefault(); void addNote(projectIdea, selectedProject.slug, "next"); }}><textarea value={projectIdea} onChange={(event) => setProjectIdea(event.target.value)} placeholder={`Add work or an idea for ${selectedProject.name}…`} /><button disabled={!projectIdea.trim()}><Sparkles size={14} /> Save to work</button></form>{notes.filter((note) => note.projectSlug === selectedProject.slug).slice(0, 5).map((note) => <div className="studio-project-note" key={note.id}><Lightbulb size={13} /><span>{note.title}<small>{note.workflow}</small></span></div>)}</section>
-          <p className="studio-drawer-rule"><Box size={14} /> Pushing code updates the latest checkpoint. Stable and live versions change only after your explicit approval.</p>
-        </aside></div>
-      )}
     </div>
   );
 }
