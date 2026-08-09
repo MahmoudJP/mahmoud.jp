@@ -15,7 +15,34 @@ export type StudioProject = {
   updated: string;
   publicSummary: string;
   skills: string[];
+  runSummary: string;
+  buildFootprint: string;
+  runOptions: StudioRunOption[];
+  importantFiles: StudioProjectFile[];
+  fallbackEdits: StudioProjectEdit[];
   featured?: boolean;
+};
+
+export type StudioRunOption = {
+  label: string;
+  platform: string;
+  kind: "online" | "download" | "local" | "build";
+  status: "ready" | "local-only" | "needs-publish" | "needs-build";
+  detail: string;
+  href?: string;
+  file?: string;
+};
+
+export type StudioProjectFile = {
+  label: string;
+  path: string;
+  purpose: string;
+};
+
+export type StudioProjectEdit = {
+  commit: string;
+  date: string;
+  title: string;
 };
 
 export const studioProjects: StudioProject[] = [
@@ -36,6 +63,24 @@ export const studioProjects: StudioProject[] = [
     updated: "Jul 2026",
     publicSummary: "A production workflow tool that turns complex multilingual DTP tasks into a repeatable desktop process.",
     skills: ["Python", "Desktop", "DTP automation"],
+    runSummary: "The trusted Windows v1.4 installer is ready now. The latest v1.5 code is a separate development checkpoint and does not have a verified runnable package yet.",
+    buildFootprint: "Windows v1.4 installer: 78.0 MB · v1.5 test package: not built",
+    runOptions: [
+      { label: "Download Windows v1.4", platform: "Windows", kind: "download", status: "ready", detail: "Current trusted installer. Remove it after testing if you do not want to keep the setup file.", href: "https://github.com/MahmoudJP/dtp-master-releases/releases/download/v1.4/DTP_Master_Setup_v1.4.exe" },
+      { label: "Latest v1.5 test build", platform: "Windows", kind: "build", status: "needs-build", detail: "Latest source exists, but the full Tauri + Python package has not been produced and smoke-tested." },
+      { label: "macOS test app", platform: "macOS", kind: "build", status: "needs-build", detail: "Must be built on macOS with its Python sidecar and permissions verified." },
+    ],
+    importantFiles: [
+      { label: "Project guide", path: "README.md", purpose: "Repository layout, source-of-truth rules, and release boundaries." },
+      { label: "Agent rules", path: "AGENTS.md", purpose: "Safety and validation rules for AI work." },
+      { label: "v1.5 UI guide", path: "versions/v1.5/ui/README.md", purpose: "Tauri, React, Rust, and Python development workflow." },
+      { label: "Windows workflow", path: ".github/workflows/build-windows.yml", purpose: "Cloud build and installer artifact pipeline." },
+      { label: "Release script", path: "DTP_MASTER_FINAL/release_v15.bat", purpose: "Protected Windows release and smoke-test process." },
+    ],
+    fallbackEdits: [
+      { commit: "d9cd49e", date: "2026-07-26", title: "Import local v1.5 development source" },
+      { commit: "fb8c3b5", date: "2026-04-14", title: "Add proprietary license" },
+    ],
     featured: true,
   },
   {
@@ -55,6 +100,23 @@ export const studioProjects: StudioProject[] = [
     updated: "Aug 2026",
     publicSummary: "A multilingual portfolio and private Studio presenting DTP, language, product, and IT work through one personal brand.",
     skills: ["Next.js", "React", "Vercel"],
+    runSummary: "The production website and private Studio run online. Local launchers are available for Windows and macOS development.",
+    buildFootprint: "Production function: 13.63 MB · public assets: 5.77 MB",
+    runOptions: [
+      { label: "Open live website", platform: "Web", kind: "online", status: "ready", detail: "Current production deployment on the main domain.", href: "https://mahmoud.jp" },
+      { label: "Windows local launcher", platform: "Windows", kind: "local", status: "local-only", detail: "Starts the latest local source after the repository is downloaded.", file: "OPEN-LOCAL-SITE.cmd" },
+      { label: "macOS local launcher", platform: "macOS", kind: "local", status: "local-only", detail: "Starts the latest local source after the repository is downloaded.", file: "open-local-site.command" },
+    ],
+    importantFiles: [
+      { label: "Project guide", path: "README.md", purpose: "Setup, commands, and project overview." },
+      { label: "Agent rules", path: "AGENTS.md", purpose: "Repository editing and publishing rules." },
+      { label: "Studio status", path: "docs/STATUS.md", purpose: "Current Studio capabilities and deployment state." },
+      { label: "AI handoff", path: "CHAT-HANDOFF.md", purpose: "Context for continuing the website with an AI assistant." },
+    ],
+    fallbackEdits: [
+      { commit: "8d850a2", date: "2026-08-10", title: "Show current Studio deployment commit" },
+      { commit: "781ce87", date: "2026-08-10", title: "Redesign Studio for fast project handoff" },
+    ],
     featured: true,
   },
   {
@@ -74,6 +136,24 @@ export const studioProjects: StudioProject[] = [
     updated: "Jul 2026",
     publicSummary: "A cross-platform personal system for organizing the information and routines that shape everyday life.",
     skills: ["TypeScript", "Mobile", "Product design"],
+    runSummary: "A web export is technically valid, while Android and iOS need native builds for device-only features such as widgets, Health Connect, notifications, and sensors.",
+    buildFootprint: "Private web export validated: 19.19 MB · Android/iOS packages: not built",
+    runOptions: [
+      { label: "Private web preview", platform: "Web", kind: "online", status: "needs-publish", detail: "The 19.19 MB export works, but it is not published because this repository is private." },
+      { label: "Android test app", platform: "Android", kind: "build", status: "needs-build", detail: "Needs an APK build; native widgets and Health Connect cannot be judged from the web export." },
+      { label: "iOS test app", platform: "iOS", kind: "build", status: "needs-build", detail: "Needs a signed iOS build on macOS." },
+      { label: "Local web launcher", platform: "macOS", kind: "local", status: "local-only", detail: "Starts Expo Web from the downloaded source.", file: "Open Web Preview.command" },
+    ],
+    importantFiles: [
+      { label: "Project guide", path: "README.md", purpose: "Product scope and development instructions." },
+      { label: "Agent rules", path: "AGENTS.md", purpose: "Privacy and native validation rules." },
+      { label: "Expo configuration", path: "app.json", purpose: "Platforms, permissions, widgets, and EAS project identity." },
+      { label: "Android launcher", path: "Open Android Preview.command", purpose: "Local Android Studio and device workflow." },
+    ],
+    fallbackEdits: [
+      { commit: "515c80e", date: "2026-07-26", title: "Record GitHub repository status" },
+      { commit: "9b97b87", date: "2026-07-26", title: "Initial clean project import" },
+    ],
     featured: true,
   },
   {
@@ -93,6 +173,22 @@ export const studioProjects: StudioProject[] = [
     updated: "Jul 2026",
     publicSummary: "A focused Japanese study experience built around structured practice and measurable progress.",
     skills: ["React", "Testing", "Japanese learning"],
+    runSummary: "The private PWA builds successfully and can run fully in a browser. It needs a protected web deployment before Studio can expose Try Online.",
+    buildFootprint: "Validated private PWA export: 3.51 MB",
+    runOptions: [
+      { label: "Private online preview", platform: "Web / PWA", kind: "online", status: "needs-publish", detail: "Production build and 28 tests pass; private hosting is the remaining step." },
+      { label: "Local macOS launcher", platform: "macOS", kind: "local", status: "local-only", detail: "Installs dependencies on first run and opens the local Vite preview.", file: "open-project.command" },
+    ],
+    importantFiles: [
+      { label: "Project guide", path: "README.md", purpose: "Features, validation, and local workflow." },
+      { label: "Agent rules", path: "AGENTS.md", purpose: "Data, testing, and deployment rules." },
+      { label: "PWA build configuration", path: "vite.config.ts", purpose: "Offline cache, app manifest, and test configuration." },
+      { label: "Local launcher", path: "open-project.command", purpose: "Double-click development preview on macOS." },
+    ],
+    fallbackEdits: [
+      { commit: "3217ff2", date: "2026-07-26", title: "Record GitHub repository status" },
+      { commit: "7df7bf5", date: "2026-07-26", title: "Initial clean project import" },
+    ],
   },
   {
     slug: "cloudops-associate",
@@ -111,6 +207,23 @@ export const studioProjects: StudioProject[] = [
     updated: "Jul 2026",
     publicSummary: "A desktop learning companion for cloud operations concepts, review, and exam preparation.",
     skills: ["Cloud", "Desktop", "Learning systems"],
+    runSummary: "The browser UI builds and can be previewed locally. The Windows/macOS desktop shell still needs Tauri packages before it becomes a one-file test download.",
+    buildFootprint: "Validated web UI: 1.54 MB · desktop bundles: not built",
+    runOptions: [
+      { label: "Private web preview", platform: "Web", kind: "online", status: "needs-publish", detail: "The React/Vite build is ready but remains private and unpublished." },
+      { label: "macOS local launcher", platform: "macOS", kind: "local", status: "local-only", detail: "Runs the browser UI from downloaded source and installs Node packages only on first use.", file: "run_dev.command" },
+      { label: "Desktop test package", platform: "Windows / macOS", kind: "build", status: "needs-build", detail: "A Tauri bundle must be generated separately for each operating system." },
+    ],
+    importantFiles: [
+      { label: "Project guide", path: "README.md", purpose: "Features and fast local development workflow." },
+      { label: "Agent rules", path: "AGENTS.md", purpose: "Cross-platform and data privacy rules." },
+      { label: "Local launcher", path: "run_dev.command", purpose: "Fast browser preview on macOS." },
+      { label: "Desktop configuration", path: "ui/src-tauri/tauri.conf.json", purpose: "Tauri application and bundle settings." },
+    ],
+    fallbackEdits: [
+      { commit: "4c26bb3", date: "2026-07-26", title: "Record GitHub repository status" },
+      { commit: "8038f9e", date: "2026-07-26", title: "Initial clean project import" },
+    ],
   },
   {
     slug: "koryuu",
@@ -129,6 +242,22 @@ export const studioProjects: StudioProject[] = [
     updated: "Jul 2026",
     publicSummary: "A language-focused web product shaped by multilingual communication and practical Japanese use.",
     skills: ["Web", "Cloudflare", "Localization"],
+    runSummary: "A complete static export is ready. Publishing the Cloudflare Pages preview requires reconnecting Wrangler to the Cloudflare account.",
+    buildFootprint: "Validated public static export: 10.34 MB",
+    runOptions: [
+      { label: "Cloudflare web preview", platform: "Web", kind: "online", status: "needs-publish", detail: "Static build is ready; Cloudflare CLI authentication is currently missing." },
+      { label: "Local macOS launcher", platform: "macOS", kind: "local", status: "local-only", detail: "Starts the latest local Next.js source.", file: "Open Koryuu.command" },
+    ],
+    importantFiles: [
+      { label: "Project guide", path: "README.md", purpose: "Product and site structure." },
+      { label: "Agent rules", path: "AGENTS.md", purpose: "Cloudflare deployment and security rules." },
+      { label: "Static export configuration", path: "next.config.ts", purpose: "Cloudflare-compatible output settings." },
+      { label: "Local launcher", path: "Open Koryuu.command", purpose: "Double-click local development workflow." },
+    ],
+    fallbackEdits: [
+      { commit: "a28cc5e", date: "2026-07-26", title: "Record GitHub repository status" },
+      { commit: "9ca08d3", date: "2026-07-26", title: "Initial clean project import" },
+    ],
   },
   {
     slug: "mind-map",
@@ -147,6 +276,22 @@ export const studioProjects: StudioProject[] = [
     updated: "Aug 2026",
     publicSummary: "A visual thinking canvas designed to capture ideas before they disappear and connect them over time.",
     skills: ["JavaScript", "UX", "Knowledge tools"],
+    runSummary: "The latest static app is already integrated into the private Studio and runs online without a build or download.",
+    buildFootprint: "Embedded static app: 0.36 MB",
+    runOptions: [
+      { label: "Open inside Studio", platform: "Web", kind: "online", status: "ready", detail: "Runs online with private Redis-backed synchronization.", href: "/studio/mind-map/index.html" },
+      { label: "Open local HTML", platform: "Windows / macOS", kind: "local", status: "local-only", detail: "The repository index.html opens directly in a browser.", file: "index.html" },
+    ],
+    importantFiles: [
+      { label: "Project guide", path: "README.md", purpose: "Static build and source layout." },
+      { label: "Agent rules", path: "AGENTS.md", purpose: "Private map data and publishing rules." },
+      { label: "AI project context", path: "CLAUDE.md", purpose: "Detailed architecture and behavior reference." },
+      { label: "Static application", path: "index.html", purpose: "Directly runnable generated application." },
+    ],
+    fallbackEdits: [
+      { commit: "bf444d7", date: "2026-07-26", title: "Record GitHub repository status" },
+      { commit: "bc7e8a5", date: "2026-07-26", title: "Initial clean project import" },
+    ],
   },
   {
     slug: "supernotch",
@@ -165,6 +310,22 @@ export const studioProjects: StudioProject[] = [
     updated: "Jul 2026",
     publicSummary: "A focused macOS utility experiment built around improving a small but repeated interaction.",
     skills: ["macOS", "Utility", "Interaction design"],
+    runSummary: "This native Swift app must be compiled on a Mac. Its double-click command builds and opens the app, but no portable app bundle is uploaded yet.",
+    buildFootprint: "Native app source: 6.6 MB · distributable app: not built",
+    runOptions: [
+      { label: "Build & run on Mac", platform: "macOS 14+", kind: "local", status: "local-only", detail: "Double-clicking the command runs make build and opens .build/SuperNotch.app.", file: "SuperNotch.command" },
+      { label: "Downloadable Mac app", platform: "macOS", kind: "build", status: "needs-build", detail: "Needs a Mac build, signing strategy, and privacy permission validation." },
+    ],
+    importantFiles: [
+      { label: "Project guide", path: "README.md", purpose: "Features, requirements, building, signing, and notarization." },
+      { label: "Agent rules", path: "AGENTS.md", purpose: "Private source and macOS testing rules." },
+      { label: "Build & run launcher", path: "SuperNotch.command", purpose: "Double-click native build and launch." },
+      { label: "Launch built app", path: "Launch SuperNotch.command", purpose: "Opens an app bundle that was already built locally." },
+    ],
+    fallbackEdits: [
+      { commit: "0de21dd", date: "2026-07-26", title: "Record GitHub repository status" },
+      { commit: "a25fe0c", date: "2026-07-26", title: "Initial clean project import" },
+    ],
   },
   {
     slug: "switcher",
@@ -183,6 +344,22 @@ export const studioProjects: StudioProject[] = [
     updated: "Jul 2026",
     publicSummary: "A compact macOS productivity experiment for switching context with less friction.",
     skills: ["macOS", "Productivity", "Prototype"],
+    runSummary: "This arm64 Swift utility needs a Mac compile and Accessibility permission. A disposable app bundle can be produced later, but signing identity affects whether permissions survive rebuilds.",
+    buildFootprint: "Native source: 2.0 MB · distributable app: not built",
+    runOptions: [
+      { label: "Build locally on Mac", platform: "macOS 14+", kind: "local", status: "local-only", detail: "Run build.sh, then open build/Switcher.app and grant Accessibility permission.", file: "build.sh" },
+      { label: "Downloadable Mac app", platform: "macOS", kind: "build", status: "needs-build", detail: "Needs a stable signing decision so macOS permissions do not reset after every edit." },
+    ],
+    importantFiles: [
+      { label: "English guide", path: "README.md", purpose: "Native app overview and usage." },
+      { label: "Arabic guide", path: "README.ar.md", purpose: "Detailed architecture, history, permissions, and build notes." },
+      { label: "Agent rules", path: "AGENTS.md", purpose: "Privacy, signing, and macOS validation rules." },
+      { label: "Native build script", path: "build.sh", purpose: "Compiles and ad-hoc signs Switcher.app." },
+    ],
+    fallbackEdits: [
+      { commit: "93e8e69", date: "2026-07-26", title: "Record GitHub repository status" },
+      { commit: "97a725a", date: "2026-07-26", title: "Initial clean project import" },
+    ],
   },
   {
     slug: "snake",
@@ -201,6 +378,22 @@ export const studioProjects: StudioProject[] = [
     updated: "Jul 2026",
     publicSummary: "A compact browser game used to explore interaction, pacing, and polished small-screen behavior.",
     skills: ["JavaScript", "Game UI", "Web"],
+    runSummary: "This is a static browser game: no build, installer, account, or runtime is required.",
+    buildFootprint: "Direct static files: under 0.1 MB",
+    runOptions: [
+      { label: "Play online", platform: "Web", kind: "online", status: "ready", detail: "Runs directly in the private Studio preview.", href: "/studio/previews/snake/index.html" },
+      { label: "Open local HTML", platform: "Windows / macOS", kind: "local", status: "local-only", detail: "Open index.html from the downloaded repository in any modern browser.", file: "index.html" },
+    ],
+    importantFiles: [
+      { label: "Game entry", path: "index.html", purpose: "Directly runnable browser entry point." },
+      { label: "Core engine", path: "js/core.js", purpose: "Stable game loop and extension API." },
+      { label: "Project guide", path: "README.md", purpose: "Minimal local run instructions." },
+      { label: "Agent rules", path: "AGENTS.md", purpose: "Browser validation and deployment rules." },
+    ],
+    fallbackEdits: [
+      { commit: "ec31c40", date: "2026-07-26", title: "Record GitHub repository status" },
+      { commit: "a4c2a53", date: "2026-07-26", title: "Initial clean project import" },
+    ],
   },
 ];
 

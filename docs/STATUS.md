@@ -1,6 +1,6 @@
 # Project Status
 
-Last reviewed: 2026-08-09
+Last reviewed: 2026-08-10
 
 ## State
 
@@ -39,6 +39,20 @@ Last reviewed: 2026-08-09
   health signals, and explicit no-overwrite/no-deploy rules.
 - Studio typography, work cards, Knowledge, and operational records were scaled
   for faster scanning on desktop and mobile.
+- Every project now records its real run paths: ready online previews, existing
+  downloads, local source launchers, and packages that still require a build.
+  Studio does not present a runnable button when no verified package exists.
+- Projects includes a recent edit timeline. Public repositories sync directly
+  with GitHub; private repositories use verified snapshots until the optional
+  read-only `STUDIO_GITHUB_TOKEN` connection is configured.
+- GitHub Actions artifacts can be downloaded through an authenticated Studio
+  route when a workflow has produced a build for that exact commit.
+- Important repository files and their purpose are listed per project and are
+  included in the AI Project Starter export.
+- The public Snake source is embedded as an owner-only Studio web preview. The
+  preview route is covered by the Studio authentication boundary.
+- Operations / Analytics now reports the audited Vercel Hobby footprint and a
+  live estimate of private Studio JSON stored in Upstash Redis.
 
 ## Import notes
 
