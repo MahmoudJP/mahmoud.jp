@@ -11,6 +11,7 @@ export default async function StudioPage() {
 
   return (
     <StudioDashboard
+      deploymentCommit={process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7)}
       user={{
         name: session?.user?.name ?? "Mahmoud",
         email: session?.user?.email ?? "",

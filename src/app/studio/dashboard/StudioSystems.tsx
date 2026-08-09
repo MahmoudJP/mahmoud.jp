@@ -21,7 +21,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { studioProjects } from "@/lib/studio-data";
+import { studioProjects, type StudioProject } from "@/lib/studio-data";
 import type { StudioDocument, StudioNote, StudioRecord, StudioRecordCategory } from "@/lib/studio-store";
 import { buildProjectAIStarter } from "./StudioProjects";
 
@@ -272,16 +272,18 @@ export function StudioHandoffPanel({
   documents,
   notes,
   records,
+  projects = studioProjects,
   initialProject = "",
 }: {
   documents: StudioDocument[];
   notes: StudioNote[];
   records: StudioRecord[];
+  projects?: StudioProject[];
   initialProject?: string;
 }) {
-  const [projectSlug, setProjectSlug] = useState(initialProject || studioProjects[0]?.slug || "");
+  const [projectSlug, setProjectSlug] = useState(initialProject || projects[0]?.slug || "");
   const [copied, setCopied] = useState(false);
-  const project = studioProjects.find((item) => item.slug === projectSlug) ?? studioProjects[0];
+  const project = projects.find((item) => item.slug === projectSlug) ?? projects[0];
   const projectDocs = documents.filter((document) => document.projectSlug === project?.slug);
   const projectWork = notes.filter((note) => note.projectSlug === project?.slug && note.workflow !== "done");
   const decisions = records.filter((record) => record.category === "decision" && record.projectSlug === project?.slug && record.status !== "superseded");
@@ -310,7 +312,7 @@ export function StudioHandoffPanel({
 
   return <div className="studio-system-page studio-handoff-page">
     <header className="studio-system-heading"><div><p className="studio-kicker">CONTINUE ON ANY DEVICE</p><h1>AI Project Starter</h1><p>A complete, project-wide file with repository access, safe clone and update commands, release state, open work, decisions, knowledge, and health.</p></div><div className="studio-heading-actions"><button onClick={() => void copyHandoff()}><Copy size={15} /> {copied ? "Copied" : "Copy starter"}</button><button className="secondary" onClick={downloadHandoff}><Download size={15} /> Download .md</button></div></header>
-    <label className="studio-handoff-project">Project<select value={projectSlug} onChange={(event) => setProjectSlug(event.target.value)}>{studioProjects.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select></label>
+    <label className="studio-handoff-project">Project<select value={projectSlug} onChange={(event) => setProjectSlug(event.target.value)}>{projects.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select></label>
     <section className="studio-handoff-stats"><article><small>Open work</small><strong>{projectWork.length}</strong></article><article><small>Knowledge docs</small><strong>{projectDocs.length}</strong></article><article><small>Current decisions</small><strong>{decisions.length}</strong></article><article><small>Health checks</small><strong>{health.length}</strong></article></section>
     <div className="studio-handoff-preview"><header><span><Sparkles size={14} /> AI-ready Markdown</span><small>Secrets are intentionally excluded</small></header><pre>{handoff}</pre></div>
   </div>;

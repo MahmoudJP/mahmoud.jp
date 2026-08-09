@@ -111,8 +111,8 @@ function renderKnowledge(content: string) {
   });
 }
 
-function buildAIContext(document: StudioDocument) {
-  const project = studioProjects.find((item) => item.slug === document.projectSlug);
+function buildAIContext(document: StudioDocument, projects: StudioProject[]) {
+  const project = projects.find((item) => item.slug === document.projectSlug);
   return [
     "# Mahmoud Studio — AI Knowledge Context",
     "",
@@ -148,7 +148,10 @@ function buildAIContext(document: StudioDocument) {
   ].join("\n");
 }
 
-export function StudioDashboard({ user }: { user: { name: string; email: string } }) {
+export function StudioDashboard({ user, deploymentCommit }: { user: { name: string; email: string }; deploymentCommit?: string }) {
+  const projects = useMemo(() => studioProjects.map((project) => project.slug === "mahmoud-jp" && deploymentCommit
+    ? { ...project, commit: deploymentCommit, latest: "Studio UX redesign deployed to production" }
+    : project), [deploymentCommit]);
   const [tab, setTab] = useState<Tab>("home");
   const [mobileNav, setMobileNav] = useState(false);
   const [notes, setNotes] = useState<StudioNote[]>([]);
@@ -158,7 +161,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
   const [capture, setCapture] = useState("");
   const [captureProject, setCaptureProject] = useState("");
   const [capturePriority, setCapturePriority] = useState<StudioPriority>("medium");
-  const [selectedProject, setSelectedProject] = useState<StudioProject>(studioProjects[0]);
+  const [selectedProject, setSelectedProject] = useState<StudioProject>(projects[0]);
   const [selectedDocumentId, setSelectedDocumentId] = useState<string | null>(null);
   const [documentDraft, setDocumentDraft] = useState<DocumentDraft>(emptyDocument);
   const [editingDocument, setEditingDocument] = useState(false);
@@ -374,13 +377,13 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
   }
 
   async function copyAIContext(document: StudioDocument) {
-    await navigator.clipboard.writeText(buildAIContext(document));
+    await navigator.clipboard.writeText(buildAIContext(document, projects));
     setCopyLabel("Copied for AI");
     window.setTimeout(() => setCopyLabel("Copy AI context"), 1800);
   }
 
   function downloadAIContext(document: StudioDocument) {
-    const blob = new Blob([buildAIContext(document)], { type: "text/markdown;charset=utf-8" });
+    const blob = new Blob([buildAIContext(document, projects)], { type: "text/markdown;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = window.document.createElement("a");
     anchor.href = url;
@@ -391,9 +394,9 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
 
   const filteredProjects = useMemo(() => {
     const value = query.trim().toLowerCase();
-    if (!value) return studioProjects;
-    return studioProjects.filter((project) => `${project.name} ${project.platform} ${project.state} ${project.latest} ${project.stable} ${project.live}`.toLowerCase().includes(value));
-  }, [query]);
+    if (!value) return projects;
+    return projects.filter((project) => `${project.name} ${project.platform} ${project.state} ${project.latest} ${project.stable} ${project.live}`.toLowerCase().includes(value));
+  }, [projects, query]);
 
   const filteredDocuments = useMemo(() => {
     const value = query.trim().toLowerCase();
@@ -408,7 +411,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
   const activeWork = notes.filter((note) => note.workflow === "doing").length;
   const openWork = notes.filter((note) => note.workflow !== "done").length;
   const inboxCount = notes.filter((note) => note.workflow === "inbox").length;
-  const liveProjects = studioProjects.filter((project) => project.state === "Live" || project.state === "Active").length;
+  const liveProjects = projects.filter((project) => project.state === "Live" || project.state === "Active").length;
   const initials = user.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "MA";
 
   return (
@@ -454,7 +457,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
               <Plus size={18} /><input value={capture} onChange={(event) => setCapture(event.target.value)} placeholder="Capture an idea before it disappears…" /><button disabled={!capture.trim()}>Add to inbox</button>
             </form>
             <section className="studio-metrics">
-              <article><span className="violet"><FolderGit2 size={17} /></span><div><small>Projects</small><strong>{studioProjects.length}</strong><p>With release context</p></div></article>
+              <article><span className="violet"><FolderGit2 size={17} /></span><div><small>Projects</small><strong>{projects.length}</strong><p>With release context</p></div></article>
               <article><span className="green"><Rocket size={17} /></span><div><small>Live products</small><strong>{liveProjects}</strong><p>Deliberately released</p></div></article>
               <article><span className="gold"><ListTodo size={17} /></span><div><small>Active work</small><strong>{activeWork}</strong><p>{inboxCount} waiting in inbox</p></div></article>
               <article><span className="pink"><BookOpen size={17} /></span><div><small>Knowledge</small><strong>{documents.length + records.filter((record) => record.category === "decision").length}</strong><p>Docs and decisions</p></div></article>
@@ -463,7 +466,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
               <section className="studio-panel">
                 <div className="studio-panel-heading"><div><p className="studio-kicker">PROJECT SHORTCUTS</p><h2>Choose a project and continue</h2></div><button onClick={() => openTab("projects")}>Open catalog</button></div>
                 <div className="studio-activity-list">
-                  {studioProjects.slice(0, 5).map((project) => (
+                  {projects.slice(0, 5).map((project) => (
                     <button key={project.slug} onClick={() => { setSelectedProject(project); openTab("projects"); }}>
                       <span>{project.initials}</span><div><strong>{project.name}</strong><p>{project.latest}</p><small>{project.branch} · {project.commit}</small></div><ArrowRight size={16} />
                     </button>
@@ -481,7 +484,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
 
         {tab === "projects" && (
           <StudioProjectsWorkspace
-            projects={filteredProjects.length ? filteredProjects : studioProjects}
+            projects={filteredProjects.length ? filteredProjects : projects}
             activeProject={filteredProjects.find((project) => project.slug === selectedProject.slug) ?? filteredProjects[0] ?? selectedProject}
             notes={notes}
             documents={documents}
@@ -502,7 +505,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
               <div className="studio-work-fields">
                 <select value={captureProject} onChange={(event) => setCaptureProject(event.target.value)} aria-label="Project">
                   <option value="">No project yet</option>
-                  {studioProjects.map((project) => <option key={project.slug} value={project.slug}>{project.name}</option>)}
+                  {projects.map((project) => <option key={project.slug} value={project.slug}>{project.name}</option>)}
                 </select>
                 <select value={capturePriority} onChange={(event) => setCapturePriority(event.target.value as StudioPriority)} aria-label="Priority">
                   <option value="low">Low priority</option><option value="medium">Medium priority</option><option value="high">High priority</option>
@@ -520,7 +523,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
                     <div className="studio-work-cards">
                       {!laneNotes.length && <p className="studio-lane-empty">Nothing here</p>}
                       {laneNotes.map((note) => {
-                        const project = studioProjects.find((item) => item.slug === note.projectSlug);
+                        const project = projects.find((item) => item.slug === note.projectSlug);
                         return <article key={note.id}>
                           <div className="studio-work-card-meta"><span className={`priority-${note.priority}`}>{note.priority}</span><small>{project?.name ?? "Unsorted"}</small></div>
                           <h3>{note.title}</h3>
@@ -551,13 +554,13 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
               <div className="studio-knowledge-browser-head"><div><p className="studio-kicker">KNOWLEDGE / DOCS</p><h1>Knowledge</h1></div><button onClick={beginNewDocument} aria-label="New document"><Plus size={16} /></button></div>
               <select value={knowledgeProject} onChange={(event) => { setKnowledgeProject(event.target.value); setSelectedDocumentId(null); }} aria-label="Filter by project">
                 <option value="">All knowledge</option>
-                {studioProjects.map((project) => <option key={project.slug} value={project.slug}>{project.name}</option>)}
+                {projects.map((project) => <option key={project.slug} value={project.slug}>{project.name}</option>)}
               </select>
               <div className="studio-document-list">
                 {loadingDocuments && <p>Loading knowledge…</p>}
                 {!loadingDocuments && !filteredDocuments.length && <p>No documents match this view.</p>}
                 {filteredDocuments.map((document) => {
-                  const project = studioProjects.find((item) => item.slug === document.projectSlug);
+                  const project = projects.find((item) => item.slug === document.projectSlug);
                   return <button className={selectedDocument?.id === document.id && !editingDocument ? "active" : ""} key={document.id} onClick={() => { setSelectedDocumentId(document.id); setEditingDocument(false); }}>
                     <FileText size={15} /><span><strong>{document.title}</strong><small>{project?.name ?? "Global"} · {document.type}</small></span>
                   </button>;
@@ -573,7 +576,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
                   <div className="studio-document-form-grid">
                     <label>Title<input value={documentDraft.title} onChange={(event) => setDocumentDraft((current) => ({ ...current, title: event.target.value }))} placeholder="Clear document title" /></label>
                     <label>Type<select value={documentDraft.type} onChange={(event) => setDocumentDraft((current) => ({ ...current, type: event.target.value as StudioDocumentType }))}>{documentTypes.map((type) => <option key={type.id} value={type.id}>{type.label}</option>)}</select></label>
-                    <label>Project<select value={documentDraft.projectSlug ?? ""} onChange={(event) => setDocumentDraft((current) => ({ ...current, projectSlug: event.target.value || null }))}><option value="">Global knowledge</option>{studioProjects.map((project) => <option key={project.slug} value={project.slug}>{project.name}</option>)}</select></label>
+                    <label>Project<select value={documentDraft.projectSlug ?? ""} onChange={(event) => setDocumentDraft((current) => ({ ...current, projectSlug: event.target.value || null }))}><option value="">Global knowledge</option>{projects.map((project) => <option key={project.slug} value={project.slug}>{project.name}</option>)}</select></label>
                     <label>Tags<input value={documentDraft.tags.join(", ")} onChange={(event) => setDocumentDraft((current) => ({ ...current, tags: event.target.value.split(",").map((tag) => tag.trim()).filter(Boolean) }))} placeholder="setup, release, ai" /></label>
                   </div>
                   <label>Summary<textarea className="summary" value={documentDraft.summary} onChange={(event) => setDocumentDraft((current) => ({ ...current, summary: event.target.value }))} placeholder="Explain what this document contains and when to use it." /></label>
@@ -598,7 +601,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
         )}
 
         {tab === "knowledge" && knowledgeMode === "decisions" && <StudioRecordsPanel category="decision" records={records} setRecords={setRecords} query={query} />}
-        {tab === "knowledge" && knowledgeMode === "handoff" && <StudioHandoffPanel documents={documents} notes={notes} records={records} initialProject={knowledgeProject} />}
+        {tab === "knowledge" && knowledgeMode === "handoff" && <StudioHandoffPanel documents={documents} notes={notes} records={records} projects={projects} initialProject={knowledgeProject} />}
 
         {tab === "operations" && <StudioOperations records={records} setRecords={setRecords} query={query} />}
         {tab === "assets" && <StudioRecordsPanel category="asset" records={records} setRecords={setRecords} query={query} />}
