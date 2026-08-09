@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Activity,
   Bot,
@@ -251,9 +251,20 @@ export function StudioRecordsPanel({ category, records, setRecords, query = "" }
 
 export function StudioOperations({ records, setRecords, query = "" }: RecordsProps) {
   const [section, setSection] = useState<"health" | "automation" | "analytics">("health");
+  const [storage, setStorage] = useState<{ backend: string; bytes: number; keys: number; counts: { notes: number; documents: number; records: number; mindMapValues: number } } | null>(null);
   const health = records.filter((record) => record.category === "health");
   const automations = records.filter((record) => record.category === "automation");
   const totalFinance = records.filter((record) => record.category === "finance" && record.status === "active").length;
+  useEffect(() => {
+    fetch("/api/studio/storage", { cache: "no-store" })
+      .then(async (response) => response.ok ? await response.json() : null)
+      .then((usage) => { if (usage) setStorage(usage); })
+      .catch(() => undefined);
+  }, []);
+  const storageLabel = storage ? storage.bytes < 1024 * 1024
+    ? `${(storage.bytes / 1024).toFixed(1)} KB`
+    : `${(storage.bytes / 1024 / 1024).toFixed(2)} MB`
+    : "Measuring…";
   return (
     <div className="studio-operations">
       <nav className="studio-subtabs" aria-label="Operations sections">
@@ -263,7 +274,7 @@ export function StudioOperations({ records, setRecords, query = "" }: RecordsPro
       </nav>
       {section === "health" && <StudioRecordsPanel category="health" records={records} setRecords={setRecords} query={query} />}
       {section === "automation" && <StudioRecordsPanel category="automation" records={records} setRecords={setRecords} query={query} />}
-      {section === "analytics" && <div className="studio-system-page"><header className="studio-system-heading"><div><p className="studio-kicker">STUDIO ANALYTICS</p><h1>Analytics</h1><p>A private operational overview based on the data already inside Studio. Traffic integrations can be connected later.</p></div></header><section className="studio-analytics-grid"><article><small>Project portfolio</small><strong>{studioProjects.length}</strong><p>{studioProjects.filter((project) => project.state === "Live" || project.state === "Active").length} live or active</p></article><article><small>System health</small><strong>{health.filter((record) => record.status === "healthy").length}/{health.length || 0}</strong><p>Checks currently healthy</p></article><article><small>Automations</small><strong>{automations.filter((record) => record.status === "active").length}</strong><p>{automations.filter((record) => record.status === "failing").length} need attention</p></article><article><small>Active subscriptions</small><strong>{totalFinance}</strong><p>Tracked in Finance</p></article></section><div className="studio-insight"><Activity size={20} /><div><strong>Deliberately internal first</strong><p>This view measures your Studio records without exposing analytics credentials. Vercel, Cloudflare, or PostHog can be connected when you choose a traffic source.</p></div></div></div>}
+      {section === "analytics" && <div className="studio-system-page"><header className="studio-system-heading"><div><p className="studio-kicker">STUDIO ANALYTICS & CAPACITY</p><h1>Analytics</h1><p>Portfolio activity, private data size, hosting footprint, and whether the current free plans are still enough.</p></div></header><section className="studio-analytics-grid"><article><small>Project portfolio</small><strong>{studioProjects.length}</strong><p>{studioProjects.filter((project) => project.state === "Live" || project.state === "Active").length} live or active</p></article><article><small>System health</small><strong>{health.filter((record) => record.status === "healthy").length}/{health.length || 0}</strong><p>Checks currently healthy</p></article><article><small>Automations</small><strong>{automations.filter((record) => record.status === "active").length}</strong><p>{automations.filter((record) => record.status === "failing").length} need attention</p></article><article><small>Active subscriptions</small><strong>{totalFinance}</strong><p>Tracked in Finance</p></article><article><small>Hosting account</small><strong>Hobby</strong><p>Vercel · $0/month · personal use</p></article><article><small>Current deployment</small><strong>13.63 MB</strong><p>Largest server function · 5.77 MB public assets</p></article><article><small>Private Studio data</small><strong>{storageLabel}</strong><p>{storage?.backend ?? "Upstash Redis"} · {storage?.keys ?? 4} logical keys</p></article><article><small>Runnable build storage</small><strong>Not connected</strong><p>GitHub Actions artifacts will be used only when a test build exists</p></article></section><div className="studio-insight"><ShieldCheck size={20} /><div><strong>No paid hosting subscription is needed now.</strong><p>The dashboard data is tiny compared with the 256 MB free Redis allowance, and the deployed website is well within Vercel Hobby limits. Review again when automated desktop builds or public traffic grow.</p></div></div></div>}
     </div>
   );
 }

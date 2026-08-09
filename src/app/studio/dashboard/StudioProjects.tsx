@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   BookOpen,
@@ -12,7 +12,11 @@ import {
   GitBranch,
   GitCommit,
   FolderGit2,
+  FileCode2,
+  Globe2,
   ListTodo,
+  LoaderCircle,
+  MonitorDown,
   Plus,
   Rocket,
   ShieldCheck,
@@ -32,6 +36,28 @@ type Props = {
   onOpenHandoff: (project: StudioProject) => void;
   onOpenWork: (project: StudioProject) => void;
   onAddWork: (title: string, project: StudioProject) => Promise<void>;
+};
+
+type ProjectArtifact = {
+  id: number;
+  name: string;
+  size: number;
+  createdAt: string;
+  expiresAt: string;
+};
+
+type ProjectActivity = {
+  source: "github" | "snapshot";
+  reason: string | null;
+  commits: Array<{
+    commit: string;
+    fullCommit?: string;
+    date: string;
+    title: string;
+    author?: string;
+    url: string;
+    artifacts: ProjectArtifact[];
+  }>;
 };
 
 function projectOwnerAndName(project: StudioProject) {
@@ -81,6 +107,17 @@ export function buildProjectAIStarter(
     `- Stable checkpoint: ${project.stable}`,
     `- Currently live: ${project.live}`,
     `- Project status: ${project.state}`,
+    `- Run readiness: ${project.runSummary}`,
+    `- Build footprint: ${project.buildFootprint}`,
+    "",
+    "## How this project can be tried",
+    ...project.runOptions.map((option) => `- ${option.platform} / ${option.label}: ${option.status}. ${option.detail}${option.href ? ` Link: ${option.href}` : ""}${option.file ? ` File: ${option.file}` : ""}`),
+    "",
+    "## Important repository files",
+    ...project.importantFiles.map((file) => `- \`${file.path}\` — ${file.purpose}`),
+    "",
+    "## Recent verified edit checkpoints",
+    ...project.fallbackEdits.map((edit) => `- ${edit.date} · \`${edit.commit}\` · ${edit.title}`),
     "",
     "## Download or update the newest code",
     "### If the project is not on this device",
@@ -135,12 +172,33 @@ function downloadMarkdown(filename: string, content: string) {
 export function StudioProjectsWorkspace({ projects, activeProject, notes, documents, records, onSelect, onOpenKnowledge, onOpenHandoff, onOpenWork, onAddWork }: Props) {
   const [idea, setIdea] = useState("");
   const [copyState, setCopyState] = useState<"idle" | "copied">("idle");
+  const [activityResult, setActivityResult] = useState<{ slug: string; activity: ProjectActivity } | null>(null);
   const projectNotes = useMemo(() => notes.filter((note) => note.projectSlug === activeProject.slug), [activeProject.slug, notes]);
   const openWork = projectNotes.filter((note) => note.workflow !== "done");
   const doingWork = projectNotes.filter((note) => note.workflow === "doing");
   const projectDocuments = documents.filter((document) => document.projectSlug === activeProject.slug);
   const decisions = records.filter((record) => record.category === "decision" && record.projectSlug === activeProject.slug && record.status !== "superseded");
   const health = records.filter((record) => record.category === "health" && record.projectSlug === activeProject.slug);
+  const activity = activityResult?.slug === activeProject.slug ? activityResult.activity : null;
+  const activityLoading = !activity;
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/studio/projects/${encodeURIComponent(activeProject.slug)}/activity`, { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) throw new Error(`Activity request failed: ${response.status}`);
+        return await response.json() as ProjectActivity;
+      })
+      .then((nextActivity) => { if (!cancelled) setActivityResult({ slug: activeProject.slug, activity: nextActivity }); })
+      .catch(() => {
+        if (!cancelled) setActivityResult({ slug: activeProject.slug, activity: {
+          source: "snapshot",
+          reason: "Live history is unavailable; showing the last verified Studio snapshot.",
+          commits: activeProject.fallbackEdits.map((edit) => ({ ...edit, url: `${activeProject.repository}/commit/${edit.commit}`, artifacts: [] })),
+        } });
+      });
+    return () => { cancelled = true; };
+  }, [activeProject]);
 
   async function copySetup() {
     await navigator.clipboard.writeText(buildSetupCommand(activeProject));
@@ -192,6 +250,43 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
         <article className="stable"><header><CheckCircle2 size={17} /><span>02</span></header><small>Stable checkpoint</small><h3>{activeProject.stable}</h3><p><Check size={12} /> Tested and trusted</p></article>
         <ArrowRight size={18} />
         <article className="live"><header><Rocket size={17} /><span>03</span></header><small>Currently live</small><h3>{activeProject.live}</h3><p>What people use now</p></article>
+      </section>
+
+      <section className="studio-project-run-center">
+        <header><div><p className="studio-kicker">TRY & RUN</p><h2>Use the real option available for this project.</h2><p>{activeProject.runSummary}</p></div><span>{activeProject.buildFootprint}</span></header>
+        <div className="studio-project-run-grid">
+          {activeProject.runOptions.map((option) => {
+            const ready = option.status === "ready";
+            const href = ready ? option.href : option.status === "local-only" && option.file
+              ? `${activeProject.repository}/blob/${activeProject.branch}/${option.file}`
+              : undefined;
+            const Icon = option.kind === "online" ? Globe2 : option.kind === "download" ? MonitorDown : option.kind === "local" ? FileCode2 : LoaderCircle;
+            const content = <><span className={`status-${option.status}`}><Icon size={17} /></span><div><small>{option.platform} · {option.status.replaceAll("-", " ")}</small><strong>{option.label}</strong><p>{option.detail}</p>{option.file && <code>{option.file}</code>}</div>{href && <ExternalLink size={14} />}</>;
+            return href
+              ? <a key={`${option.platform}-${option.label}`} href={href} target="_blank" rel="noreferrer" download={option.kind === "download" ? true : undefined}>{content}</a>
+              : <article key={`${option.platform}-${option.label}`}>{content}</article>;
+          })}
+        </div>
+      </section>
+
+      <section className="studio-project-evidence-grid">
+        <article className="studio-project-edits">
+          <header><div><p className="studio-kicker">EDIT HISTORY</p><h2>Every pushed edit is a checkpoint.</h2></div><span className={activity?.source === "github" ? "live" : "snapshot"}>{activity?.source === "github" ? "Live GitHub" : "Verified snapshot"}</span></header>
+          {activityLoading && <div className="studio-project-loading"><LoaderCircle size={17} /> Loading repository history…</div>}
+          {!activityLoading && activity?.reason && <p className="studio-project-sync-note">{activity.reason}</p>}
+          <div className="studio-project-edit-list">
+            {!activityLoading && activity?.commits.slice(0, 6).map((edit) => <div key={edit.fullCommit ?? edit.commit}>
+              <i />
+              <span><a href={edit.url} target="_blank" rel="noreferrer">{edit.title}</a><small>{new Date(edit.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · <code>{edit.commit}</code></small></span>
+              {edit.artifacts.length ? <a className="studio-artifact-button" href={`/api/studio/projects/${activeProject.slug}/artifacts/${edit.artifacts[0].id}`}><Download size={13} /> {edit.artifacts[0].name}</a> : <em>Source saved</em>}
+            </div>)}
+          </div>
+        </article>
+
+        <article className="studio-project-files">
+          <header><div><p className="studio-kicker">IMPORTANT FILES</p><h2>Read these before changing the project.</h2></div><span>{activeProject.importantFiles.length}</span></header>
+          <div>{activeProject.importantFiles.map((file) => <a key={file.path} href={`${activeProject.repository}/blob/${activeProject.branch}/${file.path}`} target="_blank" rel="noreferrer"><FileCode2 size={16} /><span><strong>{file.label}</strong><code>{file.path}</code><small>{file.purpose}</small></span><ExternalLink size={13} /></a>)}</div>
+        </article>
       </section>
 
       <section className="studio-project-glance">

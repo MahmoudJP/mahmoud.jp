@@ -194,14 +194,17 @@ Mahmoud Studio is the private command center for Mahmoud's ideas, projects, vers
 - Stable means a tested checkpoint Mahmoud trusts.
 - Live means the version currently used by people.
 - A pushed commit does not automatically become stable or live.
+- Every pushed commit is an edit checkpoint, even when it is not a named version.
+- A test build is a runnable file produced from one exact commit. If no build artifact exists, Studio must say source saved instead of offering a fake run button.
 
 # Working workflow
 1. Capture raw thoughts in Inbox & Work.
 2. Connect actionable work to a project.
 3. Save important context in Knowledge.
 4. Push code to preserve progress.
-5. Mark a version stable only after validation.
-6. Promote a version live only after explicit approval.
+5. Produce a test build or web preview only when the project needs one.
+6. Mark a version stable only after validation.
+7. Promote a version live only after explicit approval.
 
 # AI collaboration rules
 - Read the relevant project brief and knowledge documents before changing code.
@@ -245,6 +248,39 @@ Work is complete only when the requested outcome is implemented, validated in pr
     status: "current",
     createdAt: "2026-08-09T00:00:00.000Z",
     updatedAt: "2026-08-09T00:00:00.000Z",
+  },
+  {
+    id: "project-run-readiness-guide",
+    title: "Project Run & Build Readiness",
+    projectSlug: null,
+    type: "runbook",
+    summary: "How Studio represents ordinary edits, online previews, local launchers, test builds, stable checkpoints, and live releases.",
+    content: `# States
+- Edit checkpoint: any pushed Git commit, even when it has no version number.
+- Online preview: a browser-ready deployment for the exact source being tested.
+- Local launcher: a source file that starts the project locally and may require an installed toolchain.
+- Test build: a runnable package produced from one exact commit.
+- Stable checkpoint: a tested state Mahmoud trusts.
+- Live release: the version deliberately promoted for real users.
+
+# Truthful run buttons
+- Show Try Online only when a working protected or public URL exists.
+- Show Download only when a verified artifact exists for the selected commit and platform.
+- Show Local only when the repository contains the named launcher or direct HTML file.
+- If no runnable file exists, say Source saved or Build required.
+
+# Privacy
+- Never copy private project builds into the public mahmoud.jp repository.
+- Private previews need protected hosting or authenticated artifact downloads.
+- Keep secrets, signing material, user data, and local databases out of build artifacts.
+
+# Retention
+- Ordinary test artifacts may expire to control storage.
+- Stable and live packages should be kept deliberately and documented separately.`,
+    tags: ["projects", "edits", "builds", "previews", "releases"],
+    status: "current",
+    createdAt: "2026-08-10T00:00:00.000Z",
+    updatedAt: "2026-08-10T00:00:00.000Z",
   },
 ];
 
@@ -382,4 +418,26 @@ export async function saveStudioMindMap(snapshot: Record<string, string>) {
   const redis = getRedis();
   if (redis) await redis.set(MAP_KEY, snapshot);
   else memoryStore().map = snapshot;
+}
+
+export async function getStudioStorageUsage() {
+  const [notes, documents, records, map] = await Promise.all([
+    listStudioNotes(),
+    listStudioDocuments(),
+    listStudioRecords(),
+    getStudioMindMap(),
+  ]);
+  const bytes = new TextEncoder().encode(JSON.stringify({ notes, documents, records, map })).byteLength;
+  return {
+    backend: getRedis() ? "Upstash Redis" : "Temporary memory",
+    bytes,
+    keys: 4,
+    counts: {
+      notes: notes.length,
+      documents: documents.length,
+      records: records.length,
+      mindMapValues: map ? Object.keys(map).length : 0,
+    },
+    measuredAt: new Date().toISOString(),
+  };
 }
