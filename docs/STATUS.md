@@ -9,9 +9,9 @@ Last reviewed: 2026-08-09
 - Production branch: `master`
 - Framework: Next.js 16 with React 19
 - Next.js and eslint-config-next are on 16.3.0.
-- Mahmoud Studio is live at `/studio`.
-- The private workspace is available at `/studio/dashboard` and restricted to
-  the approved owner Google account.
+- The private Mahmoud Studio workspace is live directly at `/studio` and is
+  restricted to the approved owner Google account.
+- The former `/studio/dashboard` URL redirects to `/studio` for compatibility.
 - The mind map is integrated at `/studio/mind-map/index.html` behind the same
   authentication boundary.
 - Private Studio notes and mind-map data use the existing Vercel Upstash Redis
@@ -34,9 +34,8 @@ Last reviewed: 2026-08-09
 
 ## Studio production validation
 
-- `/studio` returns `200` without authentication.
-- Private dashboard and mind-map routes redirect anonymous visitors to the
-  Studio login page.
+- `/studio` and the mind-map routes redirect anonymous visitors to the Studio
+  login page.
 - Private Studio APIs return `401` without an authenticated owner session.
 - Google OAuth sign-in completed successfully with the approved account.
 - Production deployment for commit `5827f19` completed successfully on Vercel.
