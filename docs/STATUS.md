@@ -16,6 +16,12 @@ Last reviewed: 2026-08-09
   authentication boundary.
 - Private Studio notes and mind-map data use the existing Vercel Upstash Redis
   environment.
+- The Studio navigation keeps related concepts together: Projects includes
+  release state, while Inbox & Work combines capture and execution.
+- Knowledge / Docs stores structured Markdown with project links, summaries,
+  tags, and portable AI context exports.
+- The Knowledge store includes a Studio operating guide and an AI handoff
+  protocol by default.
 
 ## Import notes
 
