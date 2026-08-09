@@ -77,5 +77,6 @@ Last reviewed: 2026-08-10
 - The structured records API also returns `401` without the authenticated
   owner session.
 - Google OAuth sign-in completed successfully with the approved account.
-- Production deployment for commit `5827f19` completed successfully on Vercel.
+- Production deployments expose `VERCEL_GIT_COMMIT_SHA` in Studio so the live
+  project checkpoint stays accurate after every merge.
 - `npm audit --omit=dev` reports zero vulnerabilities.
