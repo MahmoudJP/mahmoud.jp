@@ -5,6 +5,7 @@ import Link from "next/link";
 import { signOut } from "next-auth/react";
 import {
   ArrowRight,
+  Activity,
   BookOpen,
   Box,
   Check,
@@ -13,6 +14,7 @@ import {
   Copy,
   Download,
   FileText,
+  FileArchive,
   FolderGit2,
   GitCommit,
   Home,
@@ -25,6 +27,8 @@ import {
   Pencil,
   Plus,
   Rocket,
+  BriefcaseBusiness,
+  CircleDollarSign,
   Save,
   Search,
   ShieldCheck,
@@ -33,15 +37,18 @@ import {
   X,
 } from "lucide-react";
 import { studioProjects, type StudioProject } from "@/lib/studio-data";
+import { StudioHandoffPanel, StudioOperations, StudioRecordsPanel } from "./StudioSystems";
 import type {
   StudioDocument,
   StudioDocumentType,
   StudioNote,
   StudioPriority,
+  StudioRecord,
   StudioWorkflow,
 } from "@/lib/studio-store";
 
-type Tab = "home" | "projects" | "work" | "mind-map" | "knowledge";
+type Tab = "home" | "projects" | "work" | "mind-map" | "knowledge" | "operations" | "assets" | "career" | "finance";
+type KnowledgeMode = "docs" | "decisions" | "handoff";
 type DocumentDraft = Pick<StudioDocument, "title" | "projectSlug" | "type" | "summary" | "content" | "tags">;
 
 const navigation = [
@@ -50,6 +57,10 @@ const navigation = [
   { id: "work" as const, label: "Inbox & Work", icon: ListTodo },
   { id: "mind-map" as const, label: "Mind Map", icon: Map },
   { id: "knowledge" as const, label: "Knowledge", icon: BookOpen },
+  { id: "operations" as const, label: "Operations", icon: Activity },
+  { id: "assets" as const, label: "Assets", icon: FileArchive },
+  { id: "career" as const, label: "Career", icon: BriefcaseBusiness },
+  { id: "finance" as const, label: "Finance", icon: CircleDollarSign },
 ];
 
 const workflows: { id: StudioWorkflow; label: string; hint: string }[] = [
@@ -145,6 +156,8 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
   const [mobileNav, setMobileNav] = useState(false);
   const [notes, setNotes] = useState<StudioNote[]>([]);
   const [documents, setDocuments] = useState<StudioDocument[]>([]);
+  const [records, setRecords] = useState<StudioRecord[]>([]);
+  const [knowledgeMode, setKnowledgeMode] = useState<KnowledgeMode>("docs");
   const [capture, setCapture] = useState("");
   const [captureProject, setCaptureProject] = useState("");
   const [capturePriority, setCapturePriority] = useState<StudioPriority>("medium");
@@ -184,7 +197,21 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
     }
   }, []);
 
-  useEffect(() => { void loadNotes(); void loadDocuments(); }, [loadNotes, loadDocuments]);
+  const loadRecords = useCallback(async () => {
+    try {
+      const response = await fetch("/api/studio/records", { cache: "no-store" });
+      if (response.ok) setRecords(((await response.json()) as { records: StudioRecord[] }).records);
+    } catch {
+      // The other Studio areas remain usable while private storage reconnects.
+    }
+  }, []);
+
+  useEffect(() => {
+    void loadNotes();
+    void loadDocuments();
+    const recordsTimer = window.setTimeout(() => void loadRecords(), 0);
+    return () => window.clearTimeout(recordsTimer);
+  }, [loadNotes, loadDocuments, loadRecords]);
 
   useEffect(() => {
     let active = true;
@@ -290,6 +317,14 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
   function openKnowledgeForProject(project: StudioProject) {
     setSelectedProject(null);
     setKnowledgeProject(project.slug);
+    setKnowledgeMode("docs");
+    openTab("knowledge");
+  }
+
+  function openHandoffForProject(project: StudioProject) {
+    setSelectedProject(null);
+    setKnowledgeProject(project.slug);
+    setKnowledgeMode("handoff");
     openTab("knowledge");
   }
 
@@ -388,7 +423,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
         <nav aria-label="Workspace navigation">
           {navigation.map((item) => {
             const Icon = item.icon;
-            const count = item.id === "work" ? openWork : item.id === "knowledge" ? documents.length : 0;
+            const count = item.id === "work" ? openWork : item.id === "knowledge" ? documents.length + records.filter((record) => record.category === "decision").length : 0;
             return (
               <button key={item.id} className={tab === item.id ? "active" : ""} onClick={() => openTab(item.id)}>
                 <Icon size={17} /> {item.label}
@@ -518,7 +553,9 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
           </div>
         )}
 
-        {tab === "knowledge" && (
+        {tab === "knowledge" && <nav className="studio-subtabs studio-knowledge-tabs" aria-label="Knowledge sections"><button className={knowledgeMode === "docs" ? "active" : ""} onClick={() => setKnowledgeMode("docs")}><FileText size={14} /> Docs</button><button className={knowledgeMode === "decisions" ? "active" : ""} onClick={() => setKnowledgeMode("decisions")}><CheckCircle2 size={14} /> Decisions</button><button className={knowledgeMode === "handoff" ? "active" : ""} onClick={() => setKnowledgeMode("handoff")}><Sparkles size={14} /> AI Handoff</button></nav>}
+
+        {tab === "knowledge" && knowledgeMode === "docs" && (
           <div className="studio-knowledge-view">
             <aside className="studio-knowledge-browser">
               <div className="studio-knowledge-browser-head"><div><p className="studio-kicker">KNOWLEDGE / DOCS</p><h1>Knowledge</h1></div><button onClick={beginNewDocument} aria-label="New document"><Plus size={16} /></button></div>
@@ -570,6 +607,14 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
           </div>
         )}
 
+        {tab === "knowledge" && knowledgeMode === "decisions" && <StudioRecordsPanel category="decision" records={records} setRecords={setRecords} query={query} />}
+        {tab === "knowledge" && knowledgeMode === "handoff" && <StudioHandoffPanel documents={documents} notes={notes} records={records} initialProject={knowledgeProject} />}
+
+        {tab === "operations" && <StudioOperations records={records} setRecords={setRecords} query={query} />}
+        {tab === "assets" && <StudioRecordsPanel category="asset" records={records} setRecords={setRecords} query={query} />}
+        {tab === "career" && <StudioRecordsPanel category="career" records={records} setRecords={setRecords} query={query} />}
+        {tab === "finance" && <StudioRecordsPanel category="finance" records={records} setRecords={setRecords} query={query} />}
+
         {tab === "mind-map" && (
           <div className="studio-map-view"><div className="studio-map-strip"><div><p className="studio-kicker">THINKING SPACE</p><h1>Mind Map</h1></div><span className={syncLabel.includes("pending") ? "warn" : ""}><i /> {syncLabel}</span></div><div className="studio-map-frame">{mapReady ? <iframe src="/studio/mind-map/index.html" title="Mahmoud's private mind map" /> : <div>Preparing your private map…</div>}</div></div>
         )}
@@ -586,7 +631,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
             <ChevronRight size={15} />
             <div className="live"><Rocket size={16} /><span><small>Currently live</small><strong>{selectedProject.live}</strong><p>Used by people now</p></span></div>
           </section>
-          <div className="studio-project-actions"><button onClick={() => openKnowledgeForProject(selectedProject)}><BookOpen size={14} /> Open knowledge</button><button onClick={() => { setCaptureProject(selectedProject.slug); setSelectedProject(null); openTab("work"); }}><ListTodo size={14} /> Add work</button></div>
+          <div className="studio-project-actions studio-project-actions-three"><button onClick={() => openKnowledgeForProject(selectedProject)}><BookOpen size={14} /> Knowledge</button><button onClick={() => openHandoffForProject(selectedProject)}><Sparkles size={14} /> AI Handoff</button><button onClick={() => { setCaptureProject(selectedProject.slug); setSelectedProject(null); openTab("work"); }}><ListTodo size={14} /> Add work</button></div>
           <section className="studio-drawer-ideas"><p className="studio-kicker">PROJECT CONTEXT</p><h3>Leave context for your next session</h3><form onSubmit={(event) => { event.preventDefault(); void addNote(projectIdea, selectedProject.slug, "next"); }}><textarea value={projectIdea} onChange={(event) => setProjectIdea(event.target.value)} placeholder={`Add work or an idea for ${selectedProject.name}…`} /><button disabled={!projectIdea.trim()}><Sparkles size={14} /> Save to work</button></form>{notes.filter((note) => note.projectSlug === selectedProject.slug).slice(0, 5).map((note) => <div className="studio-project-note" key={note.id}><Lightbulb size={13} /><span>{note.title}<small>{note.workflow}</small></span></div>)}</section>
           <p className="studio-drawer-rule"><Box size={14} /> Pushing code updates the latest checkpoint. Stable and live versions change only after your explicit approval.</p>
         </aside></div>
