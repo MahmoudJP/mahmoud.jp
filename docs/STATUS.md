@@ -1,15 +1,21 @@
 # Project Status
 
-Last reviewed: 2026-07-26
+Last reviewed: 2026-08-09
 
 ## State
 
 - Repository visibility: Public
 - Production site: `mahmoud.jp`
-- Working branch: `import/mac-backup`
+- Production branch: `master`
 - Framework: Next.js 16 with React 19
-- Next.js and eslint-config-next were updated to 16.2.11.
-- No deploy was performed during the Mac-backup import.
+- Next.js and eslint-config-next are on 16.3.0.
+- Mahmoud Studio is live at `/studio`.
+- The private workspace is available at `/studio/dashboard` and restricted to
+  the approved owner Google account.
+- The mind map is integrated at `/studio/mind-map/index.html` behind the same
+  authentication boundary.
+- Private Studio notes and mind-map data use the existing Vercel Upstash Redis
+  environment.
 
 ## Import notes
 
@@ -26,11 +32,12 @@ Last reviewed: 2026-07-26
 - ESLint passed with three existing warnings and no errors.
 - Production build passed on Windows.
 
-## Before merging to the deployment branch
+## Studio production validation
 
-- Review the Navbar change.
-- Review new files under `src`, `public`, `demo`, and `_logo-concepts`.
-- Review the final public diff.
-- Keep the import branch separate until a production deploy is explicitly requested.
-- Dependency audit still reports upstream Next.js/tooling advisories; do not use
-  `npm audit fix --force`.
+- `/studio` returns `200` without authentication.
+- Private dashboard and mind-map routes redirect anonymous visitors to the
+  Studio login page.
+- Private Studio APIs return `401` without an authenticated owner session.
+- Google OAuth sign-in completed successfully with the approved account.
+- Production deployment for commit `5827f19` completed successfully on Vercel.
+- `npm audit --omit=dev` reports zero vulnerabilities.
