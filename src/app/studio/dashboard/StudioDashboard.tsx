@@ -284,12 +284,13 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
   function openTab(nextTab: Tab) {
     setTab(nextTab);
     setMobileNav(false);
+    window.scrollTo({ top: 0, behavior: "auto" });
   }
 
   function openKnowledgeForProject(project: StudioProject) {
     setSelectedProject(null);
     setKnowledgeProject(project.slug);
-    setTab("knowledge");
+    openTab("knowledge");
   }
 
   function beginNewDocument() {
@@ -585,7 +586,7 @@ export function StudioDashboard({ user }: { user: { name: string; email: string 
             <ChevronRight size={15} />
             <div className="live"><Rocket size={16} /><span><small>Currently live</small><strong>{selectedProject.live}</strong><p>Used by people now</p></span></div>
           </section>
-          <div className="studio-project-actions"><button onClick={() => openKnowledgeForProject(selectedProject)}><BookOpen size={14} /> Open knowledge</button><button onClick={() => { setCaptureProject(selectedProject.slug); setSelectedProject(null); setTab("work"); }}><ListTodo size={14} /> Add work</button></div>
+          <div className="studio-project-actions"><button onClick={() => openKnowledgeForProject(selectedProject)}><BookOpen size={14} /> Open knowledge</button><button onClick={() => { setCaptureProject(selectedProject.slug); setSelectedProject(null); openTab("work"); }}><ListTodo size={14} /> Add work</button></div>
           <section className="studio-drawer-ideas"><p className="studio-kicker">PROJECT CONTEXT</p><h3>Leave context for your next session</h3><form onSubmit={(event) => { event.preventDefault(); void addNote(projectIdea, selectedProject.slug, "next"); }}><textarea value={projectIdea} onChange={(event) => setProjectIdea(event.target.value)} placeholder={`Add work or an idea for ${selectedProject.name}…`} /><button disabled={!projectIdea.trim()}><Sparkles size={14} /> Save to work</button></form>{notes.filter((note) => note.projectSlug === selectedProject.slug).slice(0, 5).map((note) => <div className="studio-project-note" key={note.id}><Lightbulb size={13} /><span>{note.title}<small>{note.workflow}</small></span></div>)}</section>
           <p className="studio-drawer-rule"><Box size={14} /> Pushing code updates the latest checkpoint. Stable and live versions change only after your explicit approval.</p>
         </aside></div>
