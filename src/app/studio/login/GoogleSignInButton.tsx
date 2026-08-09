@@ -13,7 +13,7 @@ export function GoogleSignInButton() {
       disabled={loading}
       onClick={() => {
         setLoading(true);
-        void signIn("google", { callbackUrl: "/studio/dashboard" });
+        void signIn("google", { callbackUrl: "/studio" });
       }}
     >
       <span className="studio-google-mark" aria-hidden="true">G</span>

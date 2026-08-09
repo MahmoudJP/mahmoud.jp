@@ -13,11 +13,11 @@ export const metadata: Metadata = {
 
 export default async function StudioLoginPage() {
   const session = await getServerSession(studioAuthOptions);
-  if (isStudioOwnerEmail(session?.user?.email)) redirect("/studio/dashboard");
+  if (isStudioOwnerEmail(session?.user?.email)) redirect("/studio");
 
   return (
     <main className="studio-login-page">
-      <Link href="/studio" className="studio-back"><ArrowLeft size={15} /> Back to Studio</Link>
+      <Link href="/" className="studio-back"><ArrowLeft size={15} /> Back to mahmoud.jp</Link>
       <section className="studio-login-card">
         <div className="studio-login-icon"><LockKeyhole size={24} /></div>
         <p className="studio-kicker">PRIVATE WORKSPACE</p>
@@ -26,7 +26,7 @@ export default async function StudioLoginPage() {
         <GoogleSignInButton />
         <div className="studio-login-security"><ShieldCheck size={15} /><span>Other Google accounts are denied automatically.</span></div>
       </section>
-      <p className="studio-login-foot">The public Studio remains available without signing in.</p>
+      <p className="studio-login-foot">This private workspace is available only to its approved owner.</p>
     </main>
   );
 }

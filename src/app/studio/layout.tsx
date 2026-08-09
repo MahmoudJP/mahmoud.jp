@@ -2,14 +2,9 @@ import type { Metadata } from "next";
 import "./studio.css";
 
 export const metadata: Metadata = {
-  title: "Mahmoud Studio | Projects, Systems & Experiments",
-  description: "A curated view of the products, tools, and systems Mahmoud builds across design, language, and technology.",
-  alternates: { canonical: "/studio" },
-  openGraph: {
-    title: "Mahmoud Studio",
-    description: "Projects, systems, and experiments across design, language, and technology.",
-    url: "/studio",
-  },
+  title: "Private Workspace | Mahmoud Studio",
+  description: "Mahmoud's private project, version, notes, and mind-map workspace.",
+  robots: { index: false, follow: false, nocache: true },
 };
 
 export default function StudioLayout({ children }: { children: React.ReactNode }) {
