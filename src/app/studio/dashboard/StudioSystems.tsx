@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { studioProjects } from "@/lib/studio-data";
 import type { StudioDocument, StudioNote, StudioRecord, StudioRecordCategory } from "@/lib/studio-store";
+import { buildProjectAIStarter } from "./StudioProjects";
 
 type RecordsProps = {
   records: StudioRecord[];
@@ -286,37 +287,10 @@ export function StudioHandoffPanel({
   const decisions = records.filter((record) => record.category === "decision" && record.projectSlug === project?.slug && record.status !== "superseded");
   const health = records.filter((record) => record.category === "health" && record.projectSlug === project?.slug);
 
-  const handoff = useMemo(() => project ? [
-    "# Mahmoud Studio — Project AI Handoff",
-    "",
-    `Generated: ${new Date().toISOString()}`,
-    `Project: ${project.name}`,
-    `Platform: ${project.platform}`,
-    `Active branch: ${project.branch}`,
-    `Latest remote checkpoint: ${project.commit} — ${project.latest}`,
-    `Stable checkpoint: ${project.stable}`,
-    `Currently live: ${project.live}`,
-    `Project state: ${project.state}`,
-    "",
-    "## Open work",
-    ...(projectWork.length ? projectWork.map((note) => `- [${note.workflow}] [${note.priority}] ${note.title}`) : ["- No open work recorded."]),
-    "",
-    "## Current decisions",
-    ...(decisions.length ? decisions.map((record) => `### ${record.title}\n${record.details.decision || record.summary}\n\nRationale: ${record.details.rationale || "Not recorded."}`) : ["- No project decisions recorded."]),
-    "",
-    "## Required knowledge",
-    ...(projectDocs.length ? projectDocs.map((document) => `### ${document.title}\nType: ${document.type}\n${document.summary}\n\n${document.content}`) : ["- No project-specific knowledge documents recorded."]),
-    "",
-    "## Health signals",
-    ...(health.length ? health.map((record) => `- ${record.title}: ${record.status}${record.details.response ? ` — ${record.details.response}` : ""}`) : ["- No health checks recorded."]),
-    "",
-    "## AI continuation rules",
-    "- Read repository instructions and verify the current branch, remote commit, and working tree before editing.",
-    "- Treat latest code, stable checkpoint, and live release as separate states.",
-    "- Never include, request, or copy passwords, tokens, private keys, or credentials into this handoff.",
-    "- Unpushed work from another device is not represented here; confirm before overwriting or pulling.",
-    "- Record meaningful decisions and validation after completing work.",
-  ].join("\n") : "", [decisions, health, project, projectDocs, projectWork]);
+  const handoff = useMemo(
+    () => project ? buildProjectAIStarter(project, notes, documents, records) : "",
+    [documents, notes, project, records],
+  );
 
   async function copyHandoff() {
     await navigator.clipboard.writeText(handoff);
@@ -329,13 +303,13 @@ export function StudioHandoffPanel({
     const url = URL.createObjectURL(blob);
     const anchor = window.document.createElement("a");
     anchor.href = url;
-    anchor.download = `${project?.slug ?? "project"}-ai-handoff.md`;
+    anchor.download = `${project?.slug ?? "project"}-ai-starter.md`;
     anchor.click();
     URL.revokeObjectURL(url);
   }
 
   return <div className="studio-system-page studio-handoff-page">
-    <header className="studio-system-heading"><div><p className="studio-kicker">CONTINUE ON ANY DEVICE</p><h1>AI Handoff</h1><p>A live, project-wide resume packet built from releases, open work, decisions, knowledge, and health—not a manually copied note.</p></div><div className="studio-heading-actions"><button onClick={() => void copyHandoff()}><Copy size={15} /> {copied ? "Copied" : "Copy handoff"}</button><button className="secondary" onClick={downloadHandoff}><Download size={15} /> Markdown</button></div></header>
+    <header className="studio-system-heading"><div><p className="studio-kicker">CONTINUE ON ANY DEVICE</p><h1>AI Project Starter</h1><p>A complete, project-wide file with repository access, safe clone and update commands, release state, open work, decisions, knowledge, and health.</p></div><div className="studio-heading-actions"><button onClick={() => void copyHandoff()}><Copy size={15} /> {copied ? "Copied" : "Copy starter"}</button><button className="secondary" onClick={downloadHandoff}><Download size={15} /> Download .md</button></div></header>
     <label className="studio-handoff-project">Project<select value={projectSlug} onChange={(event) => setProjectSlug(event.target.value)}>{studioProjects.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select></label>
     <section className="studio-handoff-stats"><article><small>Open work</small><strong>{projectWork.length}</strong></article><article><small>Knowledge docs</small><strong>{projectDocs.length}</strong></article><article><small>Current decisions</small><strong>{decisions.length}</strong></article><article><small>Health checks</small><strong>{health.length}</strong></article></section>
     <div className="studio-handoff-preview"><header><span><Sparkles size={14} /> AI-ready Markdown</span><small>Secrets are intentionally excluded</small></header><pre>{handoff}</pre></div>

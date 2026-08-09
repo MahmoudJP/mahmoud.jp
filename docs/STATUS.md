@@ -31,6 +31,14 @@ Last reviewed: 2026-08-09
   and renewal metadata while explicitly excluding credentials and payment data.
 - All new structured Studio records use the private Upstash Redis store and the
   owner-only Studio API boundary.
+- The Projects workspace now uses a fixed catalog and a focused project view
+  instead of card grids and modal drawers. Each project records its repository,
+  visibility, preferred local path, branch, and checkpoint.
+- Every project can export an AI Project Starter Markdown file with safe clone
+  and update instructions, release state, open work, decisions, knowledge,
+  health signals, and explicit no-overwrite/no-deploy rules.
+- Studio typography, work cards, Knowledge, and operational records were scaled
+  for faster scanning on desktop and mobile.
 
 ## Import notes
 
