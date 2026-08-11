@@ -5,7 +5,15 @@ export function studioAllowedEmail() {
   return process.env.STUDIO_ALLOWED_EMAIL?.trim().toLowerCase() ?? "";
 }
 
+export function isStudioLocalPreview() {
+  return process.env.NODE_ENV === "development" && process.env.STUDIO_LOCAL_PREVIEW === "1";
+}
+
 export function isStudioOwnerEmail(email?: string | null) {
+  // RUN-LOCAL.cmd enables a development-only preview so the private dashboard
+  // can be inspected without configuring a Google OAuth callback on every PC.
+  // NODE_ENV keeps this bypass impossible in production builds.
+  if (isStudioLocalPreview()) return true;
   const allowed = studioAllowedEmail();
   return Boolean(allowed && email && email.trim().toLowerCase() === allowed);
 }

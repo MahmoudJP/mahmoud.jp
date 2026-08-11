@@ -1,6 +1,6 @@
 # Project Status
 
-Last reviewed: 2026-08-10
+Last reviewed: 2026-08-11
 
 ## State
 
@@ -53,6 +53,20 @@ Last reviewed: 2026-08-10
   preview route is covered by the Studio authentication boundary.
 - Operations / Analytics now reports the audited Vercel Hobby footprint and a
   live estimate of private Studio JSON stored in Upstash Redis.
+- Home now includes a live workspace-intelligence board: work-flow completion,
+  project momentum, per-project knowledge coverage, and a priority-ranked focus
+  queue. Charts are computed from Studio data rather than decorative samples.
+- Operations / Analytics now visualizes work completion, health, automation
+  readiness, private record mix, and Redis capacity with accessible progress
+  indicators and responsive layouts.
+- Every project now has evidence-based development-readiness gates for context,
+  next action, runnable paths, health checks, and decision history. Missing
+  evidence is shown explicitly instead of being treated as complete.
+- Inbox & Work can be filtered by project and priority, and global search now
+  applies to work items as well as projects, knowledge, and records. `/` focuses
+  search and Escape clears it.
+- The private workspace received a visual refinement layer with clearer depth,
+  stronger chart hierarchy, responsive mobile states, and consistent cards.
 
 ## Import notes
 
@@ -73,6 +87,10 @@ Last reviewed: 2026-08-10
 
 - `/studio` and the mind-map routes redirect anonymous visitors to the Studio
   login page.
+- `RUN-LOCAL.cmd`, `OPEN-LOCAL-SITE.cmd`, and `open-local-site.command` open
+  `/studio` on `localhost:3000` with a development-only local preview flag.
+  This avoids Google OAuth setup for local visual testing; production builds
+  ignore the bypass and keep the owner-only authentication requirement.
 - Private Studio APIs return `401` without an authenticated owner session.
 - The structured records API also returns `401` without the authenticated
   owner session.

@@ -2,7 +2,10 @@
 set -e
 
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
-SITE_URL="http://127.0.0.1:3001/"
+SITE_URL="http://localhost:3000/studio"
+HEALTH_URL="http://127.0.0.1:3000/"
+export NEXTAUTH_URL="http://localhost:3000"
+export STUDIO_LOCAL_PREVIEW="1"
 cd "$PROJECT_DIR"
 
 if ! command -v npm >/dev/null 2>&1; then
@@ -17,13 +20,13 @@ if [ ! -d "node_modules" ]; then
   npm ci
 fi
 
-if curl --silent --fail "$SITE_URL" >/dev/null 2>&1; then
+if curl --silent --fail "$HEALTH_URL" >/dev/null 2>&1; then
   open "$SITE_URL"
   exit 0
 fi
 
 echo "Starting mahmoud.jp locally..."
-npm run dev -- -H 127.0.0.1 -p 3001 &
+npm run dev -- -H 127.0.0.1 -p 3000 &
 SERVER_PID=$!
 
 cleanup() {
@@ -33,8 +36,8 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-for _ in $(seq 1 60); do
-  if curl --silent --fail "$SITE_URL" >/dev/null 2>&1; then
+for _ in $(seq 1 240); do
+  if curl --silent --fail "$HEALTH_URL" >/dev/null 2>&1; then
     open "$SITE_URL"
     echo "Local site: $SITE_URL"
     wait "$SERVER_PID"
@@ -45,4 +48,3 @@ done
 
 echo "The local site did not start. Review the messages above."
 exit 1
-
