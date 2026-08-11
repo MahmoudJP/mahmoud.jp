@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import { studioProjects, type StudioProject } from "@/lib/studio-data";
 import { StudioHandoffPanel, StudioOperations, StudioRecordsPanel } from "./StudioSystems";
+import { StudioOverviewCharts } from "./StudioOverviewCharts";
 import { StudioProjectsWorkspace } from "./StudioProjects";
 import type {
   StudioDocument,
@@ -150,7 +151,7 @@ function buildAIContext(document: StudioDocument, projects: StudioProject[]) {
 
 export function StudioDashboard({ user, deploymentCommit }: { user: { name: string; email: string }; deploymentCommit?: string }) {
   const projects = useMemo(() => studioProjects.map((project) => project.slug === "mahmoud-jp" && deploymentCommit
-    ? { ...project, commit: deploymentCommit, latest: "Project run center and capacity audit deployed" }
+    ? { ...project, commit: deploymentCommit, latest: "Workspace intelligence, analytics, and readiness dashboard" }
     : project), [deploymentCommit]);
   const [tab, setTab] = useState<Tab>("home");
   const [mobileNav, setMobileNav] = useState(false);
@@ -161,6 +162,8 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
   const [capture, setCapture] = useState("");
   const [captureProject, setCaptureProject] = useState("");
   const [capturePriority, setCapturePriority] = useState<StudioPriority>("medium");
+  const [workProjectFilter, setWorkProjectFilter] = useState("");
+  const [workPriorityFilter, setWorkPriorityFilter] = useState<"" | StudioPriority>("");
   const [selectedProject, setSelectedProject] = useState<StudioProject>(projects[0]);
   const [selectedDocumentId, setSelectedDocumentId] = useState<string | null>(null);
   const [documentDraft, setDocumentDraft] = useState<DocumentDraft>(emptyDocument);
@@ -173,6 +176,7 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
   const [mapReady, setMapReady] = useState(false);
   const [syncLabel, setSyncLabel] = useState("Connecting…");
   const lastMap = useRef("");
+  const searchRef = useRef<HTMLInputElement>(null);
 
   const loadNotes = useCallback(async () => {
     try {
@@ -258,6 +262,22 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
     }, 3000);
     return () => window.clearInterval(timer);
   }, [mapReady]);
+
+  useEffect(() => {
+    const handleShortcut = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      const typing = target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.tagName === "SELECT" || target?.isContentEditable;
+      if (event.key === "/" && !typing) {
+        event.preventDefault();
+        searchRef.current?.focus();
+      }
+      if (event.key === "Escape" && document.activeElement === searchRef.current && query) {
+        setQuery("");
+      }
+    };
+    window.addEventListener("keydown", handleShortcut);
+    return () => window.removeEventListener("keydown", handleShortcut);
+  }, [query]);
 
   async function addNote(
     title: string,
@@ -408,6 +428,16 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
   }, [documents, knowledgeProject, query]);
 
   const selectedDocument = documents.find((document) => document.id === selectedDocumentId) ?? filteredDocuments[0] ?? null;
+  const visibleWorkNotes = useMemo(() => {
+    const value = query.trim().toLowerCase();
+    return notes.filter((note) => {
+      const project = projects.find((item) => item.slug === note.projectSlug);
+      const textMatches = !value || `${note.title} ${note.workflow} ${note.priority} ${project?.name ?? "unsorted"}`.toLowerCase().includes(value);
+      const projectMatches = !workProjectFilter || note.projectSlug === workProjectFilter;
+      const priorityMatches = !workPriorityFilter || note.priority === workPriorityFilter;
+      return textMatches && projectMatches && priorityMatches;
+    });
+  }, [notes, projects, query, workProjectFilter, workPriorityFilter]);
   const activeWork = notes.filter((note) => note.workflow === "doing").length;
   const openWork = notes.filter((note) => note.workflow !== "done").length;
   const inboxCount = notes.filter((note) => note.workflow === "inbox").length;
@@ -443,7 +473,7 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
       <main className={`studio-dashboard-main ${tab === "mind-map" ? "map-open" : ""}`}>
         <header className="studio-topbar">
           <button className="studio-menu-button" onClick={() => setMobileNav(true)} aria-label="Open navigation"><Menu size={19} /></button>
-          <label className="studio-search"><Search size={15} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search the current workspace…" /></label>
+          <div className="studio-search"><Search size={15} /><input ref={searchRef} aria-label="Search the current workspace" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search the current workspace…" />{query ? <button type="button" onClick={() => setQuery("")} aria-label="Clear search"><X size={13} /></button> : <kbd>/</kbd>}</div>
           <div className="studio-account"><span>{initials}</span><div><strong>{user.name}</strong><small>{user.email}</small></div><button onClick={() => void signOut({ callbackUrl: "/studio" })} aria-label="Sign out"><LogOut size={16} /></button></div>
         </header>
 
@@ -462,6 +492,15 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
               <article><span className="gold"><ListTodo size={17} /></span><div><small>Active work</small><strong>{activeWork}</strong><p>{inboxCount} waiting in inbox</p></div></article>
               <article><span className="pink"><BookOpen size={17} /></span><div><small>Knowledge</small><strong>{documents.length + records.filter((record) => record.category === "decision").length}</strong><p>Docs and decisions</p></div></article>
             </section>
+            <StudioOverviewCharts
+              projects={projects}
+              notes={notes}
+              documents={documents}
+              records={records}
+              onOpenProjects={() => openTab("projects")}
+              onOpenWork={() => openTab("work")}
+              onOpenKnowledge={() => openTab("knowledge")}
+            />
             <div className="studio-home-grid">
               <section className="studio-panel">
                 <div className="studio-panel-heading"><div><p className="studio-kicker">PROJECT SHORTCUTS</p><h2>Choose a project and continue</h2></div><button onClick={() => openTab("projects")}>Open catalog</button></div>
@@ -514,10 +553,22 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
                 <button disabled={!capture.trim()}>Capture</button>
               </div>
             </form>
+            <div className="studio-work-filters" aria-label="Filter work board">
+              <span><Search size={13} /> Board view</span>
+              <select value={workProjectFilter} onChange={(event) => setWorkProjectFilter(event.target.value)} aria-label="Filter work by project">
+                <option value="">All projects</option>
+                {projects.map((project) => <option key={project.slug} value={project.slug}>{project.name}</option>)}
+              </select>
+              <select value={workPriorityFilter} onChange={(event) => setWorkPriorityFilter(event.target.value as "" | StudioPriority)} aria-label="Filter work by priority">
+                <option value="">All priorities</option><option value="high">High priority</option><option value="medium">Medium priority</option><option value="low">Low priority</option>
+              </select>
+              <strong>{visibleWorkNotes.length} shown</strong>
+              {(workProjectFilter || workPriorityFilter || query) && <button onClick={() => { setWorkProjectFilter(""); setWorkPriorityFilter(""); setQuery(""); }}>Reset filters</button>}
+            </div>
             {loadingNotes ? <div className="studio-empty">Loading your private work…</div> : (
               <div className="studio-work-board">
                 {workflows.map((lane) => {
-                  const laneNotes = notes.filter((note) => note.workflow === lane.id);
+                  const laneNotes = visibleWorkNotes.filter((note) => note.workflow === lane.id);
                   return <section className={`studio-work-lane lane-${lane.id}`} key={lane.id}>
                     <header><div><strong>{lane.label}</strong><small>{lane.hint}</small></div><b>{laneNotes.length}</b></header>
                     <div className="studio-work-cards">
@@ -603,7 +654,7 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
         {tab === "knowledge" && knowledgeMode === "decisions" && <StudioRecordsPanel category="decision" records={records} setRecords={setRecords} query={query} />}
         {tab === "knowledge" && knowledgeMode === "handoff" && <StudioHandoffPanel documents={documents} notes={notes} records={records} projects={projects} initialProject={knowledgeProject} />}
 
-        {tab === "operations" && <StudioOperations records={records} setRecords={setRecords} query={query} />}
+        {tab === "operations" && <StudioOperations records={records} setRecords={setRecords} notes={notes} documents={documents} query={query} />}
         {tab === "assets" && <StudioRecordsPanel category="asset" records={records} setRecords={setRecords} query={query} />}
         {tab === "career" && <StudioRecordsPanel category="career" records={records} setRecords={setRecords} query={query} />}
         {tab === "finance" && <StudioRecordsPanel category="finance" records={records} setRecords={setRecords} query={query} />}

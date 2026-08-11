@@ -2,6 +2,7 @@
 setlocal
 pushd "%~dp0"
 
+set "APP_NAME=Mahmoud Studio"
 set "HEALTH_URL=http://127.0.0.1:3000/"
 set "APP_URL=http://localhost:3000/studio"
 set "NEXTAUTH_URL=http://localhost:3000"
@@ -29,8 +30,8 @@ if not exist "node_modules" (
 
 powershell.exe -NoProfile -Command "try { $r=Invoke-WebRequest -Uri '%HEALTH_URL%' -UseBasicParsing -TimeoutSec 2; if ($r.StatusCode -eq 200) { exit 0 } } catch {}; exit 1"
 if errorlevel 1 (
-  echo Starting mahmoud.jp locally...
-  start "mahmoud.jp local server" /D "%~dp0" cmd.exe /k "npm.cmd run dev -- -H 127.0.0.1 -p 3000"
+  echo Starting %APP_NAME% locally...
+  start "%APP_NAME% local server" /D "%~dp0" cmd.exe /k "npm.cmd run dev -- -H 127.0.0.1 -p 3000"
 )
 
 powershell.exe -NoProfile -Command "$deadline=(Get-Date).AddSeconds(120); do { try { $r=Invoke-WebRequest -Uri '%HEALTH_URL%' -UseBasicParsing -TimeoutSec 2; if ($r.StatusCode -eq 200) { exit 0 } } catch {}; Start-Sleep -Milliseconds 500 } while ((Get-Date) -lt $deadline); exit 1"
@@ -45,4 +46,3 @@ echo Local studio: %APP_URL%
 
 popd
 endlocal
-

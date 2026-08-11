@@ -179,6 +179,14 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
   const projectDocuments = documents.filter((document) => document.projectSlug === activeProject.slug);
   const decisions = records.filter((record) => record.category === "decision" && record.projectSlug === activeProject.slug && record.status !== "superseded");
   const health = records.filter((record) => record.category === "health" && record.projectSlug === activeProject.slug);
+  const readinessGates = [
+    { label: "Project context", passed: projectDocuments.length > 0, detail: projectDocuments.length ? `${projectDocuments.length} knowledge document${projectDocuments.length === 1 ? "" : "s"}` : "Add architecture, setup, or runbook context" },
+    { label: "Next action", passed: openWork.length > 0, detail: openWork.length ? `${openWork.length} open item${openWork.length === 1 ? "" : "s"}` : "Capture the next concrete action" },
+    { label: "Runnable path", passed: activeProject.runOptions.some((option) => ["ready", "local-only"].includes(option.status)), detail: activeProject.runOptions.some((option) => option.status === "ready") ? "Verified ready option exists" : "Local run path recorded" },
+    { label: "Health evidence", passed: health.some((record) => record.status === "healthy"), detail: health.length ? `${health.filter((record) => record.status === "healthy").length}/${health.length} checks healthy` : "Record a build, test, domain, or backup check" },
+    { label: "Decision trail", passed: decisions.length > 0, detail: decisions.length ? `${decisions.length} current decision${decisions.length === 1 ? "" : "s"}` : "Record important technical choices" },
+  ];
+  const readinessScore = Math.round(readinessGates.filter((gate) => gate.passed).length / readinessGates.length * 100);
   const activity = activityResult?.slug === activeProject.slug ? activityResult.activity : null;
   const activityLoading = !activity;
 
@@ -293,6 +301,14 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
         <article><span><ListTodo size={17} /></span><div><small>Open work</small><strong>{openWork.length}</strong><p>{doingWork.length ? `${doingWork.length} currently in progress` : "Nothing marked as doing"}</p></div><button onClick={() => onOpenWork(activeProject)}>Open work <ArrowRight size={13} /></button></article>
         <article><span><BookOpen size={17} /></span><div><small>Knowledge</small><strong>{projectDocuments.length}</strong><p>{decisions.length} current decisions</p></div><button onClick={() => onOpenKnowledge(activeProject)}>Open knowledge <ArrowRight size={13} /></button></article>
         <article><span><ShieldCheck size={17} /></span><div><small>Health</small><strong>{health.length || "—"}</strong><p>{health.length ? `${health.filter((record) => record.status === "healthy").length} healthy checks` : "No checks recorded yet"}</p></div><button onClick={() => onOpenHandoff(activeProject)}>Full handoff <ArrowRight size={13} /></button></article>
+      </section>
+
+      <section className="studio-readiness-gates">
+        <header>
+          <div><p className="studio-kicker">DEVELOPMENT READINESS</p><h2>Know what is missing before changing code.</h2><p>These gates use recorded Studio evidence. They do not claim a test or release happened unless it is documented.</p></div>
+          <div className="studio-readiness-ring" style={{ background: `conic-gradient(#5ed5a4 0 ${readinessScore}%,#252b34 ${readinessScore}% 100%)` }} role="img" aria-label={`${readinessScore}% development readiness`}><span><strong>{readinessScore}%</strong><small>ready</small></span></div>
+        </header>
+        <div>{readinessGates.map((gate) => <article className={gate.passed ? "passed" : "missing"} key={gate.label}>{gate.passed ? <CheckCircle2 size={16} /> : <span>!</span>}<div><strong>{gate.label}</strong><small>{gate.detail}</small></div></article>)}</div>
       </section>
 
       <div className="studio-project-bottom">

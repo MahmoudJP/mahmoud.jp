@@ -249,7 +249,13 @@ export function StudioRecordsPanel({ category, records, setRecords, query = "" }
   );
 }
 
-export function StudioOperations({ records, setRecords, query = "" }: RecordsProps) {
+export function StudioOperations({
+  records,
+  setRecords,
+  notes,
+  documents,
+  query = "",
+}: RecordsProps & { notes: StudioNote[]; documents: StudioDocument[] }) {
   const [section, setSection] = useState<"health" | "automation" | "analytics">("health");
   const [storage, setStorage] = useState<{ backend: string; bytes: number; keys: number; counts: { notes: number; documents: number; records: number; mindMapValues: number } } | null>(null);
   const health = records.filter((record) => record.category === "health");
@@ -265,6 +271,21 @@ export function StudioOperations({ records, setRecords, query = "" }: RecordsPro
     ? `${(storage.bytes / 1024).toFixed(1)} KB`
     : `${(storage.bytes / 1024 / 1024).toFixed(2)} MB`
     : "Measuring…";
+  const healthyCount = health.filter((record) => record.status === "healthy").length;
+  const activeAutomationCount = automations.filter((record) => record.status === "active").length;
+  const healthPercent = health.length ? Math.round(healthyCount / health.length * 100) : 0;
+  const automationPercent = automations.length ? Math.round(activeAutomationCount / automations.length * 100) : 0;
+  const completedWork = notes.filter((note) => note.workflow === "done").length;
+  const completionPercent = notes.length ? Math.round(completedWork / notes.length * 100) : 0;
+  const storagePercent = storage ? Math.max(.2, storage.bytes / (256 * 1024 * 1024) * 100) : 0;
+  const recordMix = [
+    { label: "Work", count: notes.length, color: "#8f7bea" },
+    { label: "Docs", count: documents.length, color: "#5ed5a4" },
+    { label: "Decisions", count: records.filter((record) => record.category === "decision").length, color: "#d7b56d" },
+    { label: "Operations", count: health.length + automations.length, color: "#e78d93" },
+    { label: "Other records", count: records.filter((record) => !["decision", "health", "automation"].includes(record.category)).length, color: "#6e7889" },
+  ];
+  const maxRecordCount = Math.max(1, ...recordMix.map((item) => item.count));
   return (
     <div className="studio-operations">
       <nav className="studio-subtabs" aria-label="Operations sections">
@@ -274,7 +295,53 @@ export function StudioOperations({ records, setRecords, query = "" }: RecordsPro
       </nav>
       {section === "health" && <StudioRecordsPanel category="health" records={records} setRecords={setRecords} query={query} />}
       {section === "automation" && <StudioRecordsPanel category="automation" records={records} setRecords={setRecords} query={query} />}
-      {section === "analytics" && <div className="studio-system-page"><header className="studio-system-heading"><div><p className="studio-kicker">STUDIO ANALYTICS & CAPACITY</p><h1>Analytics</h1><p>Portfolio activity, private data size, hosting footprint, and whether the current free plans are still enough.</p></div></header><section className="studio-analytics-grid"><article><small>Project portfolio</small><strong>{studioProjects.length}</strong><p>{studioProjects.filter((project) => project.state === "Live" || project.state === "Active").length} live or active</p></article><article><small>System health</small><strong>{health.filter((record) => record.status === "healthy").length}/{health.length || 0}</strong><p>Checks currently healthy</p></article><article><small>Automations</small><strong>{automations.filter((record) => record.status === "active").length}</strong><p>{automations.filter((record) => record.status === "failing").length} need attention</p></article><article><small>Active subscriptions</small><strong>{totalFinance}</strong><p>Tracked in Finance</p></article><article><small>Hosting account</small><strong>Hobby</strong><p>Vercel · $0/month · personal use</p></article><article><small>Current deployment</small><strong>13.63 MB</strong><p>Largest server function · 5.77 MB public assets</p></article><article><small>Private Studio data</small><strong>{storageLabel}</strong><p>{storage?.backend ?? "Upstash Redis"} · {storage?.keys ?? 4} logical keys</p></article><article><small>Runnable build storage</small><strong>Not connected</strong><p>GitHub Actions artifacts will be used only when a test build exists</p></article></section><div className="studio-insight"><ShieldCheck size={20} /><div><strong>No paid hosting subscription is needed now.</strong><p>The dashboard data is tiny compared with the 256 MB free Redis allowance, and the deployed website is well within Vercel Hobby limits. Review again when automated desktop builds or public traffic grow.</p></div></div></div>}
+      {section === "analytics" && (
+        <div className="studio-system-page studio-analytics-page">
+          <header className="studio-system-heading">
+            <div><p className="studio-kicker">STUDIO ANALYTICS & CAPACITY</p><h1>Analytics</h1><p>A truthful view of portfolio health, execution flow, private data, and operating headroom.</p></div>
+          </header>
+
+          <section className="studio-analytics-scorecards">
+            <article><small>Portfolio</small><strong>{studioProjects.length}</strong><p>{studioProjects.filter((project) => project.state === "Live" || project.state === "Active").length} live or active</p></article>
+            <article><small>Work completion</small><strong>{completionPercent}%</strong><p>{completedWork} of {notes.length} tracked items done</p></article>
+            <article><small>System health</small><strong>{healthPercent}%</strong><p>{healthyCount} of {health.length} checks healthy</p></article>
+            <article><small>Automation readiness</small><strong>{automationPercent}%</strong><p>{activeAutomationCount} active · {automations.filter((record) => record.status === "failing").length} failing</p></article>
+          </section>
+
+          <section className="studio-analytics-visuals">
+            <article className="studio-analytics-card">
+              <header><div><p className="studio-kicker">PRIVATE DATA MIX</p><h2>What Studio is storing</h2></div><span>{notes.length + documents.length + records.length} items</span></header>
+              <div className="studio-data-bars">
+                {recordMix.map((item) => <div key={item.label}><div><span><i style={{ background: item.color }} />{item.label}</span><strong>{item.count}</strong></div><b><i style={{ width: `${item.count / maxRecordCount * 100}%`, background: item.color }} /></b></div>)}
+              </div>
+            </article>
+
+            <article className="studio-analytics-card studio-capacity-card">
+              <header><div><p className="studio-kicker">CAPACITY</p><h2>Private storage headroom</h2></div><span>{storage?.backend ?? "Upstash Redis"}</span></header>
+              <div className="studio-capacity-value"><strong>{storageLabel}</strong><small>of 256 MB free allowance</small></div>
+              <div className="studio-capacity-track" role="progressbar" aria-label="Private storage usage" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(storagePercent)}><i style={{ width: `${storagePercent}%` }} /></div>
+              <dl className="studio-capacity-breakdown">
+                <div><dt>Logical keys</dt><dd>{storage?.keys ?? "—"}</dd></div>
+                <div><dt>Notes</dt><dd>{storage?.counts.notes ?? notes.length}</dd></div>
+                <div><dt>Documents</dt><dd>{storage?.counts.documents ?? documents.length}</dd></div>
+                <div><dt>Records</dt><dd>{storage?.counts.records ?? records.length}</dd></div>
+              </dl>
+            </article>
+
+            <article className="studio-analytics-card studio-readiness-card">
+              <header><div><p className="studio-kicker">OPERATING READINESS</p><h2>Signals that need attention</h2></div></header>
+              <div className="studio-readiness-list">
+                <div><span>Health checks</span><b><i style={{ width: `${healthPercent}%` }} /></b><strong>{healthPercent}%</strong></div>
+                <div><span>Automations active</span><b><i style={{ width: `${automationPercent}%` }} /></b><strong>{automationPercent}%</strong></div>
+                <div><span>Work completed</span><b><i style={{ width: `${completionPercent}%` }} /></b><strong>{completionPercent}%</strong></div>
+              </div>
+              <p>{totalFinance} active subscription{totalFinance === 1 ? "" : "s"} tracked · runnable build storage is not connected yet.</p>
+            </article>
+          </section>
+
+          <div className="studio-insight"><ShieldCheck size={20} /><div><strong>No paid hosting subscription is needed now.</strong><p>Private data remains far below the current free allowance. Review capacity when automated builds, stored artifacts, or public traffic materially increase.</p></div></div>
+        </div>
+      )}
     </div>
   );
 }
