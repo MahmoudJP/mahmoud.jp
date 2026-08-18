@@ -1,6 +1,6 @@
 # Project Status
 
-Last reviewed: 2026-08-11
+Last reviewed: 2026-08-19
 
 ## State
 
@@ -62,6 +62,8 @@ Last reviewed: 2026-08-11
 - Every project now has evidence-based development-readiness gates for context,
   next action, runnable paths, health checks, and decision history. Missing
   evidence is shown explicitly instead of being treated as complete.
+- JLPT Master now reflects its current validated checkpoint, complete content
+  audits, and both Windows and macOS source launchers.
 - Inbox & Work can be filtered by project and priority, and global search now
   applies to work items as well as projects, knowledge, and records. `/` focuses
   search and Escape clears it.
