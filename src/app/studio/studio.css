@@ -201,6 +201,8 @@
 .studio-artifact-list { max-width: 310px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; }
 .studio-artifact-list .studio-artifact-button { min-width: 0; }
 .studio-artifact-list .studio-artifact-button svg { flex: 0 0 auto; }
+.studio-preview-button { padding: 7px 10px; display: flex; align-items: center; gap: 5px; color: #0d1713; border: 1px solid #70d7ad; border-radius: 8px; background: #70d7ad; font-size: 8px; font-weight: 800; text-decoration: none; }
+.studio-preview-button:hover { background: #8be5bf; }
 
 @media (max-width: 700px) {
   .studio-artifact-list { max-width: none; justify-content: flex-start; }
@@ -388,3 +390,6 @@
   .studio-readiness-ring { width: 74px; }
   .studio-readiness-gates > div { grid-template-columns: 1fr; }
 }
+
+.studio-project-primary-actions .primary.preview { color: #0b2118; background: linear-gradient(135deg,#8be5bf,#55bd91); }
+.studio-project-primary-actions .primary.preview small { color: #285c47; }

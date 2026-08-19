@@ -17,6 +17,7 @@ import {
   ListTodo,
   LoaderCircle,
   MonitorDown,
+  Play,
   Plus,
   Rocket,
   ShieldCheck,
@@ -44,6 +45,7 @@ type ProjectArtifact = {
   size: number;
   createdAt: string;
   expiresAt: string;
+  kind: "web-preview" | "download";
 };
 
 type ProjectActivity = {
@@ -189,6 +191,7 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
   const readinessScore = Math.round(readinessGates.filter((gate) => gate.passed).length / readinessGates.length * 100);
   const activity = activityResult?.slug === activeProject.slug ? activityResult.activity : null;
   const activityLoading = !activity;
+  const newestOnlinePreview = activity?.commits.find((commit) => commit.fullCommit && commit.artifacts.some((artifact) => artifact.kind === "web-preview"));
 
   useEffect(() => {
     let cancelled = false;
@@ -241,6 +244,7 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
       <header className="studio-project-focus-head">
         <div className="studio-project-identity"><span>{activeProject.initials}</span><div><p>{activeProject.platform} · {activeProject.visibility}</p><h1>{activeProject.name}</h1><small className={activeProject.state === "Live" || activeProject.state === "Active" ? "good" : ""}>{activeProject.state}</small></div></div>
         <div className="studio-project-primary-actions">
+          {newestOnlinePreview?.fullCommit && <a className="primary preview" href={`/studio/run/${activeProject.slug}/${newestOnlinePreview.fullCommit}/`} target="_blank" rel="noreferrer"><Play size={16} /><span><strong>Open latest online</strong><small>{newestOnlinePreview.commit} · private Studio preview</small></span></a>}
           <button className="primary" onClick={downloadStarter}><Download size={16} /><span><strong>Download AI Starter</strong><small>Ready for ChatGPT or Codex</small></span></button>
           <button onClick={() => void copySetup()}><Clipboard size={15} /> {copyState === "copied" ? "Setup copied" : "Copy setup command"}</button>
           <a href={activeProject.repository} target="_blank" rel="noreferrer"><FolderGit2 size={15} /> Open repository <ExternalLink size={12} /></a>
@@ -286,7 +290,10 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
             {!activityLoading && activity?.commits.slice(0, 6).map((edit) => <div key={edit.fullCommit ?? edit.commit}>
               <i />
               <span><a href={edit.url} target="_blank" rel="noreferrer">{edit.title}</a><small>{new Date(edit.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · <code>{edit.commit}</code></small></span>
-              {edit.artifacts.length ? <span className="studio-artifact-list">{edit.artifacts.map((artifact) => <a key={artifact.id} className="studio-artifact-button" href={`/api/studio/projects/${activeProject.slug}/artifacts/${artifact.id}`}><Download size={13} /> {artifact.name}</a>)}</span> : <em>Source saved</em>}
+              {edit.artifacts.length ? <span className="studio-artifact-list">
+                {edit.artifacts.filter((artifact) => artifact.kind === "web-preview" && edit.fullCommit).map((artifact) => <a key={artifact.id} className="studio-preview-button" href={`/studio/run/${activeProject.slug}/${edit.fullCommit}/`} target="_blank" rel="noreferrer"><Play size={13} /> Open online</a>)}
+                {edit.artifacts.filter((artifact) => artifact.kind === "download").map((artifact) => <a key={artifact.id} className="studio-artifact-button" href={`/api/studio/projects/${activeProject.slug}/artifacts/${artifact.id}`}><Download size={13} /> {artifact.name}</a>)}
+              </span> : <em>Source saved</em>}
             </div>)}
           </div>
         </article>
