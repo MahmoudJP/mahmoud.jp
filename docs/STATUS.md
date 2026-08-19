@@ -69,6 +69,13 @@ Last reviewed: 2026-08-19
   search and Escape clears it.
 - The private workspace received a visual refinement layer with clearer depth,
   stronger chart hierarchy, responsive mobile states, and consistent cards.
+- Studio now includes `/studio/cloudops-sync`, an owner-only pairing page for
+  CloudOps Coach. Pairing tokens are stored only as SHA-256 hashes; uploaded
+  progress must be an AES-GCM/PBKDF2 encrypted envelope and stale revisions are
+  rejected instead of overwriting newer device progress.
+- The CloudOps Sync API has a 2 MB limit, strict envelope metadata validation,
+  explicit localhost/Tauri/allowlisted CORS, token revocation, and no-store
+  response headers. It never accepts AWS credentials or plaintext study data.
 
 ## Import notes
 
@@ -84,6 +91,9 @@ Last reviewed: 2026-08-19
 - Public-source secrets scan passed.
 - ESLint passed with three existing warnings and no errors.
 - Production build passed on Windows.
+- CloudOps Sync integration passed owner token rotation, encrypted push/pull,
+  plaintext and malformed-envelope rejection, stale-write conflict, device
+  metadata, and token revocation.
 
 ## Studio production validation
 
