@@ -58,7 +58,7 @@ npm run lint     # ESLint
 |---|---|
 | `RESEND_API_KEY` | Resend API key for contact form |
 | `STUDIO_ALLOWED_EMAIL` | Only Google account allowed into private Studio |
-| `STUDIO_GITHUB_TOKEN` | Fine-grained token with read-only Actions access; streams private commit previews and build downloads after Studio authentication |
+| `STUDIO_GITHUB_TOKEN` | Fine-grained token with Contents: read and Actions: read; maps private commits and streams their previews/downloads after Studio authentication |
 | `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Private Studio and encrypted CloudOps Sync storage |
 | `CLOUDOPS_SYNC_ALLOWED_ORIGINS` | Optional comma-separated hosted CloudOps Coach origins |
 
