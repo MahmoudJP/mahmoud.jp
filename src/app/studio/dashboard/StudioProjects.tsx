@@ -192,6 +192,7 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
   const activity = activityResult?.slug === activeProject.slug ? activityResult.activity : null;
   const activityLoading = !activity;
   const newestOnlinePreview = activity?.commits.find((commit) => commit.fullCommit && commit.artifacts.some((artifact) => artifact.kind === "web-preview"));
+  const latestOnlineOption = activeProject.runOptions.find((option) => option.status === "ready" && option.kind === "online" && option.label.toLowerCase().includes("latest"));
 
   useEffect(() => {
     let cancelled = false;
@@ -244,7 +245,7 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
       <header className="studio-project-focus-head">
         <div className="studio-project-identity"><span>{activeProject.initials}</span><div><p>{activeProject.platform} · {activeProject.visibility}</p><h1>{activeProject.name}</h1><small className={activeProject.state === "Live" || activeProject.state === "Active" ? "good" : ""}>{activeProject.state}</small></div></div>
         <div className="studio-project-primary-actions">
-          {newestOnlinePreview?.fullCommit && <a className="primary preview" href={`/studio/run/${activeProject.slug}/${newestOnlinePreview.fullCommit}/`} target="_blank" rel="noreferrer"><Play size={16} /><span><strong>Open latest online</strong><small>{newestOnlinePreview.commit} · private Studio preview</small></span></a>}
+          {(newestOnlinePreview?.fullCommit || latestOnlineOption?.href) && <a className="primary preview" href={newestOnlinePreview?.fullCommit ? `/studio/run/${activeProject.slug}/${newestOnlinePreview.fullCommit}/` : latestOnlineOption?.href} target="_blank" rel="noreferrer"><Play size={16} /><span><strong>Open latest online</strong><small>{newestOnlinePreview?.fullCommit ? `${newestOnlinePreview.commit} · private Studio preview` : "Latest GitHub main · secure launch"}</small></span></a>}
           <button className="primary" onClick={downloadStarter}><Download size={16} /><span><strong>Download AI Starter</strong><small>Ready for ChatGPT or Codex</small></span></button>
           <button onClick={() => void copySetup()}><Clipboard size={15} /> {copyState === "copied" ? "Setup copied" : "Copy setup command"}</button>
           <a href={activeProject.repository} target="_blank" rel="noreferrer"><FolderGit2 size={15} /> Open repository <ExternalLink size={12} /></a>

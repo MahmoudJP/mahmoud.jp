@@ -59,6 +59,7 @@ npm run lint     # ESLint
 | `RESEND_API_KEY` | Resend API key for contact form |
 | `STUDIO_ALLOWED_EMAIL` | Only Google account allowed into private Studio |
 | `STUDIO_GITHUB_TOKEN` | Fine-grained token with Contents: read and Actions: read; maps private commits and streams their previews/downloads after Studio authentication |
+| `STUDIO_LAUNCH_SECRET` | Shared secret that signs 30-second CloudOps launch tickets and private 12-hour browser sessions; stored only as a sensitive Vercel variable |
 | `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Private Studio and encrypted CloudOps Sync storage |
 | `CLOUDOPS_SYNC_ALLOWED_ORIGINS` | Optional comma-separated hosted CloudOps Coach origins |
 
@@ -73,6 +74,12 @@ asset are owner-authenticated; private build output stays in its private source
 repository instead of being committed to this public website repository. The
 preview response is not stored by the browser, and preview builds must disable
 offline service workers so a Studio logout remains an effective access boundary.
+
+CloudOps Coach also has a Git-connected Vercel deployment for the newest `main`
+commit. `/studio/launch/cloudops-associate` checks the Google-protected Studio
+session, creates a short-lived signed ticket, and hands it to the CloudOps
+middleware. Direct visits are rejected, while every future GitHub push deploys
+automatically without a GitHub personal access token in Studio.
 
 ## Deployment
 
