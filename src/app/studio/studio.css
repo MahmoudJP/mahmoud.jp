@@ -198,6 +198,14 @@
   .studio-metrics { grid-template-columns: 1fr 1fr; }.studio-metrics article { display: block; }.studio-metrics article > span { margin-bottom: 8px; }
 }
 
+.studio-artifact-list { max-width: 310px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; }
+.studio-artifact-list .studio-artifact-button { min-width: 0; }
+.studio-artifact-list .studio-artifact-button svg { flex: 0 0 auto; }
+
+@media (max-width: 700px) {
+  .studio-artifact-list { max-width: none; justify-content: flex-start; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .studio-root *, .studio-root *::before, .studio-root *::after { scroll-behavior: auto !important; transition: none !important; }
 }

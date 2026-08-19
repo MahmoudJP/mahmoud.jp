@@ -286,7 +286,7 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
             {!activityLoading && activity?.commits.slice(0, 6).map((edit) => <div key={edit.fullCommit ?? edit.commit}>
               <i />
               <span><a href={edit.url} target="_blank" rel="noreferrer">{edit.title}</a><small>{new Date(edit.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · <code>{edit.commit}</code></small></span>
-              {edit.artifacts.length ? <a className="studio-artifact-button" href={`/api/studio/projects/${activeProject.slug}/artifacts/${edit.artifacts[0].id}`}><Download size={13} /> {edit.artifacts[0].name}</a> : <em>Source saved</em>}
+              {edit.artifacts.length ? <span className="studio-artifact-list">{edit.artifacts.map((artifact) => <a key={artifact.id} className="studio-artifact-button" href={`/api/studio/projects/${activeProject.slug}/artifacts/${artifact.id}`}><Download size={13} /> {artifact.name}</a>)}</span> : <em>Source saved</em>}
             </div>)}
           </div>
         </article>

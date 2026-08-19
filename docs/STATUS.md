@@ -76,6 +76,10 @@ Last reviewed: 2026-08-19
 - The CloudOps Sync API has a 2 MB limit, strict envelope metadata validation,
   explicit localhost/Tauri/allowlisted CORS, token revocation, and no-store
   response headers. It never accepts AWS credentials or plaintext study data.
+- CloudOps Coach v3.1.0 is recorded at commit `9a96555` with private Windows and
+  Apple Silicon macOS artifacts. The Windows portable executable passed a local
+  launch smoke test. Edit History now renders every artifact for a commit rather
+  than hiding all but the first platform build.
 
 ## Import notes
 

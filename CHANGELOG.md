@@ -7,3 +7,6 @@
   hashed bearer tokens, revision conflicts, token rotation/revocation, strict
   encrypted-envelope validation, size limits, and local/Tauri CORS support.
 - Linked the CloudOps project record to its secure sync setup.
+- Updated CloudOps Coach to its validated v3.1.0 checkpoint and private Windows
+  and Apple Silicon macOS artifacts; project history now shows all artifacts per
+  commit instead of only the first one.
