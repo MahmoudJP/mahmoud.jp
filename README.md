@@ -57,6 +57,9 @@ npm run lint     # ESLint
 | Variable | Description |
 |---|---|
 | `RESEND_API_KEY` | Resend API key for contact form |
+| `STUDIO_ALLOWED_EMAIL` | Only Google account allowed into private Studio |
+| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Private Studio and encrypted CloudOps Sync storage |
+| `CLOUDOPS_SYNC_ALLOWED_ORIGINS` | Optional comma-separated hosted CloudOps Coach origins |
 
 Set in Vercel → Project Settings → Environment Variables.
 

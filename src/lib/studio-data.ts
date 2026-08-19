@@ -213,6 +213,7 @@ export const studioProjects: StudioProject[] = [
     runSummary: "The browser UI builds and can be previewed locally. The Windows/macOS desktop shell still needs Tauri packages before it becomes a one-file test download.",
     buildFootprint: "Validated web UI: 1.54 MB · desktop bundles: not built",
     runOptions: [
+      { label: "Configure encrypted study sync", platform: "Web / Desktop", kind: "online", status: "ready", detail: "Google-protected Studio page creates and revokes the key for end-to-end encrypted progress synchronization.", href: "/studio/cloudops-sync" },
       { label: "Private web preview", platform: "Web", kind: "online", status: "needs-publish", detail: "The React/Vite build is ready but remains private and unpublished." },
       { label: "macOS local launcher", platform: "macOS", kind: "local", status: "local-only", detail: "Runs the browser UI from downloaded source and installs Node packages only on first use.", file: "run_dev.command" },
       { label: "Desktop test package", platform: "Windows / macOS", kind: "build", status: "needs-build", detail: "A Tauri bundle must be generated separately for each operating system." },
