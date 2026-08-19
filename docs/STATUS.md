@@ -1,6 +1,6 @@
 # Project Status
 
-Last reviewed: 2026-08-19
+Last reviewed: 2026-08-20
 
 ## State
 
@@ -12,8 +12,8 @@ Last reviewed: 2026-08-19
 - The private Mahmoud Studio workspace is live directly at `/studio` and is
   restricted to the approved owner Google account.
 - The former `/studio/dashboard` URL redirects to `/studio` for compatibility.
-- The mind map is integrated at `/studio/mind-map/index.html` behind the same
-  authentication boundary.
+- The mind map is integrated at `/studio/live/mind-map/` behind the same
+  authentication boundary and streams the latest public GitHub source.
 - Private Studio notes and mind-map data use the existing Vercel Upstash Redis
   environment.
 - The Studio navigation keeps related concepts together: Projects includes
@@ -51,10 +51,15 @@ Last reviewed: 2026-08-19
   30-second signed launch ticket, CloudOps exchanges it for a secure HttpOnly
   12-hour session, and direct public visits are rejected. Its private GitHub
   repository is connected to Vercel so every push deploys automatically.
+- JLPT Master, Koryuu, and MyLife now have the same automatic private launch
+  flow, with an isolated signing secret and Git-connected deployment per app.
+- Snake and Mind Map are served from their latest public GitHub `main` files
+  through owner-only, no-store Studio routes, so future pushes need no manual
+  snapshot copy.
 - Important repository files and their purpose are listed per project and are
   included in the AI Project Starter export.
-- The public Snake source is embedded as an owner-only Studio web preview. The
-  preview route is covered by the Studio authentication boundary.
+- The public Snake source is streamed as an owner-only Studio web preview. The
+  latest-source route is covered by the Studio authentication boundary.
 - Operations / Analytics now reports the audited Vercel Hobby footprint and a
   live estimate of private Studio JSON stored in Upstash Redis.
 - Home now includes a live workspace-intelligence board: work-flow completion,

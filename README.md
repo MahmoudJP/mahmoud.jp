@@ -60,6 +60,7 @@ npm run lint     # ESLint
 | `STUDIO_ALLOWED_EMAIL` | Only Google account allowed into private Studio |
 | `STUDIO_GITHUB_TOKEN` | Fine-grained token with Contents: read and Actions: read; maps private commits and streams their previews/downloads after Studio authentication |
 | `STUDIO_LAUNCH_SECRET` | Shared secret that signs 30-second CloudOps launch tickets and private 12-hour browser sessions; stored only as a sensitive Vercel variable |
+| `STUDIO_LAUNCH_SECRET_JLPT` / `STUDIO_LAUNCH_SECRET_KORYUU` / `STUDIO_LAUNCH_SECRET_MYLIFE` | Isolated signing secrets for each additional Git-connected private Studio web app |
 | `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Private Studio and encrypted CloudOps Sync storage |
 | `CLOUDOPS_SYNC_ALLOWED_ORIGINS` | Optional comma-separated hosted CloudOps Coach origins |
 
@@ -80,6 +81,12 @@ commit. `/studio/launch/cloudops-associate` checks the Google-protected Studio
 session, creates a short-lived signed ticket, and hands it to the CloudOps
 middleware. Direct visits are rejected, while every future GitHub push deploys
 automatically without a GitHub personal access token in Studio.
+
+JLPT Master, Koryuu, and MyLife use the same one-time handoff design with an
+independent secret per app. Snake and Mind Map remain public-source projects;
+their owner-only Studio routes stream the latest `main` files from GitHub with
+`no-store`, so a new push appears without copying another snapshot into this
+repository.
 
 ## Deployment
 
