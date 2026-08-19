@@ -88,6 +88,7 @@ export async function GET(_request: Request, context: { params: Promise<{ slug: 
         .map((artifact) => ({
           id: artifact.id,
           name: artifact.name,
+          kind: artifact.name === `Studio-Web-${project.slug}-${item.sha}` ? "web-preview" : "download",
           size: artifact.size_in_bytes,
           createdAt: artifact.created_at,
           expiresAt: artifact.expires_at,

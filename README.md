@@ -58,10 +58,21 @@ npm run lint     # ESLint
 |---|---|
 | `RESEND_API_KEY` | Resend API key for contact form |
 | `STUDIO_ALLOWED_EMAIL` | Only Google account allowed into private Studio |
+| `STUDIO_GITHUB_TOKEN` | Fine-grained token with read-only Actions access; streams private commit previews and build downloads after Studio authentication |
 | `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Private Studio and encrypted CloudOps Sync storage |
 | `CLOUDOPS_SYNC_ALLOWED_ORIGINS` | Optional comma-separated hosted CloudOps Coach origins |
 
 Set in Vercel → Project Settings → Environment Variables.
+
+### Private commit previews
+
+Projects can publish a `Studio-Web-<project-slug>-<full-sha>` GitHub Actions
+artifact. Studio shows **Open online** beside that exact commit and serves the
+files through `/studio/run/<project-slug>/<full-sha>/`. Both the page and every
+asset are owner-authenticated; private build output stays in its private source
+repository instead of being committed to this public website repository. The
+preview response is not stored by the browser, and preview builds must disable
+offline service workers so a Studio logout remains an effective access boundary.
 
 ## Deployment
 
