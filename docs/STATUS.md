@@ -47,6 +47,10 @@ Last reviewed: 2026-08-19
   read-only `STUDIO_GITHUB_TOKEN` connection is configured.
 - GitHub Actions artifacts can be downloaded through an authenticated Studio
   route when a workflow has produced a build for that exact commit.
+- CloudOps Coach has a private **Open latest online** path. Studio issues a
+  30-second signed launch ticket, CloudOps exchanges it for a secure HttpOnly
+  12-hour session, and direct public visits are rejected. Its private GitHub
+  repository is connected to Vercel so every push deploys automatically.
 - Important repository files and their purpose are listed per project and are
   included in the AI Project Starter export.
 - The public Snake source is embedded as an owner-only Studio web preview. The
