@@ -203,7 +203,7 @@ export const studioProjects: StudioProject[] = [
     visibility: "Private",
     branch: "main",
     latest: "v3.1.0 with commit-specific Studio previews",
-    commit: "3dd20ba",
+    commit: "b8452a2",
     stable: "v3.1.0 CI + Windows smoke test passed",
     live: "Private v3.1.0 test artifacts",
     state: "Ready for private testing",
@@ -214,7 +214,7 @@ export const studioProjects: StudioProject[] = [
     buildFootprint: "Web 6.17 MB · Windows artifact 14.33 MB · macOS artifact 10.92 MB",
     runOptions: [
       { label: "Configure encrypted study sync", platform: "Web / Desktop", kind: "online", status: "ready", detail: "Google-protected Studio page creates and revokes the key for end-to-end encrypted progress synchronization.", href: "/studio/cloudops-sync" },
-      { label: "Open latest CloudOps online", platform: "Web", kind: "online", status: "needs-publish", detail: "Merge commit 3dd20ba is ready; production needs the read-only Studio GitHub connection before the protected gateway can stream it." },
+      { label: "Open latest CloudOps online", platform: "Web", kind: "online", status: "needs-publish", detail: "Current main b8452a2 is ready; production needs the read-only Studio GitHub connection before the protected gateway can stream it." },
       { label: "Windows portable + installers", platform: "Windows x64", kind: "download", status: "ready", detail: "Validated artifact contains a portable app.exe, MSI, and NSIS setup. The portable app passed a local launch smoke test.", href: "https://github.com/MahmoudJP/cloudops-associate/actions/runs/32259700447/artifacts/9368131237" },
       { label: "macOS test package", platform: "macOS Apple Silicon", kind: "download", status: "ready", detail: "Validated artifact contains CloudOps Coach 3.1.0 as an app bundle and DMG. It is private and unsigned/not notarized.", href: "https://github.com/MahmoudJP/cloudops-associate/actions/runs/32259700447/artifacts/9367818527" },
       { label: "macOS local launcher", platform: "macOS", kind: "local", status: "local-only", detail: "Runs the browser UI from downloaded source and installs Node packages only on first use.", file: "run_dev.command" },
@@ -229,6 +229,7 @@ export const studioProjects: StudioProject[] = [
       { label: "Private desktop workflow", path: ".github/workflows/desktop-build.yml", purpose: "Produces commit-specific Windows and macOS test artifacts without a public release." },
     ],
     fallbackEdits: [
+      { commit: "b8452a2", date: "2026-08-19", title: "Document minimum Studio preview permissions" },
       { commit: "3dd20ba", date: "2026-08-19", title: "Add private commit-specific online previews in Studio" },
       { commit: "9a96555", date: "2026-08-19", title: "Complete CloudOps Coach 3.1 learning system and private test packages" },
       { commit: "4c26bb3", date: "2026-07-26", title: "Record GitHub repository status" },
