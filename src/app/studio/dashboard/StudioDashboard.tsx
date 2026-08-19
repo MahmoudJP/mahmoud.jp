@@ -660,7 +660,7 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
         {tab === "finance" && <StudioRecordsPanel category="finance" records={records} setRecords={setRecords} query={query} />}
 
         {tab === "mind-map" && (
-          <div className="studio-map-view"><div className="studio-map-strip"><div><p className="studio-kicker">THINKING SPACE</p><h1>Mind Map</h1></div><span className={syncLabel.includes("pending") ? "warn" : ""}><i /> {syncLabel}</span></div><div className="studio-map-frame">{mapReady ? <iframe src="/studio/mind-map/index.html" title="Mahmoud's private mind map" /> : <div>Preparing your private map…</div>}</div></div>
+          <div className="studio-map-view"><div className="studio-map-strip"><div><p className="studio-kicker">THINKING SPACE</p><h1>Mind Map</h1></div><span className={syncLabel.includes("pending") ? "warn" : ""}><i /> {syncLabel}</span></div><div className="studio-map-frame">{mapReady ? <iframe src="/studio/live/mind-map/" title="Mahmoud's private mind map" /> : <div>Preparing your private map…</div>}</div></div>
         )}
       </main>
 
