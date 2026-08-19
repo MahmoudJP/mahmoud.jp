@@ -202,8 +202,8 @@ export const studioProjects: StudioProject[] = [
     localPath: "cloudops-associate",
     visibility: "Private",
     branch: "main",
-    latest: "v3.1.0 with commit-specific Studio previews",
-    commit: "b8452a2",
+    latest: "v3.1.0 with secure automatic online deployment",
+    commit: "46f6eca",
     stable: "v3.1.0 CI + Windows smoke test passed",
     live: "Private CloudOps web app + v3.1.0 test artifacts",
     state: "Live privately",
@@ -229,6 +229,7 @@ export const studioProjects: StudioProject[] = [
       { label: "Private desktop workflow", path: ".github/workflows/desktop-build.yml", purpose: "Produces commit-specific Windows and macOS test artifacts without a public release." },
     ],
     fallbackEdits: [
+      { commit: "46f6eca", date: "2026-08-19", title: "Add secure automatic online deployment gate" },
       { commit: "b8452a2", date: "2026-08-19", title: "Document minimum Studio preview permissions" },
       { commit: "3dd20ba", date: "2026-08-19", title: "Add private commit-specific online previews in Studio" },
       { commit: "9a96555", date: "2026-08-19", title: "Complete CloudOps Coach 3.1 learning system and private test packages" },
