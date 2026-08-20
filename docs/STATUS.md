@@ -27,6 +27,10 @@ Last reviewed: 2026-08-20
   Entries are grouped by project, searchable, editable, archivable, and
   exportable as AI-readable Markdown or a full JSON backup. Recent entries are
   included automatically in each project's AI Starter.
+- Projects now includes a persistent AI Session workflow. Each session records
+  its mode, objective, optional context, active state, and project checkpoint;
+  produces a safe ChatGPT/Codex Session Pack; and becomes a structured Activity
+  Log entry when completed or blocked.
 - Knowledge now groups Docs, a structured Decisions log, and project-wide AI
   Handoffs that assemble release state, open work, decisions, documents, and
   health signals into portable Markdown.
@@ -64,6 +68,10 @@ Last reviewed: 2026-08-20
 - The latest-source runner now injects a project-scoped HTML base URL. Snake's
   relative CSS, engine, and plugin assets therefore load from the correct
   authenticated route, and the Play button was verified in a real browser.
+- Snake is now recorded at `d58d8e9` as the Neon Circuit rebuild, with Classic,
+  Rush, and Zen modes, responsive touch controls, live game telemetry, improved
+  accessibility, and repaired obstacle/input logic. Its merged `main` source is
+  immediately available through the existing Studio runner.
 - Important repository files and their purpose are listed per project and are
   included in the AI Project Starter export.
 - The public Snake source is streamed as an owner-only Studio web preview. The
@@ -112,6 +120,10 @@ Last reviewed: 2026-08-20
 - Public-source secrets scan passed.
 - ESLint passed with three existing warnings and no errors.
 - Production build passed on Windows.
+- AI Session end-to-end browser QA passed for create, persist, export/copy,
+  finish, and Activity Log conversion.
+- Snake JavaScript syntax checks and browser QA passed for all mode selection,
+  movement, pause/resume, Rush wall death, replay/menu return, and Zen rendering.
 - CloudOps Sync integration passed owner token rotation, encrypted push/pull,
   plaintext and malformed-envelope rejection, stale-write conflict, device
   metadata, and token revocation.

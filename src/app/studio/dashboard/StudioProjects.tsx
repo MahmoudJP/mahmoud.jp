@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type Dispatch, type SetStateAction } from "react";
 import {
   ArrowRight,
   BookOpen,
@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import type { StudioProject } from "@/lib/studio-data";
 import type { StudioDocument, StudioNote, StudioRecord } from "@/lib/studio-store";
+import { StudioAiSession } from "./StudioAiSession";
 
 type Props = {
   projects: StudioProject[];
@@ -32,6 +33,7 @@ type Props = {
   notes: StudioNote[];
   documents: StudioDocument[];
   records: StudioRecord[];
+  setRecords: Dispatch<SetStateAction<StudioRecord[]>>;
   onSelect: (project: StudioProject) => void;
   onOpenKnowledge: (project: StudioProject) => void;
   onOpenHandoff: (project: StudioProject) => void;
@@ -187,16 +189,20 @@ function downloadMarkdown(filename: string, content: string) {
   URL.revokeObjectURL(url);
 }
 
-export function StudioProjectsWorkspace({ projects, activeProject, notes, documents, records, onSelect, onOpenKnowledge, onOpenHandoff, onOpenWork, onAddWork }: Props) {
+export function StudioProjectsWorkspace({ projects, activeProject, notes, documents, records, setRecords, onSelect, onOpenKnowledge, onOpenHandoff, onOpenWork, onAddWork }: Props) {
   const [idea, setIdea] = useState("");
   const [copyState, setCopyState] = useState<"idle" | "copied">("idle");
   const [activityResult, setActivityResult] = useState<{ slug: string; activity: ProjectActivity } | null>(null);
+  const [sessionOpen, setSessionOpen] = useState(false);
   const projectNotes = useMemo(() => notes.filter((note) => note.projectSlug === activeProject.slug), [activeProject.slug, notes]);
   const openWork = projectNotes.filter((note) => note.workflow !== "done");
   const doingWork = projectNotes.filter((note) => note.workflow === "doing");
   const projectDocuments = documents.filter((document) => document.projectSlug === activeProject.slug);
   const decisions = records.filter((record) => record.category === "decision" && record.projectSlug === activeProject.slug && record.status !== "superseded");
   const health = records.filter((record) => record.category === "health" && record.projectSlug === activeProject.slug);
+  const activeSession = records
+    .filter((record) => record.category === "activity" && record.projectSlug === activeProject.slug && record.status === "in-progress" && record.tags.includes("ai-session"))
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0] ?? null;
   const readinessGates = [
     { label: "Project context", passed: projectDocuments.length > 0, detail: projectDocuments.length ? `${projectDocuments.length} knowledge document${projectDocuments.length === 1 ? "" : "s"}` : "Add architecture, setup, or runbook context" },
     { label: "Next action", passed: openWork.length > 0, detail: openWork.length ? `${openWork.length} open item${openWork.length === 1 ? "" : "s"}` : "Capture the next concrete action" },
@@ -262,11 +268,14 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
         <div className="studio-project-identity"><span>{activeProject.initials}</span><div><p>{activeProject.platform} · {activeProject.visibility}</p><h1>{activeProject.name}</h1><small className={activeProject.state === "Live" || activeProject.state === "Active" ? "good" : ""}>{activeProject.state}</small></div></div>
         <div className="studio-project-primary-actions">
           {(newestOnlinePreview?.fullCommit || latestOnlineOption?.href) && <a className="primary preview" href={newestOnlinePreview?.fullCommit ? `/studio/run/${activeProject.slug}/${newestOnlinePreview.fullCommit}/` : latestOnlineOption?.href} target="_blank" rel="noreferrer"><Play size={16} /><span><strong>Open latest online</strong><small>{newestOnlinePreview?.fullCommit ? `${newestOnlinePreview.commit} · private Studio preview` : "Latest GitHub main · secure launch"}</small></span></a>}
+          <button className={`primary ai-session ${activeSession ? "active" : ""}`} onClick={() => setSessionOpen(true)}><Sparkles size={16} /><span><strong>{activeSession ? "Continue AI Session" : "Start AI Session"}</strong><small>{activeSession ? "Saved and active across devices" : "Goal, context, work, memory"}</small></span></button>
           <button className="primary" onClick={downloadStarter}><Download size={16} /><span><strong>Download AI Starter</strong><small>Ready for ChatGPT or Codex</small></span></button>
           <button onClick={() => void copySetup()}><Clipboard size={15} /> {copyState === "copied" ? "Setup copied" : "Copy setup command"}</button>
           <a href={activeProject.repository} target="_blank" rel="noreferrer"><FolderGit2 size={15} /> Open repository <ExternalLink size={12} /></a>
         </div>
       </header>
+
+      {activeSession && <button className="studio-project-active-session" onClick={() => setSessionOpen(true)}><span><i /><Sparkles size={16} /></span><div><small>ACTIVE AI SESSION</small><strong>{activeSession.details.objective || activeSession.summary}</strong><p>Started {new Date(activeSession.details.startedAt || activeSession.createdAt).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} · Continue it from any device.</p></div><ArrowRight size={16} /></button>}
 
       <section className="studio-project-resume">
         <div><p className="studio-kicker">QUICK READ</p><h2>{activeProject.publicSummary}</h2><div>{activeProject.skills.map((skill) => <span key={skill}>{skill}</span>)}</div></div>
@@ -348,6 +357,7 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
       </div>
 
       <footer className="studio-project-source"><FolderGit2 size={14} /><span><strong>Source of truth:</strong> {activeProject.repository}</span><code>{activeProject.localPath}</code></footer>
+      {sessionOpen && <StudioAiSession key={activeProject.slug} project={activeProject} activeSession={activeSession} starter={buildProjectAIStarter(activeProject, notes, documents, records)} records={records} setRecords={setRecords} onClose={() => setSessionOpen(false)} />}
     </section>
   </div>;
 }

@@ -95,6 +95,14 @@ complete JSON backup. Recent project activity is included automatically in that
 project's AI Starter export. Do not store credentials or other secrets in an
 activity entry.
 
+Each project also has a persistent **AI Session** action. Choose whether the
+session will continue work, build a feature, fix a bug, or review the project;
+record a concrete objective; then copy or download the generated Session Pack
+for ChatGPT or Codex. The pack carries the exact project checkpoint, safe Git
+update instructions, current context, and required completion handoff. Finishing
+the session records changes, outcome, validation, commits, and next step in the
+Activity Log so another device can continue without reconstructing the work.
+
 The latest-source web runner injects a project-scoped base URL into streamed
 HTML, so relative stylesheets and scripts keep working under
 `/studio/live/<project>/`. This is required by projects such as Snake that load
