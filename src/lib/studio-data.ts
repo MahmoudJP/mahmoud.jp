@@ -93,7 +93,7 @@ export const studioProjects: StudioProject[] = [
     visibility: "Public",
     branch: "master",
     latest: "Persistent project AI Sessions and activity memory",
-    commit: "992edd5",
+    commit: "bc59e9e",
     stable: "Studio launch",
     live: "mahmoud.jp",
     state: "Live",
@@ -114,6 +114,7 @@ export const studioProjects: StudioProject[] = [
       { label: "AI handoff", path: "CHAT-HANDOFF.md", purpose: "Context for continuing the website with an AI assistant." },
     ],
     fallbackEdits: [
+      { commit: "bc59e9e", date: "2026-08-20", title: "Add persistent project AI Sessions" },
       { commit: "8d850a2", date: "2026-08-10", title: "Show current Studio deployment commit" },
       { commit: "781ce87", date: "2026-08-10", title: "Redesign Studio for fast project handoff" },
     ],
