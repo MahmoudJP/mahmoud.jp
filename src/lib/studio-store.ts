@@ -200,7 +200,7 @@ const defaultActivityRecords: StudioRecord[] = [
       changes: "Added session modes and objectives, persistent active-session state, a copyable/downloadable AI Session Pack, strict Git and deployment guardrails, completion validation fields, and automatic Activity Log memory.",
       outcome: "A session can be started on one device, continued with ChatGPT or Codex, and completed as permanent project history in Studio.",
       validation: "End-to-end browser QA passed for creation, persistence, pack generation, completion, and Activity Log conversion. ESLint and the Next.js production build passed.",
-      commits: "Studio deployment containing the AI Session workflow",
+      commits: "bc59e9e",
       nextStep: "Start future coding work from the project-level AI Session button so objectives and outcomes stay connected.",
     },
     tags: ["studio", "ai-session", "cross-device", "activity-memory"],
