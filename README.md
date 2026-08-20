@@ -88,6 +88,18 @@ their owner-only Studio routes stream the latest `main` files from GitHub with
 `no-store`, so a new push appears without copying another snapshot into this
 repository.
 
+Studio also includes an owner-only **Activity Log**. Meaningful AI and coding
+sessions are stored in the existing private Redis data store, grouped by
+project, searchable, editable, and portable as human/AI-readable Markdown or a
+complete JSON backup. Recent project activity is included automatically in that
+project's AI Starter export. Do not store credentials or other secrets in an
+activity entry.
+
+The latest-source web runner injects a project-scoped base URL into streamed
+HTML, so relative stylesheets and scripts keep working under
+`/studio/live/<project>/`. This is required by projects such as Snake that load
+their engine from relative asset paths.
+
 ## Deployment
 
 Push to `master` → Vercel auto-deploys. Primary domain: `mahmoud.jp`.
