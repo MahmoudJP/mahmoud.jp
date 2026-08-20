@@ -154,7 +154,7 @@ function buildAIContext(document: StudioDocument, projects: StudioProject[]) {
 
 export function StudioDashboard({ user, deploymentCommit }: { user: { name: string; email: string }; deploymentCommit?: string }) {
   const projects = useMemo(() => studioProjects.map((project) => project.slug === "mahmoud-jp" && deploymentCommit
-    ? { ...project, commit: deploymentCommit, latest: "Activity memory and reliable live project runners" }
+    ? { ...project, commit: deploymentCommit, latest: "Persistent AI Sessions and reliable live project runners" }
     : project), [deploymentCommit]);
   const [tab, setTab] = useState<Tab>("home");
   const [mobileNav, setMobileNav] = useState(false);
@@ -537,6 +537,7 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
             notes={notes}
             documents={documents}
             records={records}
+            setRecords={setRecords}
             onSelect={setSelectedProject}
             onOpenKnowledge={openKnowledgeForProject}
             onOpenHandoff={openHandoffForProject}
