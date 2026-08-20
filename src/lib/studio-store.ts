@@ -40,6 +40,7 @@ export type StudioDocument = {
 };
 
 export type StudioRecordCategory =
+  | "activity"
   | "decision"
   | "health"
   | "automation"
@@ -64,6 +65,129 @@ const NOTES_KEY = "mahmoud:studio:notes";
 const DOCUMENTS_KEY = "mahmoud:studio:documents";
 const RECORDS_KEY = "mahmoud:studio:records";
 const MAP_KEY = "mahmoud:studio:mind-map";
+
+const defaultActivityRecords: StudioRecord[] = [
+  {
+    id: "activity-studio-foundation",
+    category: "activity",
+    title: "Built the private Mahmoud Studio workspace",
+    projectSlug: "mahmoud-jp",
+    status: "completed",
+    summary: "Created one Google-protected command center for projects, work, knowledge, operations, assets, career, finance, and the mind map.",
+    details: {
+      date: "2026-08-09",
+      objective: "Replace scattered project context with one private workspace on mahmoud.jp.",
+      changes: "Added the Studio dashboard, owner-only Google access, structured project catalog, private notes, knowledge documents, operational records, and Redis-backed storage.",
+      outcome: "Mahmoud can open his workspace from any device and continue from one source of context.",
+      validation: "Production build passed and owner-only routes rejected anonymous access.",
+      commits: "781ce87, 8d850a2",
+      nextStep: "Keep recording meaningful work and decisions inside Studio.",
+    },
+    tags: ["studio", "foundation", "private-workspace"],
+    createdAt: "2026-08-09T12:00:00.000Z",
+    updatedAt: "2026-08-10T12:00:00.000Z",
+  },
+  {
+    id: "activity-cloudops-learning-system",
+    category: "activity",
+    title: "Completed the CloudOps Coach learning system",
+    projectSlug: "cloudops-associate",
+    status: "completed",
+    summary: "Expanded the AWS CloudOps Associate trainer into a bilingual learning product with lessons, questions, labs, reviews, and private online access.",
+    details: {
+      date: "2026-08-19",
+      objective: "Turn the rough AWS trainer into a complete, understandable exam-preparation product.",
+      changes: "Added the SOA-C03 curriculum, Egyptian Arabic explanations, bilingual quiz translation, mock exams, guided labs, incident simulations, analytics, encrypted progress sync, and private Git-connected deployment.",
+      outcome: "CloudOps Coach now runs online from Studio and also has validated Windows and Apple Silicon test artifacts.",
+      validation: "Curriculum checks, web build, desktop CI, Windows smoke test, encrypted sync integration, and production browser launch passed.",
+      commits: "9a96555, 46f6eca",
+      nextStep: "Use the question analytics to focus the next study pass on weak domains.",
+    },
+    tags: ["aws", "cloudops", "learning", "deployment"],
+    createdAt: "2026-08-19T12:00:00.000Z",
+    updatedAt: "2026-08-19T12:00:00.000Z",
+  },
+  {
+    id: "activity-jlpt-private-launch",
+    category: "activity",
+    title: "Added secure automatic JLPT deployment",
+    projectSlug: "jlpt-master",
+    status: "completed",
+    summary: "Connected the latest private JLPT main branch to a protected online Studio launch.",
+    details: {
+      date: "2026-08-20",
+      objective: "Open and test the latest JLPT code online without making the private app public.",
+      changes: "Added a signed 30-second Studio handoff, a secure 12-hour browser session, automatic GitHub deployment, and disabled persistent service-worker registration on the private host.",
+      outcome: "The newest main branch opens from Studio while direct visits remain blocked.",
+      validation: "49 tests, lint, protected production build, anonymous 401 check, and authenticated browser launch passed.",
+      commits: "18a1ec4",
+      nextStep: "Continue content and performance work from the latest main branch.",
+    },
+    tags: ["jlpt", "private-deployment", "security"],
+    createdAt: "2026-08-20T00:00:00.000Z",
+    updatedAt: "2026-08-20T00:00:00.000Z",
+  },
+  {
+    id: "activity-koryuu-private-launch",
+    category: "activity",
+    title: "Added secure automatic Koryuu preview",
+    projectSlug: "koryuu",
+    status: "completed",
+    summary: "Created a private, automatically updated Koryuu review surface without changing the future public Cloudflare release plan.",
+    details: {
+      date: "2026-08-20",
+      objective: "Review the latest Koryuu source online from Studio.",
+      changes: "Connected the static export to a private GitHub-driven Vercel project with the signed Studio access gate.",
+      outcome: "The full Koryuu site opens privately from Studio and direct visits remain blocked.",
+      validation: "Lint, static production build, anonymous 401 check, and authenticated browser launch passed.",
+      commits: "112fa7d",
+      nextStep: "Review branding, legal pages, and the separate public Cloudflare launch.",
+    },
+    tags: ["koryuu", "preview", "deployment"],
+    createdAt: "2026-08-20T00:01:00.000Z",
+    updatedAt: "2026-08-20T00:01:00.000Z",
+  },
+  {
+    id: "activity-mylife-private-launch",
+    category: "activity",
+    title: "Added secure automatic MyLife web preview",
+    projectSlug: "mylife",
+    status: "completed",
+    summary: "Made the latest private MyLife web export available for safe testing inside Studio.",
+    details: {
+      date: "2026-08-20",
+      objective: "Test MyLife quickly in a browser while preserving private source and native release boundaries.",
+      changes: "Added automatic Expo web export, signed Studio access, and a protected 12-hour browser session.",
+      outcome: "The MyLife dashboard opens from Studio; browser data remains local and mobile-only features still require native builds.",
+      validation: "TypeScript check, Expo web export, anonymous 401 check, and authenticated dashboard launch passed.",
+      commits: "ecaa17f",
+      nextStep: "Create Android and iOS test builds when native feature testing begins.",
+    },
+    tags: ["mylife", "expo", "web-preview"],
+    createdAt: "2026-08-20T00:02:00.000Z",
+    updatedAt: "2026-08-20T00:02:00.000Z",
+  },
+  {
+    id: "activity-snake-online-fix",
+    category: "activity",
+    title: "Repaired the Snake online runner",
+    projectSlug: "snake",
+    status: "completed",
+    summary: "Fixed Studio asset resolution so the Play button loads the real game engine instead of displaying a non-functional shell.",
+    details: {
+      date: "2026-08-20",
+      objective: "Make Snake genuinely playable from its latest GitHub source inside Studio.",
+      changes: "The latest-source HTML proxy now injects a project-scoped base URL before returning static pages, so relative CSS and JavaScript files resolve under the correct project route.",
+      outcome: "Snake loads its engine and plugins from the current main branch without a copied deployment.",
+      validation: "Static route checks, JavaScript syntax checks, production build, and live Play-button browser test passed.",
+      commits: "Studio deployment containing the Activity Memory update",
+      nextStep: "Future Snake pushes continue to appear automatically through the same live-source route.",
+    },
+    tags: ["snake", "bug-fix", "live-source"],
+    createdAt: "2026-08-20T01:00:00.000Z",
+    updatedAt: "2026-08-20T01:00:00.000Z",
+  },
+];
 
 type MemoryStore = {
   notes: Map<string, StudioNote>;
@@ -282,6 +406,43 @@ Work is complete only when the requested outcome is implemented, validated in pr
     createdAt: "2026-08-10T00:00:00.000Z",
     updatedAt: "2026-08-10T00:00:00.000Z",
   },
+  {
+    id: "activity-memory-protocol",
+    title: "Activity Memory Protocol",
+    projectSlug: null,
+    type: "handoff",
+    summary: "How to preserve meaningful AI work as private, searchable project memory that can be continued on any device.",
+    content: `# Purpose
+Activity Log is the private memory of meaningful work completed with an AI assistant. It is a human-readable history and a continuation source for the next AI session.
+
+# What to record
+- One entry for each meaningful session, fix, deployment, investigation, or decision.
+- Link the entry to the exact project whenever possible.
+- Record the objective, what changed, outcome, validation, commits or versions, and the best next step.
+- Use short tags for technologies, work type, and important topics.
+
+# What not to record
+- Passwords, access tokens, API keys, recovery codes, or payment data.
+- Unverified claims that make unfinished work look complete.
+- Routine conversation that does not help a future session understand or continue the project.
+
+# AI continuation workflow
+1. Open the project in Studio.
+2. Download its AI Starter, which includes recent Activity Log memory.
+3. Give the file to ChatGPT or Codex on the other device.
+4. Verify the repository and latest remote commit before editing.
+5. After meaningful work, save a new Activity Log entry with evidence of validation.
+
+# Backup and portability
+- Download memory creates a Markdown file designed for both Mahmoud and AI assistants.
+- Backup JSON preserves the complete structured data for restoration or migration.
+- Entries remain private in the same owner-only Redis store used by Studio.
+- Archive old entries instead of deleting history when it may help later.`,
+    tags: ["activity", "memory", "ai", "handoff", "backup"],
+    status: "current",
+    createdAt: "2026-08-20T00:00:00.000Z",
+    updatedAt: "2026-08-20T00:00:00.000Z",
+  },
 ];
 
 async function ensureDefaultDocuments() {
@@ -355,9 +516,16 @@ export async function deleteStudioDocument(id: string) {
 
 export async function listStudioRecords() {
   const redis = getRedis();
-  const rows = redis
+  const existing = redis
     ? await redis.hgetall<Record<string, StudioRecord>>(RECORDS_KEY)
     : Object.fromEntries(memoryStore().records);
+  const rows = existing ?? {};
+  const missingActivities = defaultActivityRecords.filter((record) => !rows[record.id]);
+  if (missingActivities.length) {
+    if (redis) await redis.hset(RECORDS_KEY, Object.fromEntries(missingActivities.map((record) => [record.id, record])));
+    else missingActivities.forEach((record) => memoryStore().records.set(record.id, record));
+    missingActivities.forEach((record) => { rows[record.id] = record; });
+  }
   return Object.values(rows ?? {}).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 }
 

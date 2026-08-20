@@ -57,7 +57,16 @@ export async function GET(
   const response = await fetch(rawUrl, { cache: "no-store", redirect: "error" });
   if (!response.ok) return NextResponse.json({ error: "Live asset not found" }, { status: response.status === 404 ? 404 : 502 });
 
-  return new NextResponse(await response.arrayBuffer(), {
+  let body: ArrayBuffer | string = await response.arrayBuffer();
+  if (asset.endsWith(".html")) {
+    const html = new TextDecoder().decode(body);
+    const base = `<base href="/studio/live/${encodeURIComponent(slug)}/">`;
+    body = /<head(?:\s[^>]*)?>/i.test(html)
+      ? html.replace(/<head(\s[^>]*)?>/i, (head) => `${head}${base}`)
+      : `${base}${html}`;
+  }
+
+  return new NextResponse(body, {
     headers: {
       "Cache-Control": "private, no-store",
       "Content-Type": contentType(asset),

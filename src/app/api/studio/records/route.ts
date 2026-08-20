@@ -10,7 +10,7 @@ import {
   type StudioRecordCategory,
 } from "@/lib/studio-store";
 
-const categories: StudioRecordCategory[] = ["decision", "health", "automation", "asset", "career", "finance"];
+const categories: StudioRecordCategory[] = ["activity", "decision", "health", "automation", "asset", "career", "finance"];
 
 async function isAuthorized() {
   const session = await getServerSession(studioAuthOptions);

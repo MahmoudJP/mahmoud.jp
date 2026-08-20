@@ -15,6 +15,7 @@ import {
   FileArchive,
   FolderGit2,
   Home,
+  History,
   Layers3,
   ListTodo,
   LogOut,
@@ -34,6 +35,7 @@ import {
 } from "lucide-react";
 import { studioProjects, type StudioProject } from "@/lib/studio-data";
 import { StudioHandoffPanel, StudioOperations, StudioRecordsPanel } from "./StudioSystems";
+import { StudioActivityLog } from "./StudioActivityLog";
 import { StudioOverviewCharts } from "./StudioOverviewCharts";
 import { StudioProjectsWorkspace } from "./StudioProjects";
 import type {
@@ -45,13 +47,14 @@ import type {
   StudioWorkflow,
 } from "@/lib/studio-store";
 
-type Tab = "home" | "projects" | "work" | "mind-map" | "knowledge" | "operations" | "assets" | "career" | "finance";
+type Tab = "home" | "projects" | "activity-memory" | "work" | "mind-map" | "knowledge" | "operations" | "assets" | "career" | "finance";
 type KnowledgeMode = "docs" | "decisions" | "handoff";
 type DocumentDraft = Pick<StudioDocument, "title" | "projectSlug" | "type" | "summary" | "content" | "tags">;
 
 const navigation = [
   { id: "home" as const, label: "Home", icon: Home },
   { id: "projects" as const, label: "Projects", icon: Layers3 },
+  { id: "activity-memory" as const, label: "Activity Log", icon: History },
   { id: "work" as const, label: "Inbox & Work", icon: ListTodo },
   { id: "mind-map" as const, label: "Mind Map", icon: Map },
   { id: "knowledge" as const, label: "Knowledge", icon: BookOpen },
@@ -388,7 +391,7 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
   }
 
   async function deleteDocument(document: StudioDocument) {
-    if (["studio-operating-guide", "ai-handoff-protocol", "project-run-readiness-guide"].includes(document.id)) return;
+    if (["studio-operating-guide", "ai-handoff-protocol", "project-run-readiness-guide", "activity-memory-protocol"].includes(document.id)) return;
     if (!window.confirm(`Delete “${document.title}”?`)) return;
     await fetch(`/api/studio/documents?id=${encodeURIComponent(document.id)}`, { method: "DELETE" });
     const remaining = documents.filter((item) => item.id !== document.id);
@@ -454,7 +457,13 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
         <nav aria-label="Workspace navigation">
           {navigation.map((item) => {
             const Icon = item.icon;
-            const count = item.id === "work" ? openWork : item.id === "knowledge" ? documents.length + records.filter((record) => record.category === "decision").length : 0;
+            const count = item.id === "work"
+              ? openWork
+              : item.id === "knowledge"
+                ? documents.length + records.filter((record) => record.category === "decision").length
+                : item.id === "activity-memory"
+                  ? records.filter((record) => record.category === "activity").length
+                  : 0;
             return (
               <button key={item.id} className={tab === item.id ? "active" : ""} onClick={() => openTab(item.id)}>
                 <Icon size={17} /> {item.label}
@@ -533,6 +542,15 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
             onOpenHandoff={openHandoffForProject}
             onOpenWork={openWorkForProject}
             onAddWork={async (title, project) => { await addNote(title, project.slug, "next"); }}
+          />
+        )}
+
+        {tab === "activity-memory" && (
+          <StudioActivityLog
+            projects={projects}
+            records={records}
+            setRecords={setRecords}
+            query={query}
           />
         )}
 
@@ -638,7 +656,7 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
                 <article className="studio-document-reader">
                   <header className="studio-document-toolbar">
                     <div><span className="studio-doc-type">{selectedDocument.type}</span><span>{selectedDocument.status}</span></div>
-                    <div><button onClick={() => void copyAIContext(selectedDocument)}><Copy size={14} /> {copyLabel}</button><button onClick={() => downloadAIContext(selectedDocument)}><Download size={14} /> Markdown</button><button onClick={() => beginEditDocument(selectedDocument)}><Pencil size={14} /> Edit</button>{!["studio-operating-guide", "ai-handoff-protocol", "project-run-readiness-guide"].includes(selectedDocument.id) && <button className="danger" onClick={() => void deleteDocument(selectedDocument)}><Trash2 size={14} /></button>}</div>
+                    <div><button onClick={() => void copyAIContext(selectedDocument)}><Copy size={14} /> {copyLabel}</button><button onClick={() => downloadAIContext(selectedDocument)}><Download size={14} /> Markdown</button><button onClick={() => beginEditDocument(selectedDocument)}><Pencil size={14} /> Edit</button>{!["studio-operating-guide", "ai-handoff-protocol", "project-run-readiness-guide", "activity-memory-protocol"].includes(selectedDocument.id) && <button className="danger" onClick={() => void deleteDocument(selectedDocument)}><Trash2 size={14} /></button>}</div>
                   </header>
                   <div className="studio-document-title"><p className="studio-kicker">HUMAN + AI KNOWLEDGE</p><h1>{selectedDocument.title}</h1><p>{selectedDocument.summary}</p><div>{selectedDocument.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div>
                   <div className="studio-document-body">{renderKnowledge(selectedDocument.content)}</div>

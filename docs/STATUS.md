@@ -21,7 +21,12 @@ Last reviewed: 2026-08-20
 - Knowledge / Docs stores structured Markdown with project links, summaries,
   tags, and portable AI context exports.
 - The Knowledge store includes a Studio operating guide and an AI handoff
-  protocol by default.
+  protocol by default, plus an Activity Memory protocol for consistent,
+  private cross-device continuation.
+- Studio includes an Activity Log backed by the existing private Redis store.
+  Entries are grouped by project, searchable, editable, archivable, and
+  exportable as AI-readable Markdown or a full JSON backup. Recent entries are
+  included automatically in each project's AI Starter.
 - Knowledge now groups Docs, a structured Decisions log, and project-wide AI
   Handoffs that assemble release state, open work, decisions, documents, and
   health signals into portable Markdown.
@@ -56,6 +61,9 @@ Last reviewed: 2026-08-20
 - Snake and Mind Map are served from their latest public GitHub `main` files
   through owner-only, no-store Studio routes, so future pushes need no manual
   snapshot copy.
+- The latest-source runner now injects a project-scoped HTML base URL. Snake's
+  relative CSS, engine, and plugin assets therefore load from the correct
+  authenticated route, and the Play button was verified in a real browser.
 - Important repository files and their purpose are listed per project and are
   included in the AI Project Starter export.
 - The public Snake source is streamed as an owner-only Studio web preview. The

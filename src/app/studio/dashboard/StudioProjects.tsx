@@ -87,6 +87,10 @@ export function buildProjectAIStarter(
   const projectDocs = documents.filter((document) => document.projectSlug === project.slug);
   const decisions = records.filter((record) => record.category === "decision" && record.projectSlug === project.slug && record.status !== "superseded");
   const health = records.filter((record) => record.category === "health" && record.projectSlug === project.slug);
+  const activityMemory = records
+    .filter((record) => record.category === "activity" && record.projectSlug === project.slug && record.status !== "archived")
+    .sort((a, b) => (b.details.date || b.updatedAt).localeCompare(a.details.date || a.updatedAt))
+    .slice(0, 8);
   const repository = projectOwnerAndName(project);
 
   return [
@@ -148,6 +152,18 @@ export function buildProjectAIStarter(
     "",
     "## Project knowledge",
     ...(projectDocs.length ? projectDocs.map((document) => `### ${document.title}\nType: ${document.type} · Status: ${document.status}\n${document.summary}\n\n${document.content}`) : ["- No project-specific knowledge documents are recorded yet."]),
+    "",
+    "## Recent collaboration memory",
+    ...(activityMemory.length ? activityMemory.map((record) => [
+      `### ${record.details.date || record.updatedAt.slice(0, 10)} — ${record.title}`,
+      `Status: ${record.status}`,
+      record.summary || "No summary recorded.",
+      record.details.changes ? `What changed: ${record.details.changes}` : "",
+      record.details.outcome ? `Outcome: ${record.details.outcome}` : "",
+      record.details.validation ? `Validation: ${record.details.validation}` : "",
+      record.details.commits ? `Commits / versions: ${record.details.commits}` : "",
+      record.details.nextStep ? `Next step: ${record.details.nextStep}` : "",
+    ].filter(Boolean).join("\n")) : ["- No collaboration memory is recorded for this project yet."]),
     "",
     "## Health signals",
     ...(health.length ? health.map((record) => `- ${record.title}: ${record.status}${record.details.response ? ` — ${record.details.response}` : ""}`) : ["- No project health checks are recorded yet."]),

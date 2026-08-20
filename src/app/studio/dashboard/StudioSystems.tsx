@@ -41,6 +41,22 @@ const configs: Record<StudioRecordCategory, {
   statuses: string[];
   fields: Field[];
 }> = {
+  activity: {
+    kicker: "COLLABORATION MEMORY",
+    title: "Activity Log",
+    description: "A durable record of work completed with AI, grouped by project and ready to export.",
+    icon: Activity,
+    statuses: ["completed", "in-progress", "blocked", "note", "archived"],
+    fields: [
+      { key: "date", label: "Work date", placeholder: "", kind: "date" },
+      { key: "objective", label: "Objective", placeholder: "What were we trying to achieve?", kind: "textarea" },
+      { key: "changes", label: "What changed", placeholder: "Files, features, fixes, or decisions", kind: "textarea" },
+      { key: "outcome", label: "Outcome", placeholder: "What is true now?", kind: "textarea" },
+      { key: "validation", label: "Validation", placeholder: "Tests, builds, browser checks, or evidence", kind: "textarea" },
+      { key: "commits", label: "Commits / versions", placeholder: "Commit hashes, PRs, or release versions" },
+      { key: "nextStep", label: "Next step", placeholder: "The best continuation point", kind: "textarea" },
+    ],
+  },
   decision: {
     kicker: "DECISION LOG",
     title: "Decisions",
