@@ -154,7 +154,7 @@ function buildAIContext(document: StudioDocument, projects: StudioProject[]) {
 
 export function StudioDashboard({ user, deploymentCommit }: { user: { name: string; email: string }; deploymentCommit?: string }) {
   const projects = useMemo(() => studioProjects.map((project) => project.slug === "mahmoud-jp" && deploymentCommit
-    ? { ...project, commit: deploymentCommit, latest: "Workspace intelligence, analytics, and readiness dashboard" }
+    ? { ...project, commit: deploymentCommit, latest: "Activity memory and reliable live project runners" }
     : project), [deploymentCommit]);
   const [tab, setTab] = useState<Tab>("home");
   const [mobileNav, setMobileNav] = useState(false);
