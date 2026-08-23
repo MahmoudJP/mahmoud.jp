@@ -64,6 +64,13 @@ type ProjectActivity = {
   }>;
 };
 
+type PrimaryAction = {
+  href: string;
+  title: string;
+  detail: string;
+  kind: "online" | "download" | "local";
+};
+
 function projectOwnerAndName(project: StudioProject) {
   return project.repository.replace("https://github.com/", "");
 }
@@ -88,6 +95,48 @@ function buildSetupCommand(project: StudioProject) {
     `git -C ${quoteShell(folder)} switch ${project.branch}`,
     `git -C ${quoteShell(folder)} pull --ff-only origin ${project.branch}`,
   ].filter(Boolean).join("\n");
+}
+
+function optionHref(project: StudioProject, option: StudioProject["runOptions"][number]) {
+  if (option.status === "ready" && option.href) return option.href;
+  if (option.status === "local-only" && option.file) return `${project.repository}/blob/${project.branch}/${option.file}`;
+  return null;
+}
+
+function buildPrimaryAction(
+  project: StudioProject,
+  previewCommit?: ProjectActivity["commits"][number],
+): PrimaryAction | null {
+  if (previewCommit?.fullCommit) {
+    return {
+      href: `/studio/run/${project.slug}/${previewCommit.fullCommit}/`,
+      title: "Open latest online",
+      detail: `${previewCommit.commit} · private Studio preview`,
+      kind: "online",
+    };
+  }
+
+  const options = project.runOptions;
+  const preferred =
+    options.find((option) => option.status === "ready" && option.kind === "online" && option.label.toLowerCase().includes("latest")) ??
+    options.find((option) => option.status === "ready" && option.kind === "online") ??
+    options.find((option) => option.status === "ready" && option.kind === "download") ??
+    options.find((option) => option.status === "local-only" && option.file);
+
+  if (!preferred) return null;
+  const href = optionHref(project, preferred);
+  if (!href) return null;
+
+  return {
+    href,
+    title: preferred.kind === "online" ? "Open latest online" : preferred.label,
+    detail: preferred.kind === "online"
+      ? "Ready web launch"
+      : preferred.kind === "download"
+        ? "Ready download"
+        : "Open local run file",
+    kind: preferred.kind === "build" ? "local" : preferred.kind,
+  };
 }
 
 export function buildProjectAIStarter(
@@ -244,7 +293,8 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
   const activity = activityResult?.slug === activeProject.slug ? activityResult.activity : null;
   const activityLoading = !activity;
   const newestOnlinePreview = activity?.commits.find((commit) => commit.fullCommit && commit.artifacts.some((artifact) => artifact.kind === "web-preview"));
-  const latestOnlineOption = activeProject.runOptions.find((option) => option.status === "ready" && option.kind === "online" && option.label.toLowerCase().includes("latest"));
+  const primaryAction = buildPrimaryAction(activeProject, newestOnlinePreview);
+  const PrimaryActionIcon = primaryAction?.kind === "download" ? Download : primaryAction?.kind === "local" ? FileCode2 : Play;
 
   useEffect(() => {
     let cancelled = false;
@@ -297,7 +347,7 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
       <header className="studio-project-focus-head">
         <div className="studio-project-identity"><span>{activeProject.initials}</span><div><p>{activeProject.platform} · {activeProject.visibility}</p><h1>{activeProject.name}</h1><small className={activeProject.state === "Live" || activeProject.state === "Active" ? "good" : ""}>{activeProject.state}</small></div></div>
         <div className="studio-project-primary-actions">
-          {(newestOnlinePreview?.fullCommit || latestOnlineOption?.href) && <a className="primary preview" href={newestOnlinePreview?.fullCommit ? `/studio/run/${activeProject.slug}/${newestOnlinePreview.fullCommit}/` : latestOnlineOption?.href} target="_blank" rel="noreferrer"><Play size={16} /><span><strong>Open latest online</strong><small>{newestOnlinePreview?.fullCommit ? `${newestOnlinePreview.commit} · private Studio preview` : "Latest GitHub main · secure launch"}</small></span></a>}
+          {primaryAction && <a className="primary preview" href={primaryAction.href} target="_blank" rel="noreferrer" download={primaryAction.kind === "download" ? true : undefined}><PrimaryActionIcon size={16} /><span><strong>{primaryAction.title}</strong><small>{primaryAction.detail}</small></span></a>}
           <button className={`primary ai-session ${activeSession ? "active" : ""}`} onClick={() => setSessionOpen(true)}><Sparkles size={16} /><span><strong>{activeSession ? "Continue AI Session" : "Start AI Session"}</strong><small>{activeSession ? "Saved and active across devices" : "Goal, context, work, memory"}</small></span></button>
           <button className="primary" onClick={downloadStarter}><Download size={16} /><span><strong>Download AI Starter</strong><small>Ready for ChatGPT or Codex</small></span></button>
           <button onClick={() => void copySetup()}><Clipboard size={15} /> {copyState === "copied" ? "Setup copied" : "Copy setup command"}</button>
