@@ -1,7 +1,9 @@
 import Link from "next/link";
 import {
+  cityCoverageHubs,
   emergencyCards,
   halalRestaurants,
+  hubSearchUrl,
   mapsUrl,
   mosquePlaces,
   officialResources,
@@ -146,6 +148,27 @@ export function JapanLifePrintApp() {
         </section>
 
         <section className="mt-8">
+          <h2 className="text-2xl font-black">تغطية المدن وروابط بحث حي</h2>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {cityCoverageHubs.map((hub) => (
+              <article key={`${hub.city}-${hub.center}`} className="rounded-lg border border-slate-300 p-4">
+                <h3 className="text-lg font-black">{hub.city}</h3>
+                <p className="text-sm font-bold text-slate-600">
+                  {hub.region} · {hub.center}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{hub.note}</p>
+                <p className="mt-3 break-all text-xs leading-5 text-slate-600">
+                  Food: {hubSearchUrl(hub, "halal restaurant")}
+                </p>
+                <p className="mt-1 break-all text-xs leading-5 text-slate-600">
+                  Prayer: {hubSearchUrl(hub, "mosque prayer room Muslim")}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-8">
           <h2 className="text-2xl font-black">روابط رسمية ومصادر PDF</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {officialResources.map((resource) => (
@@ -162,7 +185,7 @@ export function JapanLifePrintApp() {
 
         <footer className="mt-10 border-t border-slate-300 pt-5 text-sm leading-7 text-slate-600">
           هذا الملف نقطة بداية عملية وليس بديلا عن المصدر الرسمي أو نصيحة قانونية أو طبية.
-          آخر تحديث ميداني: 23 أغسطس 2026.
+          آخر تحديث ميداني: 24 أغسطس 2026.
         </footer>
       </div>
     </main>
