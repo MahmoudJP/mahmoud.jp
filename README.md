@@ -103,6 +103,12 @@ update instructions, current context, and required completion handoff. Finishing
 the session records changes, outcome, validation, commits, and next step in the
 Activity Log so another device can continue without reconstructing the work.
 
+AI Starter and AI Session exports now include an attached-Markdown intake
+protocol. When Mahmoud gives ChatGPT or Codex a Starter, Session Pack, and
+optional Activity Memory export, the assistant is told to treat the live chat
+request as the task, use the Markdown as context, verify GitHub access and the
+working tree first, and never request or expose secrets.
+
 The latest-source web runner injects a project-scoped base URL into streamed
 HTML, so relative stylesheets and scripts keep working under
 `/studio/live/<project>/`. This is required by projects such as Snake that load

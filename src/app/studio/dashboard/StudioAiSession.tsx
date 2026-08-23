@@ -61,10 +61,19 @@ function buildSessionPack(project: StudioProject, session: StudioRecord, starter
     "",
     "## What the AI must do first",
     "1. Read this complete file before changing anything.",
-    "2. Inspect the repository instructions and current working tree.",
-    "3. Verify the newest remote commit; Studio history is context, not proof that code has not changed.",
-    "4. Explain the plan briefly, then implement and validate the requested outcome.",
-    "5. Do not deploy, publish, release, roll back, delete data, or overwrite local work without Mahmoud's authorization.",
+    "2. Treat Mahmoud's live chat request as the task. Treat attached Markdown files as context unless Mahmoud explicitly says one is the new request.",
+    "3. Inspect the repository instructions and current working tree.",
+    "4. Verify the newest remote commit; Studio history is context, not proof that code has not changed.",
+    "5. Confirm repository access with GitHub authentication, not pasted tokens or secrets.",
+    "6. Explain the plan briefly, then implement and validate the requested outcome.",
+    "7. Do not deploy, publish, release, roll back, delete data, or overwrite local work without Mahmoud's authorization.",
+    "",
+    "## Attached Markdown workflow",
+    "- If Mahmoud attaches an AI Starter and a Collaboration Memory export, read both first.",
+    "- Use the AI Starter for project identity, repository, branch, run paths, and guardrails.",
+    "- Use Collaboration Memory as recent history across projects, not as proof that current code is unchanged.",
+    "- If `/studio` is behind owner login, continue from this pack and GitHub. Ask Mahmoud to sign in only when live Studio-only data is needed.",
+    "- Never copy credentials, `.env` values, private keys, OAuth secrets, payment data, or browser session data into chat, code, or commits.",
     "",
     "## Required completion handoff",
     "At the end, give Mahmoud a compact result using these exact headings so he can save it back to Studio:",
@@ -202,13 +211,13 @@ export function StudioAiSession({ project, activeSession, starter, records, setR
 
         {!session && (
           <div className="studio-ai-session-start">
-            <div className="studio-ai-session-intro"><Sparkles size={22} /><div><h2>Start with one clear outcome.</h2><p>Studio will create a persistent session, assemble the latest safe project context, and prepare one file for ChatGPT or Codex.</p></div></div>
+            <div className="studio-ai-session-intro"><Sparkles size={22} /><div><h2>Start with one clear outcome.</h2><p>Studio will create a persistent session, assemble the latest safe project context, and prepare one file for ChatGPT or Codex on any device.</p></div></div>
             <div className="studio-ai-session-modes">
               {sessionModes.map((item) => <button key={item.id} className={mode === item.id ? "active" : ""} onClick={() => setMode(item.id)}><strong>{item.label}</strong><small>{item.hint}</small></button>)}
             </div>
             <label className="studio-ai-session-field">What should this session accomplish?<textarea value={objective} onChange={(event) => setObjective(event.target.value)} placeholder={`Example: improve ${project.name}, fix the current problems, test it, and save the result.`} autoFocus /></label>
             <label className="studio-ai-session-field">Extra context <span>optional</span><textarea value={context} onChange={(event) => setContext(event.target.value)} placeholder="Constraints, ideas, files to inspect, or anything the AI must understand before starting." /></label>
-            <aside className="studio-ai-session-safety"><ShieldCheck size={16} /><p>The pack never includes passwords or secret values. Publishing and destructive actions still require your explicit approval.</p></aside>
+            <aside className="studio-ai-session-safety"><ShieldCheck size={16} /><p>The pack tells AI how to read attached Markdown, verify GitHub access, and protect local work. It never includes passwords or secret values.</p></aside>
             {previousSessions.length > 0 && <div className="studio-ai-session-history"><small>RECENT SESSIONS</small>{previousSessions.map((item) => <div key={item.id}><CheckCircle2 size={13} /><span><strong>{item.title.replace("AI session — ", "")}</strong><small>{item.details.date || item.updatedAt.slice(0, 10)} · {item.status}</small></span></div>)}</div>}
             <footer><span>{message}</span><button disabled={!objective.trim() || busy} onClick={() => void startSession()}><Play size={15} /> {busy ? "Starting…" : "Start & save session"}</button></footer>
           </div>
@@ -222,7 +231,7 @@ export function StudioAiSession({ project, activeSession, starter, records, setR
             {isActive && !finishOpen && <>
               <section className="studio-ai-session-steps">
                 <article className="done"><span>1</span><div><strong>Context assembled</strong><small>Project, releases, work, decisions, knowledge, and recent memory.</small></div><CheckCircle2 size={16} /></article>
-                <article className="current"><span>2</span><div><strong>Give the pack to AI</strong><small>Use the same file with ChatGPT or Codex on this or another device.</small></div><FileDown size={16} /></article>
+                <article className="current"><span>2</span><div><strong>Give the pack to AI</strong><small>Attach it with any memory export. The AI will separate your request from document context.</small></div><FileDown size={16} /></article>
                 <article><span>3</span><div><strong>Do the work</strong><small>The AI verifies GitHub before editing and returns a structured handoff.</small></div><Sparkles size={16} /></article>
                 <article><span>4</span><div><strong>Save the result</strong><small>Complete the session so the next one inherits verified memory.</small></div><Save size={16} /></article>
               </section>

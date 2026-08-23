@@ -154,7 +154,7 @@ function buildAIContext(document: StudioDocument, projects: StudioProject[]) {
 
 export function StudioDashboard({ user, deploymentCommit }: { user: { name: string; email: string }; deploymentCommit?: string }) {
   const projects = useMemo(() => studioProjects.map((project) => project.slug === "mahmoud-jp" && deploymentCommit
-    ? { ...project, commit: deploymentCommit, latest: "Persistent AI Sessions and reliable live project runners" }
+    ? { ...project, commit: deploymentCommit, latest: "Cross-device Markdown intake for AI Sessions" }
     : project), [deploymentCommit]);
   const [tab, setTab] = useState<Tab>("home");
   const [mobileNav, setMobileNav] = useState(false);
@@ -391,7 +391,7 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
   }
 
   async function deleteDocument(document: StudioDocument) {
-    if (["studio-operating-guide", "ai-handoff-protocol", "project-run-readiness-guide", "activity-memory-protocol"].includes(document.id)) return;
+    if (["studio-operating-guide", "ai-handoff-protocol", "project-run-readiness-guide", "activity-memory-protocol", "attached-markdown-access-protocol"].includes(document.id)) return;
     if (!window.confirm(`Delete “${document.title}”?`)) return;
     await fetch(`/api/studio/documents?id=${encodeURIComponent(document.id)}`, { method: "DELETE" });
     const remaining = documents.filter((item) => item.id !== document.id);
@@ -657,7 +657,7 @@ export function StudioDashboard({ user, deploymentCommit }: { user: { name: stri
                 <article className="studio-document-reader">
                   <header className="studio-document-toolbar">
                     <div><span className="studio-doc-type">{selectedDocument.type}</span><span>{selectedDocument.status}</span></div>
-                    <div><button onClick={() => void copyAIContext(selectedDocument)}><Copy size={14} /> {copyLabel}</button><button onClick={() => downloadAIContext(selectedDocument)}><Download size={14} /> Markdown</button><button onClick={() => beginEditDocument(selectedDocument)}><Pencil size={14} /> Edit</button>{!["studio-operating-guide", "ai-handoff-protocol", "project-run-readiness-guide", "activity-memory-protocol"].includes(selectedDocument.id) && <button className="danger" onClick={() => void deleteDocument(selectedDocument)}><Trash2 size={14} /></button>}</div>
+                    <div><button onClick={() => void copyAIContext(selectedDocument)}><Copy size={14} /> {copyLabel}</button><button onClick={() => downloadAIContext(selectedDocument)}><Download size={14} /> Markdown</button><button onClick={() => beginEditDocument(selectedDocument)}><Pencil size={14} /> Edit</button>{!["studio-operating-guide", "ai-handoff-protocol", "project-run-readiness-guide", "activity-memory-protocol", "attached-markdown-access-protocol"].includes(selectedDocument.id) && <button className="danger" onClick={() => void deleteDocument(selectedDocument)}><Trash2 size={14} /></button>}</div>
                   </header>
                   <div className="studio-document-title"><p className="studio-kicker">HUMAN + AI KNOWLEDGE</p><h1>{selectedDocument.title}</h1><p>{selectedDocument.summary}</p><div>{selectedDocument.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div>
                   <div className="studio-document-body">{renderKnowledge(selectedDocument.content)}</div>

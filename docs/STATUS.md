@@ -1,6 +1,6 @@
 # Project Status
 
-Last reviewed: 2026-08-20
+Last reviewed: 2026-08-23
 
 ## State
 
@@ -31,6 +31,12 @@ Last reviewed: 2026-08-20
   its mode, objective, optional context, active state, and project checkpoint;
   produces a safe ChatGPT/Codex Session Pack; and becomes a structured Activity
   Log entry when completed or blocked.
+- AI Starter and AI Session exports now include an attached-Markdown intake
+  protocol so a new ChatGPT or Codex session can distinguish Mahmoud's live
+  request from exported context, verify GitHub access, protect local work, and
+  continue safely from any device.
+- Knowledge includes a protected Attached Markdown + Access Protocol document
+  that explains source priority, access rules, and the cross-device workflow.
 - Knowledge now groups Docs, a structured Decisions log, and project-wide AI
   Handoffs that assemble release state, open work, decisions, documents, and
   health signals into portable Markdown.
