@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  Compass,
   FolderGit2,
   Home as HomeIcon,
   Mail,
@@ -19,6 +20,7 @@ import { useT } from "@/lib/i18n";
 const NAV = [
   { href: "/", key: "home", icon: HomeIcon },
   { href: "/projects", key: "projects", icon: FolderGit2 },
+  { href: "/japan-life", key: "japanLife", icon: Compass },
   { href: "/writing", key: "writing", icon: PenLine },
   { href: "/uses", key: "uses", icon: Wrench },
   { href: "/#contact", key: "contact", icon: Mail },
@@ -28,6 +30,7 @@ const labels = {
   en: {
     home: "Home",
     projects: "Projects",
+    japanLife: "Japan Guide",
     writing: "Writing",
     uses: "Uses",
     contact: "Contact",
@@ -38,6 +41,7 @@ const labels = {
   ja: {
     home: "ホーム",
     projects: "プロジェクト",
+    japanLife: "日本ガイド",
     writing: "ノート",
     uses: "使用ツール",
     contact: "お問い合わせ",
@@ -48,6 +52,7 @@ const labels = {
   ar: {
     home: "الرئيسية",
     projects: "المشاريع",
+    japanLife: "دليل اليابان",
     writing: "الكتابة",
     uses: "الأدوات",
     contact: "تواصل",
