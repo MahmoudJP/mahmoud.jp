@@ -154,7 +154,7 @@ function buildAIContext(document: StudioDocument, projects: StudioProject[]) {
 
 export function StudioDashboard({ user, deploymentCommit }: { user: { name: string; email: string }; deploymentCommit?: string }) {
   const projects = useMemo(() => studioProjects.map((project) => project.slug === "mahmoud-jp" && deploymentCommit
-    ? { ...project, commit: deploymentCommit, latest: "Arabic Japan Life guide published" }
+    ? { ...project, commit: deploymentCommit, latest: "Studio-only Japan Life app" }
     : project), [deploymentCommit]);
   const [tab, setTab] = useState<Tab>("home");
   const [mobileNav, setMobileNav] = useState(false);

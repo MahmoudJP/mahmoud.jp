@@ -226,7 +226,7 @@ export function JapanLifeApp() {
                   Studio
                 </Link>
                 <Link
-                  href="/japan-life/print"
+                  href="/studio/apps/japan-life/print"
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#10251b] px-4 text-sm font-black text-white hover:bg-[#183829]"
                 >
                   <Printer className="h-4 w-4" />

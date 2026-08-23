@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { isStudioOwnerEmail, studioAuthOptions } from "@/lib/studio-auth";
-import { JapanLifeApp } from "./JapanLifeApp";
 
 export const dynamic = "force-dynamic";
 
@@ -20,10 +17,5 @@ export const metadata: Metadata = {
 };
 
 export default async function JapanLifePage() {
-  const session = await getServerSession(studioAuthOptions);
-  if (!isStudioOwnerEmail(session?.user?.email)) {
-    redirect("/studio/login?callbackUrl=/japan-life");
-  }
-
-  return <JapanLifeApp />;
+  redirect("/studio/apps/japan-life");
 }

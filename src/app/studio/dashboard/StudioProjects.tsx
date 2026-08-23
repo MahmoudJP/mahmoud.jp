@@ -20,6 +20,7 @@ import {
   Play,
   Plus,
   Rocket,
+  Search,
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
@@ -70,6 +71,8 @@ type PrimaryAction = {
   detail: string;
   kind: "online" | "download" | "local";
 };
+
+const CATEGORY_ORDER: StudioProject["category"][] = ["Core", "Apps", "Learning", "Desktop", "Utilities", "Games", "Studio"];
 
 function projectOwnerAndName(project: StudioProject) {
   return project.repository.replace("https://github.com/", "");
@@ -167,6 +170,7 @@ export function buildProjectAIStarter(
     "",
     "## Project identity",
     `- Project: ${project.name}`,
+    `- Category: ${project.category}`,
     `- Repository: ${project.repository}`,
     `- Visibility: ${project.visibility}`,
     `- Platform: ${project.platform}`,
@@ -270,6 +274,8 @@ function downloadMarkdown(filename: string, content: string) {
 
 export function StudioProjectsWorkspace({ projects, activeProject, notes, documents, records, setRecords, onSelect, onOpenKnowledge, onOpenHandoff, onOpenWork, onAddWork }: Props) {
   const [idea, setIdea] = useState("");
+  const [catalogQuery, setCatalogQuery] = useState("");
+  const [catalogFilter, setCatalogFilter] = useState("All");
   const [copyState, setCopyState] = useState<"idle" | "copied">("idle");
   const [activityResult, setActivityResult] = useState<{ slug: string; activity: ProjectActivity } | null>(null);
   const [sessionOpen, setSessionOpen] = useState(false);
@@ -295,6 +301,36 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
   const newestOnlinePreview = activity?.commits.find((commit) => commit.fullCommit && commit.artifacts.some((artifact) => artifact.kind === "web-preview"));
   const primaryAction = buildPrimaryAction(activeProject, newestOnlinePreview);
   const PrimaryActionIcon = primaryAction?.kind === "download" ? Download : primaryAction?.kind === "local" ? FileCode2 : Play;
+  const categoryCounts = useMemo(() => CATEGORY_ORDER
+    .map((category) => ({ category, count: projects.filter((project) => project.category === category).length }))
+    .filter((item) => item.count > 0), [projects]);
+  const visibleProjects = useMemo(() => {
+    const query = catalogQuery.trim().toLowerCase();
+    return projects
+      .filter((project) => catalogFilter === "All" || (catalogFilter === "Featured" && project.featured) || project.category === catalogFilter)
+      .filter((project) => !query || [
+        project.name,
+        project.category,
+        project.platform,
+        project.state,
+        project.latest,
+        project.skills.join(" "),
+      ].join(" ").toLowerCase().includes(query))
+      .sort((a, b) => {
+        const categoryDiff = CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category);
+        if (catalogFilter === "All" && categoryDiff !== 0) return categoryDiff;
+        if (a.featured !== b.featured) return a.featured ? -1 : 1;
+        return a.name.localeCompare(b.name);
+      });
+  }, [catalogFilter, catalogQuery, projects]);
+  const groupedProjects = useMemo(() => {
+    const groups = new Map<string, StudioProject[]>();
+    for (const project of visibleProjects) {
+      const key = catalogFilter === "All" ? project.category : catalogFilter;
+      groups.set(key, [...(groups.get(key) ?? []), project]);
+    }
+    return Array.from(groups.entries());
+  }, [catalogFilter, visibleProjects]);
 
   useEffect(() => {
     let cancelled = false;
@@ -334,12 +370,33 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
     <aside className="studio-project-catalog">
       <header><div><p className="studio-kicker">PROJECTS</p><h1>Your catalog</h1></div><span>{projects.length}</span></header>
       <p className="studio-catalog-help">Choose one project. Everything you need to understand and continue it appears on the right.</p>
-      <div className="studio-project-list">
-        {projects.map((project) => <button key={project.slug} className={project.slug === activeProject.slug ? "active" : ""} onClick={() => onSelect(project)}>
-          <span className="studio-project-monogram">{project.initials}</span>
-          <span className="studio-project-list-copy"><strong>{project.name}</strong><small>{project.latest}</small><code>{project.commit} · {project.branch}</code></span>
-          <i className={project.state === "Live" || project.state === "Active" ? "good" : ""} />
-        </button>)}
+      <label className="studio-catalog-search">
+        <Search size={14} />
+        <input value={catalogQuery} onChange={(event) => setCatalogQuery(event.target.value)} placeholder="Find project..." />
+      </label>
+      <div className="studio-catalog-filters" aria-label="Project categories">
+        <button className={catalogFilter === "All" ? "active" : ""} onClick={() => setCatalogFilter("All")}>All <span>{projects.length}</span></button>
+        <button className={catalogFilter === "Featured" ? "active" : ""} onClick={() => setCatalogFilter("Featured")}>Featured <span>{projects.filter((project) => project.featured).length}</span></button>
+        {categoryCounts.map((item) => (
+          <button key={item.category} className={catalogFilter === item.category ? "active" : ""} onClick={() => setCatalogFilter(item.category)}>
+            {item.category} <span>{item.count}</span>
+          </button>
+        ))}
+      </div>
+      <div className="studio-project-groups">
+        {groupedProjects.map(([group, items]) => (
+          <section key={group} className="studio-project-group">
+            <h2>{group}<span>{items.length}</span></h2>
+            <div className="studio-project-list">
+              {items.map((project) => <button key={project.slug} className={project.slug === activeProject.slug ? "active" : ""} onClick={() => onSelect(project)}>
+                <span className="studio-project-monogram">{project.initials}</span>
+                <span className="studio-project-list-copy"><strong>{project.name}</strong><small>{project.latest}</small><code>{project.commit} · {project.branch}</code></span>
+                <i className={project.state === "Live" || project.state === "Active" ? "good" : ""} />
+              </button>)}
+            </div>
+          </section>
+        ))}
+        {!visibleProjects.length && <div className="studio-project-empty-list">No project matches this filter.</div>}
       </div>
     </aside>
 
