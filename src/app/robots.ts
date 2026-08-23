@@ -6,12 +6,12 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/studio", "/api/studio"],
+        disallow: ["/studio", "/api/studio", "/japan-life"],
       },
       {
         userAgent: ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "Google-Extended"],
         allow: "/",
-        disallow: ["/studio", "/api/studio"],
+        disallow: ["/studio", "/api/studio", "/japan-life"],
       },
     ],
     sitemap: "https://mahmoud.jp/sitemap.xml",

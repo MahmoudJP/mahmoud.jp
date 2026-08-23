@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import {
   emergencyCards,
   halalRestaurants,
@@ -9,17 +11,30 @@ import {
   phrasebook,
   starterChecklists,
 } from "@/lib/japan-life";
+import { isStudioOwnerEmail, studioAuthOptions } from "@/lib/studio-auth";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "نسخة طباعة دليل اليابان للعرب | Mahmoud Adel",
   description:
     "نسخة طباعة/PDF من دليل اليابان للعرب: قوائم تجهيز، جمل يابانية، مساجد، مطاعم حلال، وروابط رسمية.",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
   alternates: {
     canonical: "/japan-life/print",
   },
 };
 
-export default function JapanLifePrintPage() {
+export default async function JapanLifePrintPage() {
+  const session = await getServerSession(studioAuthOptions);
+  if (!isStudioOwnerEmail(session?.user?.email)) {
+    redirect("/studio/login?callbackUrl=/japan-life/print");
+  }
+
   return (
     <main
       dir="rtl"
