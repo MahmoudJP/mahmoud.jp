@@ -323,15 +323,6 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
         return a.name.localeCompare(b.name);
       });
   }, [catalogFilter, catalogQuery, projects]);
-  const groupedProjects = useMemo(() => {
-    const groups = new Map<string, StudioProject[]>();
-    for (const project of visibleProjects) {
-      const key = catalogFilter === "All" ? project.category : catalogFilter;
-      groups.set(key, [...(groups.get(key) ?? []), project]);
-    }
-    return Array.from(groups.entries());
-  }, [catalogFilter, visibleProjects]);
-
   useEffect(() => {
     let cancelled = false;
     fetch(`/api/studio/projects/${encodeURIComponent(activeProject.slug)}/activity`, { cache: "no-store" })
@@ -368,34 +359,35 @@ export function StudioProjectsWorkspace({ projects, activeProject, notes, docume
 
   return <div className="studio-projects-workspace">
     <aside className="studio-project-catalog">
-      <header><div><p className="studio-kicker">PROJECTS</p><h1>Your catalog</h1></div><span>{projects.length}</span></header>
-      <p className="studio-catalog-help">Choose one project. Everything you need to understand and continue it appears on the right.</p>
-      <label className="studio-catalog-search">
-        <Search size={14} />
-        <input value={catalogQuery} onChange={(event) => setCatalogQuery(event.target.value)} placeholder="Find project..." />
-      </label>
-      <div className="studio-catalog-filters" aria-label="Project categories">
-        <button className={catalogFilter === "All" ? "active" : ""} onClick={() => setCatalogFilter("All")}>All <span>{projects.length}</span></button>
-        <button className={catalogFilter === "Featured" ? "active" : ""} onClick={() => setCatalogFilter("Featured")}>Featured <span>{projects.filter((project) => project.featured).length}</span></button>
-        {categoryCounts.map((item) => (
-          <button key={item.category} className={catalogFilter === item.category ? "active" : ""} onClick={() => setCatalogFilter(item.category)}>
-            {item.category} <span>{item.count}</span>
-          </button>
-        ))}
+      <header>
+        <div>
+          <p className="studio-kicker">PROJECT LAUNCHER</p>
+          <h1>Choose what to build</h1>
+          <p className="studio-catalog-help">Search, filter, then jump into the exact app, learning tool, utility, or Studio system.</p>
+        </div>
+        <span>{visibleProjects.length}/{projects.length}</span>
+      </header>
+      <div className="studio-catalog-toolbar">
+        <label className="studio-catalog-search">
+          <Search size={15} />
+          <input value={catalogQuery} onChange={(event) => setCatalogQuery(event.target.value)} placeholder="Find project, platform, status..." />
+        </label>
+        <div className="studio-catalog-filters" aria-label="Project categories">
+          <button className={catalogFilter === "All" ? "active" : ""} onClick={() => setCatalogFilter("All")}>All <span>{projects.length}</span></button>
+          <button className={catalogFilter === "Featured" ? "active" : ""} onClick={() => setCatalogFilter("Featured")}>Featured <span>{projects.filter((project) => project.featured).length}</span></button>
+          {categoryCounts.map((item) => (
+            <button key={item.category} className={catalogFilter === item.category ? "active" : ""} onClick={() => setCatalogFilter(item.category)}>
+              {item.category} <span>{item.count}</span>
+            </button>
+          ))}
+        </div>
       </div>
       <div className="studio-project-groups">
-        {groupedProjects.map(([group, items]) => (
-          <section key={group} className="studio-project-group">
-            <h2>{group}<span>{items.length}</span></h2>
-            <div className="studio-project-list">
-              {items.map((project) => <button key={project.slug} className={project.slug === activeProject.slug ? "active" : ""} onClick={() => onSelect(project)}>
-                <span className="studio-project-monogram">{project.initials}</span>
-                <span className="studio-project-list-copy"><strong>{project.name}</strong><small>{project.latest}</small><code>{project.commit} · {project.branch}</code></span>
-                <i className={project.state === "Live" || project.state === "Active" ? "good" : ""} />
-              </button>)}
-            </div>
-          </section>
-        ))}
+        {visibleProjects.map((project) => <button key={project.slug} className={project.slug === activeProject.slug ? "active" : ""} onClick={() => onSelect(project)}>
+          <span className="studio-project-monogram">{project.initials}</span>
+          <span className="studio-project-list-copy"><strong>{project.name}</strong><small>{project.category} · {project.platform}</small><code>{project.latest}</code></span>
+          <span className="studio-project-card-side"><em>{project.commit}</em><i className={project.state === "Live" || project.state === "Active" ? "good" : ""} /></span>
+        </button>)}
         {!visibleProjects.length && <div className="studio-project-empty-list">No project matches this filter.</div>}
       </div>
     </aside>
